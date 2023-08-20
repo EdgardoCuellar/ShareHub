@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container mt-4">
+    
+    <div class="p-3 m-3">
+
+        
+        <div class="col-lg-5 rounded mx-auto border pt-4">
+            <div class="text-center col">
+            
+                <img
+                src="https://th.bing.com/th/id/Rd51d7c0fde6d96a31538a86cbd57f3c0?rik=%2fTJxRkU2V371QQ&riu=http%3a%2f%2ftechnologyend.com%2fwp-content%2fuploads%2f2015%2f11%2fwhy-shop-online.jpg&ehk=v1KiYT0i5U1ABCRueDSdLqnazh2BdlVD89Z4qXE0Kgs%3d&risl=&pid=ImgRaw" alt=""
+                class="" style="height: 150px;">
+            <!-- <hr> -->
+            <hr>
+            </div>
+            <h3 class="alert alert-success rounded-pill" style="text-align:center">Vendre</h3>
+            <form action="/sell" method="POST">
+                
+                {% csrf_token %}
+
+                {% if error%}
+                <div class="alert alert-danger" role="alert">
+                    {{error}}
+                </div>
+                {% endif %}
+                <!-- Name -->
+                <div class="form-group">
+                    <label for="">Nom</label>
+                    <input type="text" name="name"
+                     id="" value="{{values.name}}" class="form-control form-control-sm" 
+                     placeholder="">
+                </div>
+
+                <!-- Price -->
+                <div class="form-group">
+                    <label for="">Prix</label>
+                    <input type="text" name="price" 
+                    id="" value="{{values.price}}" class="form-control form-control-sm"
+                    >
+                </div>
+
+                <!-- Category -->
+                <div class="form-group">
+                    <label for="">Categorie</label>
+                    <select id="cars" name="category" class="form-select" aria-label="Catégorie">
+                        {% for category in categories %}
+                            <option value="{{category.name}}">{{category.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label for="">Description</label>
+                    <input required type="text" name="description" id=""
+                    value="{{values.description}}" 
+                    class=" form-control-sm form-control">
+                </div>
+
+
+                <!-- Image -->
+                <div class="form-group">
+                    <label for="">Image</label>
+                    <input type="image" 
+                    name="image" 
+                    id=""
+                     class="form-control form-control-sm">
+                </div>
+
+                <button type="submit" class="btn btn-sm btn-success col-lg-12">Créer une annonce</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
