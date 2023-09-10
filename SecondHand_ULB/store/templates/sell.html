@@ -18,7 +18,7 @@
             <hr>
             </div>
             <h3 class="alert alert-success rounded-pill" style="text-align:center">Vendre</h3>
-            <form action="/sell" method="POST">
+            <form action="/sell" method="POST" enctype="multipart/form-data">
                 
                 {% csrf_token %}
 
@@ -65,10 +65,7 @@
                 <!-- Image -->
                 <div class="form-group">
                     <label for="">Image</label>
-                    <input type="image" 
-                    name="image" 
-                    id=""
-                     class="form-control form-control-sm">
+                    <input required name="image" type="file" class="form-control form-control-sm" id="", value="{{values.image}}">
                 </div>
 
                 <button type="submit" class="btn btn-sm btn-success col-lg-12">Créer une annonce</button>

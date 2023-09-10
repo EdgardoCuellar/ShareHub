@@ -34,7 +34,8 @@
 						<p class="card-text"><b>{{product.price|currency}}</b></p>
 						<!-- {{product | is_in_cart:request.session.cart }} -->
 					</div>
-
+					
+					{% if request.session.customer %}
 					<div class="card-footer p-0 no-gutters">
 
 						{% if product|is_in_cart:request.session.cart %}
@@ -62,6 +63,7 @@
 						{% endif %}
 
 					</div>
+					{% endif %}
 
 				</div>
 				{% endfor %}
