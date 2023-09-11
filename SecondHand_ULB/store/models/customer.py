@@ -13,6 +13,11 @@ class Customer(models.Model):
     def register(self):
         self.save()
 
+    @staticmethod
+    def user_exists(id):
+        if Customer.objects.filter(id=id):
+            return True
+        return False
 
     @staticmethod
     def get_customer_by_email(email):

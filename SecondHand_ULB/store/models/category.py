@@ -5,6 +5,14 @@ class Category(models.Model):
     name= models.CharField(max_length=50)
 
     @staticmethod
+    def get_category_by_id(id):
+        try:
+            category = Category.objects.get(id=id)
+            return category
+        except ObjectDoesNotExist:
+            return Category.objects.all()[0]
+
+    @staticmethod
     def get_all_categories():
         return Category.objects.all()
 

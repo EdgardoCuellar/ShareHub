@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path
+
 from .views.home import Index , store
 from .views.signup import Signup
 from .views.login import Login , logout
@@ -8,7 +9,10 @@ from .views.checkout import CheckOut
 from .views.orders import OrderView
 from .views.sell import Sell
 from .views.profile import Profile
+from .views.product import Product
+
 from .middlewares.auth import  auth_middleware
+
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -25,6 +29,9 @@ urlpatterns = [
     path('sell', Sell.as_view(), name='sell'),
     path('orders', auth_middleware(OrderView.as_view()), name='orders'),
     path('profile', Profile.as_view(), name='profile'),
+    path('profile/<int:user_id>', Profile.as_view(), name='profile'),
+    path('product', store, name='store'),
+    path('product/<int:product_id>', Product.as_view(), name='product'),
 
 ]
 

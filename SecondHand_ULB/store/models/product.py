@@ -15,6 +15,19 @@ class Products(models.Model):
         self.save()
 
     @staticmethod
+    def product_exists(id):
+        if Products.objects.filter(id=id):
+            return True
+        return False
+
+    @staticmethod
+    def get_product_by_id(id):
+        try:
+            return Products.objects.get(id=id)
+        except:
+            return False
+
+    @staticmethod
     def get_products_by_id(ids):
         return Products.objects.filter (id__in=ids)
     @staticmethod
