@@ -4,51 +4,72 @@
 {% block content %}
 {% load cart %}
 {% load custom_filter %}
-<div class="container">
-   <div class="border rounded p-4 m-4">
-        <p class="display-4 pl-4 ml-4 btn btn-success rounded-pill">Your Cart</p>
-        <hr>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Sno.</th>
-                    <th>Image</th>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-                {% for product in products %}
-                <tr>
-                    <td>{{forloop.counter}}</td>
-                    <td><img style="height: 80px;" class="rounded-circle" src="{{product.image.url}}" alt=""></td>
-                    <td>{{product.name}}</td>
-                    <td>{{product.price|currency}}</td>
-                    <td>{{product|cart_quantity:request.session.cart}}</td>
-                    <td>{{product|price_total:request.session.cart|currency}}</td>
-                </tr>
 
-                {% endfor %}
-               
-            </tbody>
+<style>
+  .total-div {
+    margin-left: 50px;
+    margin-right: 50px;
+    display: flex;
+    justify-content: space-between;
+  }
 
-            <tfoot>
-                <tr>
-                    <th colspan="4"></th>
-                    <th class="" colspan="">Total</th>
-                    <th>{{products|total_cart_price:request.session.cart|currency}}</th>
-                </tr>
-            </tfoot>
-        </table>
-        <hr>
-        <div class="m-3 p-3">
-            <a href="#" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-success border rounded  col-lg-3 float-right">Check out</a>
+  .trash-icon{
+    padding-left: 50px;
+  }
+
+  .trash-icon{
+    border: none;
+    overflow: visible;
+    background-image: url('https://cdn.discordapp.com/attachments/718214061283737712/1150786472287416370/icons8-trash-64.png');
+  }
+
+</style>
+
+<section class="h-100" style="background-color: #F5F5F5;">
+  <div class="container h-100 py-3">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-10">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="fw-normal mb-0 text-black">Panier</h3>
         </div>
-   </div>
-</div>
+
+        {% for product in products %}
+        <div class="card rounded-3 mb-2">
+          <div class="card-body p-2">
+            <div class="row d-flex justify-content-between align-items-center">
+              <div class="col-md-2 col-lg-2 col-xl-2">
+                <img src="{{product.image.url}}">
+              </div>
+              <div class="col-md-3 col-lg-3 col-xl-3">
+                <p class="lead fw-normal mb-2">{{product.name}}</p>
+                <p><span class="text-muted">{{product.category}}</p>
+              </div>
+              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                <h5 class="mb-0">{{product.price|currency}}</h5>
+              </div>
+              <form action="/cart" method="POST" class="col-md-1 col-lg-1 col-xl-1">
+                {% csrf_token %}
+                <input hidden type="text" name='product' value='{{product.id}}'>
+                <input type="submit" class="trash-icon"value="">
+            </form>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <div class="row total-div">
+          <div class="col-lg-6">
+              <h3>Total: {{ products|total_cart_price|currency }}</h3>
+          </div>
+          <div class="col-lg-6 text-right">
+              <a href="#" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-success border rounded">Acheter</a>
+          </div>
+        </div>      
+      
+      </div>
+    </div>
+  </div>
+</section>
 
 
 <!-- modal -->

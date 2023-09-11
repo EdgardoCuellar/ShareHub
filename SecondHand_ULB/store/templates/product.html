@@ -1,10 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    /* Custom CSS to set max-height of the image */
+    .max-height-image {
+        height: 70vh;
+        width: auto;
+    }
+</style>
+
 <div class="container">
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0 img-fluid" src="{{product.image.url}}" alt="..." /></div>
+            <div class="col-md-6 text-center">
+                <img class="max-height-image mx-auto" src="{{product.image.url}}" alt="..." />
+            </div>
             <div class="col-md-6">
                 <div class="small mb-1">{{category.name}}</div>
                 <h1 class="display-5 fw-bolder">{{product.name}}</h1>
@@ -14,10 +24,23 @@
                 <p class="lead">{{product.description}}</p>
                 <div class="d-flex">
                     {% if request.session.customer %}
-                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                        <i class="bi-cart-fill me-1"></i>
-                        Ajouter au panier
-                    </button>
+
+                    <form action="/product/{{product.id}}" method="POST" class="btn-block">
+                        {% csrf_token %}
+
+                        {% if product_in_cart %}
+                            <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                                <i class="bi-cart-fill me-1"></i>
+                                Retirer du panier
+                            </button>
+                        {% else %}
+                            <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                                <i class="bi-cart-fill me-1"></i>
+                                Ajouter au panier
+                            </button>
+                        {% endif %}
+                    </form>
+
                     {% endif %}
                 </div>
             </div>

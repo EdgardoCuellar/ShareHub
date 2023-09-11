@@ -28,7 +28,9 @@
                                     <h6 class="text-muted f-w-400">{{ user.email }}</h6>
                                 </div>
                                 <div class="col-sm-6 mt-2">
-                                    <h6 class="text-muted f-w-400">MESSAGE: TODO</h6>
+                                    {% if not same_user %}
+                                        <h6 class="text-muted f-w-400">MESSAGE: TODO</h6>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-sm-20">
@@ -39,7 +41,9 @@
                 </div>
             </div>
         </div>
-        <button type="button" class="btn btn-outline-primary ">Primary</button>
+        {% if same_user %}
+            <a href="/modify" class="btn btn-outline-primary mt-3">Modifier</a>
+        {% endif %}
       </div>
     </div>
   </div>

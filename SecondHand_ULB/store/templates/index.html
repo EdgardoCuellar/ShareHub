@@ -6,30 +6,85 @@
 {% load custom_filter %}
 
 <style>
+	.main-container {
+		margin-left: 12px;
+        margin-right: 12px;
+	}
+
 	.grid-container {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, 200px); /* Adjust item width as needed */
 		grid-gap: 16px; /* Adjust spacing between items as needed */
 		justify-content: center; /* Adjust item alignment as needed */
 	}
+
+	.product-item {
+		border: 1px solid #000000;
+		overflow: hidden;
+	}
+
+	.filter-box{
+		border: 1px solid #00000077;
+	}
+
+	h3 {
+		font-size: 1rem;
+		color: #004D95;
+		border-bottom: #000000 solid 1px;
+		padding-bottom: 10px;
+		margin-top: 5px;
+	}
 </style>
 
 <!-- body -->
-<div class="container-fluid mt-3">
+<div class="container-fluid mt-3 main-container">
 	<div class="row">
-
-
 		<!-- filter -->
+		<div class="col-lg-3 mx-auto filter-box">
+			<h3>Nom</h3>
+			<form class="pb-3">
+				<div class="input-group">
+				  <input type="text" class="form-control" placeholder="Search">
+				  <div class="input-group-append">
+					<button class="btn btn-light" type="button"><i class="fa fa-search"></i></button>
+				  </div>
+				</div>
+			</form>
 
-		<div class="col-lg-3 mx-auto">
 			<div class="list-group">
+				<h3>Catégories</h3>
+				<select class="form-select" onchange="window.location.href=this.value;">
+					{% if categoryName != "Tout les syllabus" %}
+						<option value="/">Tout les syllabus</option>
+					{% else %}
+						<option selected>Tout les syllabus</option>
+					{% endif %}
 
-				<a href="/" class="list-group-item list-group-item-action btn btn-outline-success">All Products</a>
+					{% for category in categories %}
+						{% if categoryName != category.name %}
+							<option value="/?category={{ category.id }}">{{ category.name }}</option>
+						{% else %}
+							<option selected value="/?category={{ category.id }}">{{ category.name }}</option>
+						{% endif %}
+					{% endfor %}
+				</select>
+			</div>
 
-				{% for category in categories %}
-				<a href="/?category={{category.id}}"
-					class="list-group-item list-group-item-action btn btn-outline-success ">{{category.name}}</a>
-				{% endfor %}
+			<div class="filter-content collapse show" id="collapse_3" style="">
+				<h3>Prix</h3>
+				<div class="card-body">
+					<div class="form-row">
+					<div class="form-group col-md-6">
+						<label>Min</label>
+						<input class="form-control" placeholder="$0" type="number">
+					</div>
+					<div class="form-group text-right col-md-6">
+						<label>Max</label>
+						<input class="form-control" placeholder="$1,0000" type="number">
+					</div>
+					</div> <!-- form-row.// -->
+					<button class="btn btn-block btn-primary">Apply</button>
+				</div><!-- card-body.// -->
 			</div>
 		</div>
 
@@ -38,7 +93,7 @@
 			<div class="grid-container">
 				{% for product in products %}
 				<div class="product-item">
-					<a href="/product/{{ product.id }}" class="list-group-item list-group-item-action btn btn-outline-success p-0">
+					<a href="/product/{{ product.id }}" class="list-group-item list-group-item-action btn btn-outline-primary p-0">
 						<div class="mx-auto" style="width: 200px; height: 350px;">
 							<div class="overflow-hidden" style="width: 200px; height: 275px; position: relative;">
 								<img class="card-img-top" src="{{ product.image.url }}" alt="Card image cap" style="position: absolute; bottom: 0; right: 0; max-width: 100%; height: auto;">
@@ -46,7 +101,6 @@
 							<div class="card-body">
 								<p class="card-title">{{ product.name }}</p>
 								<p class="card-text"><b>{{ product.price|currency }}</b></p>
-								<!-- {{product | is_in_cart:request.session.cart }} -->
 							</div>
 						</div>
 					</a>
