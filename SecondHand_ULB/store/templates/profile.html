@@ -40,10 +40,11 @@
                     </div>
                 </div>
             </div>
+            {% if same_user %}
+                <a href="/modify" class="btn btn-outline-primary mt-3">Modifier</a>
+                <a href="/orders" class="btn btn-outline-secondary mt-3">Mes achats</a>
+            {% endif %}
         </div>
-        {% if same_user %}
-            <a href="/modify" class="btn btn-outline-primary mt-3">Modifier</a>
-        {% endif %}
       </div>
     </div>
   </div>

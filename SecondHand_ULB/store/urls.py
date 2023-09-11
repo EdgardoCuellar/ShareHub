@@ -11,7 +11,7 @@ from .views.orders import OrderView
 from .views.sell import Sell
 from .views.profile import Profile
 from .views.product import Product
-from .views.message import Message
+from .views.message import MessagesView
 from .views.modify import Modify
 
 from .middlewares.auth import  auth_middleware
@@ -35,8 +35,9 @@ urlpatterns = [
     path('profile/<int:user_id>', Profile.as_view(), name='profile'),
     path('product', store, name='store'),
     path('product/<int:product_id>', Product.as_view(), name='product'),
-    path('message', Message.as_view(), name='message'),
     path('modify', Modify.as_view(), name='modify'),
+    path('message', MessagesView.as_view(), name='messages'),
+    path('message/<int:receiver_id>', MessagesView.as_view(), name='messages'),
 
 ]
 

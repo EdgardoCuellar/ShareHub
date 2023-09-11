@@ -1,9 +1,217 @@
+<!-- messages.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-  <div class="page-content page-container" id="page-content">
-    {{ messages}}
+
+<style>
+    .app {
+        position: relative;
+        top: 19px;
+        margin: auto;
+        border: solid 1px #c4c4c4;
+        min-width: 50%;
+        max-width: 80%;
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+
+    .side {
+        height: 100%;
+        width: 20%;
+    }
+
+    .sideBar {
+        padding-bottom: 0.5rem;
+        border-bottom: solid 1px #c4c4c4;
+    }
+
+    .avatar-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .name-user {
+        font-size: 16px;
+        font-weight: 500;
+        color: #000000;
+        margin-left: 5px;
+    }
+/*Conversation*/
+
+.conversation {
+  padding: 0 !important;
+  margin: 0 !important;
+  height: 100%;
+  /*width: 100%;*/
+  border-left: 1px solid rgba(0, 0, 0, .08);
+  overflow-y: auto;
+}
+
+.message {
+  padding: 0 !important;
+  margin: 0 !important;
+ 
+  background-size: cover;
+  overflow-y: auto;
+  border: 1px solid #f7f7f7;
+  height: calc(100% - 120px);
+  display: list-item;
+}
+
+.message-body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto;
+  height: auto;
+}
+
+.message-text {
+  margin: 0 !important;
+  padding: 5px !important;
+  word-wrap:break-word;
+  font-weight: 200;
+  font-size: 14px;
+  padding-bottom: 0 !important;
+}
+
+.message-time {
+    margin: 0 !important;
+    margin-left: 50px !important;
+    font-size: 12px;
+    text-align: right;
+    color: #9a9a9a;
+}
+
+.receiver {
+    width: auto !important;
+    padding: 4px 10px 7px !important;
+    border-radius: 10px 10px 10px 0;
+    background: #ffffff;
+    font-size: 12px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+    word-wrap: break-word;
+    display: inline-block;
+}
+
+.sender {
+    float: right;
+    width: auto !important;
+    background: #dcf8c6;
+    border-radius: 10px 10px 0 10px;
+    padding: 4px 10px 7px !important;
+    font-size: 12px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+    display: inline-block;
+    word-wrap: break-word;
+}
+
+
+/*Reply*/
+
+.reply {
+    height: 60px;
+    width: 100%;
+    background-color: #f5f1ee;
+    padding: 10px 5px 10px 5px !important;
+    margin: 0 !important;
+    z-index: 1000;
+}
+
+.reply-main textarea {
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+    padding: 5px !important;
+    border: solid 1px #0000001a;
+    text-indent: 5px;
+    height: 100%;
+    font-size: 16px;
+}
+
+    .reply-main textarea:focus {
+        text-indent: 5px;
+    }
+    </style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="container app">
+  <div class="row app-one">
+    <div class="col-sm-4 side mt-2">
+        {% for user in users_with_messages %}
+        <div class="row sideBar">
+            <a href="{{user.id}}">
+            <div class="row sideBar-body">
+                <div class="col-sm-3 col-xs-3 sideBar-avatar">
+                    <div class="avatar-icon">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png">
+                    </div>
+                </div>
+                <div class="col-sm-9 col-xs-9" style="margin: auto;">
+                    <span class="name-user">{{user.first_name}}</span>
+                </div>
+            </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="col-sm-8 conversation">
+      <div class="row heading">
+        <div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
+          <div class="heading-avatar-icon">
+            <img src="https://bootdey.com/img/Content/avatar/avatar6.png">
+          </div>
+        </div>
+        <div class="col-sm-8 col-xs-7 heading-name">
+          <a class="heading-name-meta">{{receiver.first_name}}</a>
+        </div>
+      </div>
+
+      <div class="row message" id="conversation">
+        {% for message in messages %}
+            {% if message.sender == sender.id %}
+            <div class="row message-body">
+                <div class="col-sm-12 message-main-receiver">
+                    <div class="receiver">
+                        <div class="message-text">
+                            {{ message.content }}
+                        </div>
+                        <span class="message-time pull-right">
+                            {{ message.timestamp }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="row message-body">
+                <div class="col-sm-12 message-main-sender">
+                    <div class="sender">
+                        <div class="message-text">
+                            {{ message.content }}
+                        </div>
+                        <span class="message-time pull-right">
+                            {{ message.timestamp }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="row reply">
+        <div class="col-sm-9 col-xs-9 reply-main">
+          <textarea class="form-control" rows="1" id="comment"></textarea>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+
+
 {% endblock %}

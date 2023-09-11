@@ -33,30 +33,35 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h3 class="fw-normal mb-0 text-black">Panier</h3>
         </div>
-
-        {% for product in products %}
-        <div class="card rounded-3 mb-2">
-          <div class="card-body p-2">
-            <div class="row d-flex justify-content-between align-items-center">
-              <div class="col-md-2 col-lg-2 col-xl-2">
-                <img src="{{product.image.url}}">
+        {% if products|length == 0 %}
+          <div class="alert alert-info" role="alert">
+            Votre panier est vide
+          </div>
+        {% else %}
+          {% for product in products %}
+          <div class="card rounded-3 mb-2">
+            <div class="card-body p-2">
+              <div class="row d-flex justify-content-between align-items-center">
+                <div class="col-md-2 col-lg-2 col-xl-2">
+                  <img src="{{product.image.url}}">
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3">
+                  <p class="lead fw-normal mb-2">{{product.name}}</p>
+                  <p><span class="text-muted">{{product.category}}</p>
+                </div>
+                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                  <h5 class="mb-0">{{product.price|currency}}</h5>
+                </div>
+                <form action="/cart" method="POST" class="col-md-1 col-lg-1 col-xl-1">
+                  {% csrf_token %}
+                  <input hidden type="text" name='product' value='{{product.id}}'>
+                  <input type="submit" class="trash-icon"value="">
+              </form>
               </div>
-              <div class="col-md-3 col-lg-3 col-xl-3">
-                <p class="lead fw-normal mb-2">{{product.name}}</p>
-                <p><span class="text-muted">{{product.category}}</p>
-              </div>
-              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                <h5 class="mb-0">{{product.price|currency}}</h5>
-              </div>
-              <form action="/cart" method="POST" class="col-md-1 col-lg-1 col-xl-1">
-                {% csrf_token %}
-                <input hidden type="text" name='product' value='{{product.id}}'>
-                <input type="submit" class="trash-icon"value="">
-            </form>
             </div>
           </div>
-        </div>
-        {% endfor %}
+          {% endfor %}
+        {% endif %}
         <div class="row total-div">
           <div class="col-lg-6">
               <h3>Total: {{ products|total_cart_price|currency }}</h3>

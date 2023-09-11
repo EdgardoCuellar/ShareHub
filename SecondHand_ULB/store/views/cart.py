@@ -7,9 +7,12 @@ from store.models.product import Products
 
 class Cart(View):
     def get(self , request):
-        ids = request.session.get('cart')
-        products = Products.get_products_by_id(ids)
-        
+        if request.session.get('cart'):
+            ids = request.session.get('cart')
+            products = Products.get_products_by_id(ids)
+        else:
+            products = []
+
         return render(request , 'cart.html' , {'products' : products} )
 
     def post(self , request):

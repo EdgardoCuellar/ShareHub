@@ -31,7 +31,7 @@
 		font-size: 1rem;
 		color: #004D95;
 		border-bottom: #000000 solid 1px;
-		padding-bottom: 10px;
+		padding-bottom: 5px;
 		margin-top: 5px;
 	}
 </style>
@@ -41,52 +41,53 @@
 	<div class="row">
 		<!-- filter -->
 		<div class="col-lg-3 mx-auto filter-box">
-			<h3>Nom</h3>
+			<h3 class="mt-3">Nom</h3>
 			<form class="pb-3">
 				<div class="input-group">
-				  <input type="text" class="form-control" placeholder="Search">
-				  <div class="input-group-append">
-					<button class="btn btn-light" type="button"><i class="fa fa-search"></i></button>
-				  </div>
+					<input type="text" class="form-control" placeholder="Search">
+					<div class="input-group-append">
+						<button class="btn btn-light" type="button"><i class="fa fa-search"></i></button>
+					</div>
 				</div>
 			</form>
-
-			<div class="list-group">
+		
+			<div class="list-group mb-3">
 				<h3>Catégories</h3>
 				<select class="form-select" onchange="window.location.href=this.value;">
 					{% if categoryName != "Tout les syllabus" %}
-						<option value="/">Tout les syllabus</option>
+						<option value="/store">Tout les syllabus</option>
 					{% else %}
-						<option selected>Tout les syllabus</option>
+						<option selected value="/store">Tout les syllabus</option>
 					{% endif %}
-
+		
 					{% for category in categories %}
 						{% if categoryName != category.name %}
-							<option value="/?category={{ category.id }}">{{ category.name }}</option>
+							<option value="/store?category={{ category.id }}">{{ category.name }}</option>
 						{% else %}
-							<option selected value="/?category={{ category.id }}">{{ category.name }}</option>
+							<option selected value="/store?category={{ category.id }}">{{ category.name }}</option>
 						{% endif %}
 					{% endfor %}
 				</select>
 			</div>
-
+		
 			<div class="filter-content collapse show" id="collapse_3" style="">
 				<h3>Prix</h3>
-				<div class="card-body">
-					<div class="form-row">
-					<div class="form-group col-md-6">
-						<label>Min</label>
-						<input class="form-control" placeholder="$0" type="number">
-					</div>
-					<div class="form-group text-right col-md-6">
-						<label>Max</label>
-						<input class="form-control" placeholder="$1,0000" type="number">
-					</div>
+				<div class="card-body text-center">
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label>Min</label>
+							<input class="form-control" placeholder="$0" type="number">
+						</div>
+						<div class="form-group col-md-6">
+							<label>Max</label>
+							<input class="form-control" placeholder="$1,0000" type="number">
+						</div>
 					</div> <!-- form-row.// -->
-					<button class="btn btn-block btn-primary">Apply</button>
+					<button class="btn btn-block btn-primary mt-3">Apply</button>
 				</div><!-- card-body.// -->
 			</div>
 		</div>
+		
 
 		<!-- all products -->
 		<div id="products" class="col-lg-9 mx-auto">
