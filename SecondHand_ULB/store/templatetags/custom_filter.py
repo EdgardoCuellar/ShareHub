@@ -1,4 +1,5 @@
 from django import template
+from store.models.customer import Customer
 
 register = template.Library()
 
@@ -6,4 +7,10 @@ register = template.Library()
 def currency(number):
     return str(number) + " €"
 
+@register.filter(name='user_name')
+def get_user_name(id):
+    return Customer.get_customer_by_id(id).first_name
 
+@register.filter(name='user_img')
+def get_user_img(id):
+    return f"/media/img/user_{id % 11}.png"

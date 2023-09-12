@@ -18,8 +18,14 @@
                 <img class="max-height-image mx-auto" src="{{product.image.url}}" alt="..." />
             </div>
             <div class="col-md-6">
-                <div class="small mb-1">{{category.name}}</div>
+                <div class="col-sm mb-1">
+                    <a href="/profile/{{product.user_id}}" style="text-decoration: none; color: black;">
+                        {{product.user_id|user_name}}
+                    </a>
+                    {{product.user_id}}
+                </div>
                 <h1 class="display-5 fw-bolder">{{product.name}}</h1>
+                <div class="small mb-1">{{category.name}}</div>
                 <div class="fs-5 mb-5">
                     <span>{{product.price|currency}}</span>
                 </div>
