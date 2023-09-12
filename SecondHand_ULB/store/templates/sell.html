@@ -3,75 +3,179 @@
 
 {% block content %}
 
-<div class="container mt-4">
+<style>
+    h3 {
+        font-size: 2.2rem;
+        color: black;
+        padding-bottom: 5px;
+        margin-top: 5px;
+        text-align:left;
+        margin-left: 5px;
+    }
+
+    form {
+        font-size: 1.2rem;
+        font-family: 'Roboto', sans-serif;
+        color: #000000aa;
+    }
+
+    form div {
+        margin-bottom: 10px;
+    }
+
+    .input-block {
+        color: #000000aa;
+    }
+
+    .input-block:focus {
+        color: #000000dd;
+    }
     
-    <div class="p-3 m-3">
+    select {
+        color: #000000aa;
+    }
 
+    button {
+        font-size: large;
+        color: #000000dd;
+        padding: 5px 20px;
+        border: #004D95 solid 2px;
+        border-radius: 10px;
+        margin: auto;
+    }
+
+    button:hover {
+        background-color: #004D95;
+        color: white;
+    }
+
+    .file-drop-area {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 25px;
+        transition: 0.2s;
+        border: lightgray solid 1px;
+        border-radius: 5px;
+    }
+
+    .choose-file-button {
+        flex-shrink: 0;
+        border-radius: 3px;
+        padding: 8px 15px;
+        margin-right: 10px;
+        font-size: 12px;
+        text-transform: uppercase;
+    }
+
+    .file-message {
+        font-size: small;
+        font-weight: 500;
+        line-height: 1.4;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .file-input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+        opacity: 0;
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).on('change', '.file-input', function() {
+        var filesCount = $(this)[0].files.length;
         
-        <div class="col-lg-5 rounded mx-auto border pt-4">
-            <div class="text-center col">
-            
-                <img
-                src="https://th.bing.com/th/id/Rd51d7c0fde6d96a31538a86cbd57f3c0?rik=%2fTJxRkU2V371QQ&riu=http%3a%2f%2ftechnologyend.com%2fwp-content%2fuploads%2f2015%2f11%2fwhy-shop-online.jpg&ehk=v1KiYT0i5U1ABCRueDSdLqnazh2BdlVD89Z4qXE0Kgs%3d&risl=&pid=ImgRaw" alt=""
-                class="" style="height: 150px;">
-            <!-- <hr> -->
-            <hr>
+        var textbox = $(this).prev();
+    
+        if (filesCount === 1) {
+        var fileName = $(this).val().split('\\').pop();
+        textbox.text(fileName);
+        } else {
+        textbox.text(filesCount + ' files selected');
+        }
+    });
+</script>
+
+<div class="container mt-4">
+        
+    <div class="col-lg-5 rounded mx-auto">
+        <h3>Vendre</h3>
+        <form action="/sell" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if error%}
+            <div class="alert alert-danger" role="alert">
+                {{error}}
             </div>
-            <h3 class="alert alert-success rounded-pill" style="text-align:center">Vendre</h3>
-            <form action="/sell" method="POST" enctype="multipart/form-data">
-                
-                {% csrf_token %}
+            {% endif %}
 
-                {% if error%}
-                <div class="alert alert-danger" role="alert">
-                    {{error}}
-                </div>
-                {% endif %}
-                <!-- Name -->
-                <div class="form-group">
-                    <label for="">Nom</label>
-                    <input type="text" name="name"
-                     id="" value="{{values.name}}" class="form-control form-control-sm" 
-                     placeholder="">
-                </div>
+            <!-- Name -->
+            <div class="form-group">
+                <label for="">Nom</label>
+                <input required type="text" name="name"
+                    id="" value="{{values.name}}" class="form-control form-control-sm input-block" 
+                    placeholder="">
+            </div>
 
+            <div style="display: flex;">
                 <!-- Price -->
-                <div class="form-group">
+                <div class="form-group" style="width: 45%;margin-right: 10%;">
                     <label for="">Prix</label>
-                    <input type="text" name="price" 
-                    id="" value="{{values.price}}" class="form-control form-control-sm"
+                    <input required type="text" name="price" 
+                    id="" value="{{values.price}}" class="form-control form-control-sm input-block"
                     >
                 </div>
 
-                <!-- Category -->
-                <div class="form-group">
-                    <label for="">Categorie</label>
-                    <select id="cars" name="category" class="form-select" aria-label="Catégorie">
-                        {% for category in categories %}
-                            <option value="{{category.name}}">{{category.name}}</option>
-                        {% endfor %}
-                    </select>
+                <!-- Date -->
+                <div class="form-group" style="width: 45%;">
+                    <label for="">Année d'achat</label>
+                    <input required type="text" name="date" 
+                    id="" value="{{values.date}}" class="form-control form-control-sm input-block"
+                    >
                 </div>
+            </div>
 
-                <!-- Description -->
-                <div class="form-group">
-                    <label for="">Description</label>
-                    <input required type="text" name="description" id=""
-                    value="{{values.description}}" 
-                    class=" form-control-sm form-control">
+            <!-- Category -->
+            <div class="form-group">
+                <label for="">Categorie</label>
+                <select id="cars" name="category" class="form-select" aria-label="Catégorie">
+                    {% for category in categories %}
+                        <option value="{{category.name}}">{{category.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+                <label for="">Description</label>
+                <textarea required type="text" name="description" id=""
+                value="{{values.description}}" 
+                class=" form-control-sm form-control input-block"></textarea>
+            </div>
+
+
+            <!-- Image -->
+            <div class="form-group">
+                <label for="">Image</label>
+                <div class="file-drop-area">
+                    <span class="choose-file-button">Téléchargez votre image</span>
+                    <span class="file-message">ou glisser la ici</span>
+                    <input required name="image" value="{{value.image}}" class="file-input" type="file">
                 </div>
+            </div>
 
-
-                <!-- Image -->
-                <div class="form-group">
-                    <label for="">Image</label>
-                    <input required name="image" type="file" class="form-control form-control-sm" id="", value="{{values.image}}">
-                </div>
-
-                <button type="submit" class="btn btn-sm btn-success col-lg-12">Créer une annonce</button>
-
-            </form>
-        </div>
+            <div style="text-align: center;">
+                <button type="submit" class="mt-3">Créer une annonce</button>
+            </div>
+        </form>
     </div>
 </div>
 

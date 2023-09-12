@@ -12,6 +12,7 @@ class Sell (View):
     def post(self, request):
         product = Products(name=request.POST.get('name'),
                                 price=request.POST.get('price'),
+                                date=request.POST.get('date'),
                                 category=Category.get_category_by_name(request.POST.get('category')),
                                 description=request.POST.get('description'),
                                 image=request.FILES.get('image'),
