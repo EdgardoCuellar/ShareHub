@@ -32,6 +32,7 @@ class MessagesView(View):
         ).distinct()
 
     def post(self, request, receiver_id):
+       
         sender_id = request.session.get('customer')
         sender = Customer.get_customer_by_id(sender_id)
         receiver = Customer.get_customer_by_id(receiver_id)
