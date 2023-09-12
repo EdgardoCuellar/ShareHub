@@ -16,7 +16,7 @@ class Product(View):
             
             return render(request , 'product.html' , {'product' : product, 'category': category, 'product_in_cart': product_in_cart} )
         else:
-            return redirect('homepage')
+            return redirect('store')
 
     def post(self , request, product_id=None):
         product = Products.get_product_by_id(product_id)
