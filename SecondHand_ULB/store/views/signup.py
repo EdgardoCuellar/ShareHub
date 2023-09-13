@@ -1,17 +1,20 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
 from store.models.customer import Customer
+from store.models.category import Category
 from django.views import View
 
 
 class Signup (View):
     def get(self, request):
-        return render (request, 'signup.html')
+        categories = Category.get_all_categories()
+        return render (request, 'signup.html', {'categories': categories})
 
     def post(self, request):
         postData = request.POST
         first_name = postData.get ('firstname')
         last_name = postData.get ('lastname')
+        faculty = postData.get ('faculty')
         email = postData.get ('email')
         password = postData.get ('password')
         # validation
@@ -24,6 +27,7 @@ class Signup (View):
 
         customer = Customer (first_name=first_name,
                              last_name=last_name,
+                             faculty=faculty,
                              email=email,
                              password=password)
 
@@ -39,6 +43,7 @@ class Signup (View):
         else:
             data = {
                 'error': error_message,
-                'values': value
+                'values': value,
+                'categories': Category.get_all_categories()
             }
             return render (request, 'signup.html', data)

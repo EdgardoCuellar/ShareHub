@@ -103,6 +103,14 @@
                         <input required type="text" name="firstname" class="form-control" placeholder="Pierre" id="username">
                     </div>
                     <div class="form-group first mb-3">
+                        <label for="">Categorie</label>
+                        <select id="cars" name="faculty" class="form-select" aria-label="Catégorie">
+                            {% for category in categories %}
+                                <option value="{{category.id}}">{{category.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group first mb-3">
                         <label for="username">Email</label>
                         <input required type="text" name="email" class="form-control" placeholder="abc@gmail.com" id="username">
                     </div>

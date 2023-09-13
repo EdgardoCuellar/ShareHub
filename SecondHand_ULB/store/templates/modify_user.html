@@ -56,7 +56,7 @@
                             {% if category.id == user.faculty|add:0 %}
                                 <option selected value="{{category.name}}">{{category.name}}</option>
                             {% else %}
-                                <option value="{{category.name}}">{{category.id}} {{user.faculty}}</option>
+                                <option value="{{category.name}}">{{category.name}}</option>
                             {% endif %}
                         {% endfor %}
                     </select>
