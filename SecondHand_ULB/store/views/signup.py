@@ -26,13 +26,16 @@ class Signup (View):
                              last_name=last_name,
                              email=email,
                              password=password)
-        error_message = Customer.validateCustomer (customer)
+
+        error_message = Customer.validateCustomer(customer)
 
         if not error_message:
             print (first_name, last_name, email, password)
             customer.password = make_password (customer.password)
             customer.register ()
-            return redirect ('homepage')
+
+            request.session['customer'] = customer.id
+            return redirect ('login')
         else:
             data = {
                 'error': error_message,

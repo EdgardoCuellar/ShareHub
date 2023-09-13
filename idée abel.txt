@@ -1,0 +1,6 @@
+commentaire sous profile
+catégorie => faculté
+Etat du syllabus, neuf, a noter
+Livraison
+
+Information sur les ventes, quelle type de syllabus est souvent vendu, créé un système de demande

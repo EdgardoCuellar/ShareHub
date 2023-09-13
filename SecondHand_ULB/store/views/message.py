@@ -6,6 +6,9 @@ from store.models.message import Message
 
 class MessagesView(View):
     def get(self, request, receiver_id=None):
+        if not request.session.get('customer'):
+            return redirect('login')
+
         sender = Customer.get_customer_by_id(request.session.get('customer'))
         receiver = None
         messages = None
