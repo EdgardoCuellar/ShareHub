@@ -10,7 +10,7 @@ from .views.checkout import CheckOut
 from .views.orders import OrderView
 from .views.sell import Sell
 from .views.profile import Profile
-from .views.product import Product
+from .views.product import Product, remove
 from .views.message import MessagesView
 from .views.modify_user import ModifyUser
 from .views.modify_product import ModifyProduct
@@ -36,6 +36,7 @@ urlpatterns = [
     path('profile/<int:user_id>', Profile.as_view(), name='profile'),
     path('product', store, name='store'),
     path('product/<int:product_id>', Product.as_view(), name='product'),
+    path('product/remove/<int:product_id>', remove, name='product_remove'),
     path('modify_user', ModifyUser.as_view(), name='modify_user'),
     path('modify_product', store, name='store'),
     path('modify_product/<int:product_id>', ModifyProduct.as_view(), name='modify_product'),

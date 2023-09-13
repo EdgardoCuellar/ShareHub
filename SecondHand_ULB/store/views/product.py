@@ -38,3 +38,9 @@ class Product(View):
         request.session['cart'] = cart
 
         return render(request , 'product.html' , {'product' : product, 'category': category, 'product_in_cart': product_in_cart, 'rating': rating} )
+
+def remove(request, product_id):
+    if request.session.get('customer') != Products.get_product_by_id(product_id).user_id:
+        return redirect('store')
+    Products.remove_product_by_id(product_id)
+    return redirect('store')

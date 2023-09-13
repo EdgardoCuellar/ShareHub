@@ -7,14 +7,16 @@ class Products(models.Model):
     category= models.ForeignKey(Category,on_delete=models.CASCADE,default=1 )
     description= models.CharField(max_length=250, default='', blank=True, null= True)
     image= models.ImageField(upload_to='products/')
-    # add date time field who's an integer
-    date = models.IntegerField(default=0)
+    date = models.IntegerField(default=2000)
 
     def __str__(self):
         return self.name
 
     def register(self):
         self.save()
+
+    def remove(self):
+        self.delete()
 
     @staticmethod
     def product_exists(id):
@@ -42,3 +44,15 @@ class Products(models.Model):
             return Products.objects.filter (category=category_id)
         else:
             return Products.get_all_products();
+
+    @staticmethod
+    def transformPrice(price):
+            # check if the number convertable to float
+        if not price:
+            return 0
+        if not price.isdigit():
+            return 0
+        price = price.replace(',', '.')
+        price = float(price)
+        price = int(price * 100)
+        return price

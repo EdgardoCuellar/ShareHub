@@ -108,8 +108,8 @@
 <div class="container mt-4">
         
     <div class="col-lg-5 rounded mx-auto">
-        <h3>Vendre</h3>
-        <form action="/sell" method="POST" enctype="multipart/form-data">
+        <h3>Modifier votre produit</h3>
+        <form action="/modify_product/{{product.id}}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {% if error%}
                 <div class="alert alert-danger" role="alert">
@@ -120,25 +120,27 @@
             <!-- Name -->
             <div class="form-group">
                 <label for="">Nom</label>
-                <input required type="text" name="name"
+                <input type="text" name="name"
                     id="" value="{{values.name}}" class="form-control form-control-sm input-block" 
-                    placeholder="">
+                    placeholder="{{product.name}}">
             </div>
 
             <div style="display: flex;">
                 <!-- Price -->
                 <div class="form-group" style="width: 45%;margin-right: 10%;">
                     <label for="">Prix</label>
-                    <input required type="text" name="price" 
+                    <input type="text" name="price" 
                     id="" value="{{values.price}}" class="form-control form-control-sm input-block"
+                    placeholder="{{product.price}}"
                     >
                 </div>
 
                 <!-- Date -->
                 <div class="form-group" style="width: 45%;">
                     <label for="">Année d'achat</label>
-                    <input required type="number" name="date" 
+                    <input type="number" name="date" 
                     id="" value="{{values.date}}" class="form-control form-control-sm input-block"
+                    placeholder="{{product.date}}"
                     >
                 </div>
             </div>
@@ -148,7 +150,11 @@
                 <label for="">Categorie</label>
                 <select id="cars" name="category" class="form-select" aria-label="Catégorie">
                     {% for category in categories %}
-                        <option value="{{category.name}}">{{category.name}}</option>
+                        {% if category.id == product.category.id %}
+                            <option selected value="{{category.name}}">{{category.name}}</option>
+                        {% else %}
+                            <option value="{{category.name}}">{{category.name}}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
@@ -156,9 +162,10 @@
             <!-- Description -->
             <div class="form-group">
                 <label for="">Description</label>
-                <textarea required type="text" name="description" id=""
+                <textarea type="text" name="description" id=""
                 value="{{values.description}}" 
-                class=" form-control-sm form-control input-block"></textarea>
+                class=" form-control-sm form-control input-block"
+                placeholder="{{product.description}}"></textarea>
             </div>
 
 
@@ -168,12 +175,12 @@
                 <div class="file-drop-area">
                     <span class="choose-file-button">Téléchargez votre image</span>
                     <span class="file-message">ou glisser la ici</span>
-                    <input required name="image" value="{{value.image}}" class="file-input" type="file">
+                    <input name="image" value="{{value.image}}" class="file-input" type="file">
                 </div>
             </div>
 
             <div style="text-align: center;">
-                <button type="submit" class="mt-3">Créer une annonce</button>
+                <button type="submit" class="mt-3">Mettre à jour</button>
             </div>
         </form>
     </div>
