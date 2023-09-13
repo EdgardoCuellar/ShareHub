@@ -46,6 +46,8 @@
             {% if same_user %}
                 <a href="/modify" class="btn btn-outline-primary mt-3">Modifier</a>
                 <a href="/orders" class="btn btn-outline-secondary mt-3">Mes achats</a>
+            {% else %}
+                <a href="/message/{{ user.id }}" class="btn btn-outline-primary mt-3">Message</a>
             {% endif %}
         </div>
       </div>

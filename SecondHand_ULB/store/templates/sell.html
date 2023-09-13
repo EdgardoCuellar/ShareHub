@@ -112,9 +112,9 @@
         <form action="/sell" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {% if error%}
-            <div class="alert alert-danger" role="alert">
-                {{error}}
-            </div>
+                <div class="alert alert-danger" role="alert">
+                    {{error}}
+                </div>
             {% endif %}
 
             <!-- Name -->
@@ -137,7 +137,7 @@
                 <!-- Date -->
                 <div class="form-group" style="width: 45%;">
                     <label for="">Année d'achat</label>
-                    <input required type="text" name="date" 
+                    <input required type="number" name="date" 
                     id="" value="{{values.date}}" class="form-control form-control-sm input-block"
                     >
                 </div>

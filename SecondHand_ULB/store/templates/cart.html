@@ -6,6 +6,11 @@
 {% load custom_filter %}
 
 <style>
+  a {
+    text-decoration: none !important;
+    color: #000000dd;
+  }
+
   .total-div {
     margin-left: 50px;
     margin-right: 50px;
@@ -14,15 +19,28 @@
   }
 
   .trash-icon{
-    padding-left: 50px;
-  }
-
-  .trash-icon{
     border: none;
+    padding-left: 50px;
     overflow: visible;
     background-image: url('https://cdn.discordapp.com/attachments/718214061283737712/1150786472287416370/icons8-trash-64.png');
+    background-size: 100%;
+    background-color: transparent;
   }
 
+  .buy-btn {
+    font-size: large;
+    color: #000000dd;
+    padding: 5px 20px;
+    border: #004D95 solid 2px;
+    border-radius: 10px;
+    margin: auto;
+    text-decoration: none;
+  }
+
+    .buy-btn:hover {
+        background-color: #004D95;
+        color: white;
+    }
 </style>
 
 <section class="h-100" style="background-color: #F5F5F5;">
@@ -39,35 +57,35 @@
           </div>
         {% else %}
           {% for product in products %}
-          <div class="card rounded-3 mb-2">
+          <div class="card rounded-3 mb-2" style="height: 25vh;">
             <div class="card-body p-2">
-              <div class="row d-flex justify-content-between align-items-center">
+              <div class="row d-flex justify-content-between align-items-center" style="height: 100%;padding-left: 0.5rem;">
                 <div class="col-md-2 col-lg-2 col-xl-2">
-                  <img src="{{product.image.url}}">
+                  <img src="{{product.image.url}}" style="height: 23vh;width: auto;">
                 </div>
-                <div class="col-md-3 col-lg-3 col-xl-3">
-                  <p class="lead fw-normal mb-2">{{product.name}}</p>
-                  <p><span class="text-muted">{{product.category}}</p>
+                <div class="col-md-4 col-lg-3 col-xl-5">
+                  <p class="lead fw-normal mb-2"><a href="/product/{{product.id}}">{{product.name}}</a></p>
+                  <p><span class="text-muted"><a href="/product/{{product.id}}">{{product.category}}</a></p>
                 </div>
                 <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                   <h5 class="mb-0">{{product.price|currency}}</h5>
                 </div>
-                <form action="/cart" method="POST" class="col-md-1 col-lg-1 col-xl-1">
+                <form action="/cart" method="POST" class="col-md-1">
                   {% csrf_token %}
                   <input hidden type="text" name='product' value='{{product.id}}'>
-                  <input type="submit" class="trash-icon"value="">
-              </form>
+                  <input type="submit" class="trash-icon" value="" style="height: 50px;">
+                </form>
               </div>
             </div>
           </div>
           {% endfor %}
         {% endif %}
-        <div class="row total-div">
+        <div class="row total-div mt-4">
           <div class="col-lg-6">
               <h3>Total: {{ products|total_cart_price|currency }}</h3>
           </div>
           <div class="col-lg-6 text-right">
-              <a href="#" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-success border rounded">Acheter</a>
+              <a href="#" data-toggle="modal" data-target="#exampleModal" class="buy-btn">Acheter</a>
           </div>
         </div>      
       

@@ -5,7 +5,8 @@ register = template.Library()
 
 @register.filter(name='currency')
 def currency(number):
-    return str(number) + " €"
+    price = number / 100
+    return str(price) + " €"
 
 @register.filter(name='user_name')
 def get_user_name(id):

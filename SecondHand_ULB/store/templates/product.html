@@ -9,6 +9,11 @@
         height: 70vh;
         width: auto;
     }
+    
+    .rating-color{
+        color:#fbc634 !important;
+    }
+
 </style>
 
 <div class="container">
@@ -18,11 +23,22 @@
                 <img class="max-height-image mx-auto" src="{{product.image.url}}" alt="..." />
             </div>
             <div class="col-md-6">
-                <div class="col-sm mb-1">
-                    <a href="/profile/{{product.user_id}}" style="text-decoration: none; color: black;">
+                <div class="col-sm mb-1 d-flex" style="align-items: center;">
+                    <a href="/profile/{{product.user_id}}" style="text-decoration: none; color: black;font-size: large;">
                         {{product.user_id|user_name}}
                     </a>
-                    {{product.user_id}}
+                    <div class="d-flex justify-content-between align-items-center" style="margin-left: 0.75rem;">
+                        <div class="ratings">
+                            {% for _ in "12345" %}
+                                {% if forloop.counter <= rating.user_rating %}
+                                    <i class="fa fa-star rating-color"></i>
+                                {% else %} 
+                                    <i class="fa fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <span class="review-count" style="margin-left: 0.4rem;">{{rating.sell_count}} Ventes</span>
+                    </div>
                 </div>
                 <h1 class="display-5 fw-bolder">{{product.name}}</h1>
                 <div class="mb-1" style="display: flex;">
@@ -41,16 +57,28 @@
                     <form action="/product/{{product.id}}" method="POST" class="btn-block">
                         {% csrf_token %}
 
-                        {% if product_in_cart %}
-                            <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                        <!-- add an if statement, if product.id == request.session.get('customer') -->
+                        {% if product.user_id == request.session.customer %}
+                            <a href="/modify/{{product.id}}" class="btn btn-outline-dark flex-shrink-0" type="submit">
                                 <i class="bi-cart-fill me-1"></i>
-                                Retirer du panier
-                            </button>
+                                Modifier
+                            </a>
+                            <a href="/delete/{{product.id}}" class="btn btn-outline-dark flex-shrink-0" type="submit">
+                                <i class="bi-cart-fill me-1"></i>
+                                Supprimer
+                            </a>
                         {% else %}
-                            <button class="btn btn-outline-dark flex-shrink-0" type="submit">
-                                <i class="bi-cart-fill me-1"></i>
-                                Ajouter au panier
-                            </button>
+                            {% if product_in_cart %}
+                                <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                                    <i class="bi-cart-fill me-1"></i>
+                                    Retirer du panier
+                                </button>
+                            {% else %}
+                                <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                                    <i class="bi-cart-fill me-1"></i>
+                                    Ajouter au panier
+                                </button>
+                            {% endif %}
                         {% endif %}
                     </form>
 

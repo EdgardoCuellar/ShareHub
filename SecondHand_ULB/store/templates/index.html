@@ -7,8 +7,9 @@
 
 <style>
 	.main-container {
-		margin-left: 12px;
-        margin-right: 12px;
+		padding-left: 40px;
+        padding-right: 15px;
+		overflow: hidden;
 	}
 
 	.grid-container {
@@ -51,59 +52,85 @@
 		padding-bottom: 5px;
 		margin-top: 5px;
 	}
+
+    button {
+        font-size: large;
+        color: #000000dd;
+        padding: 5px 20px;
+        border: #004D95 solid 2px;
+        border-radius: 10px;
+        margin: auto;
+    }
+
+    button:hover {
+        background-color: #004D95;
+        color: white;
+    }
 </style>
 
 <!-- body -->
-<div class="container-fluid mt-3 main-container">
-	<div class="row">
-		<!-- filter -->
-		<div class="col-lg-3 mx-auto filter-box">
-			<h3 class="mt-3">Nom</h3>
-			<form class="pb-3">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Recherche" style="margin-right: 5px;">
-					<div class="input-group-append">
-						<button class="btn btn-light" type="button"><i class="fa fa-search"></i></button>
-					</div>
-				</div>
-			</form>
-		
+<div class="mt-3 main-container">
+    <div class="row">
+        <!-- filter -->
+        <div class="col-lg-3 mx-auto filter-box">
+            <h3 class="mt-3">Nom</h3>
+            <form class="pb-3">
+                <div class="input-group">
+                    <input id="rechercheInput" type="text" class="form-control" placeholder="Recherche" style="margin-right: 5px;">
+                    <div class="input-group-append">
+                        <button class="btn btn-light" type="button" id="rechercheButton"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+
 			<div class="list-group mb-3">
 				<h3>Catégories</h3>
-				<select class="form-select" onchange="window.location.href=this.value;">
+				<select id="selectCategory" class="form-select">
 					{% if categoryName != "Tout les syllabus" %}
-						<option value="/store">Tout les syllabus</option>
+						<option value="0">Tout les syllabus</option>
 					{% else %}
-						<option selected value="/store">Tout les syllabus</option>
+						<option selected value="0">Tout les syllabus</option>
 					{% endif %}
-		
+			
 					{% for category in categories %}
 						{% if categoryName != category.name %}
-							<option value="/store?category={{ category.id }}">{{ category.name }}</option>
+							<option value="{{ category.id }}">{{ category.name }}</option>
 						{% else %}
-							<option selected value="/store?category={{ category.id }}">{{ category.name }}</option>
+							<option selected value="{{ category.id }}">{{ category.name }}</option>
 						{% endif %}
 					{% endfor %}
 				</select>
 			</div>
-		
-			<div class="filter-content collapse show" id="collapse_3" style="">
-				<h3>Prix</h3>
-				<div class="card-body text-center" style="margin-top: -10px;">
-					<div class="row">
-						<div class="form-group col-md-6">
-							<label>Min</label>
-							<input class="form-control" placeholder="€0" type="number">
-						</div>
-						<div class="form-group col-md-6">
-							<label>Max</label>
-							<input class="form-control" placeholder="€100" type="number">
-						</div>
-					</div>
-					<button class="btn btn-block btn-primary mt-3">Appliquer</button>
-				</div>
+			
+            
+            <div class="filter-content collapse show" id="collapse_3" style="">
+                <h3>Prix</h3>
+                <div class="card-body text-center" style="margin-top: -10px;">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>Min</label>
+                            <input class="form-control" id="minInput" placeholder="€0" type="number">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Max</label>
+                            <input class="form-control" id="maxInput" placeholder="€100" type="number">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="filter-content collapse show" id="collapse_3">
+                <h3>Année</h3>
+                <div class="card-body text-center" style="margin-top: -10px;">
+                    <div style="display: flex;">
+                        <input class="form-control" id="yearInput" placeholder="2022" type="number" style="width: 70%;">
+                    </div>
+                </div>
+            </div>
+			<div style="text-align: center;margin-bottom: 1.1rem;margin-top: 0.5rem;">
+				<button id="applyButton">Appliquer</button>
 			</div>
-		</div>
+        </div>
 		
 
 		<!-- all products -->
@@ -133,6 +160,52 @@
 	</div>
 </div>
 
+<script>
+    // Get references to the input fields and the apply button
+    const minInput = document.getElementById("minInput");
+    const maxInput = document.getElementById("maxInput");
+    const yearInput = document.getElementById("yearInput");
+    const applyButton = document.getElementById("applyButton");
+    const rechercheInput = document.getElementById("rechercheInput");
+    const rechercheButton = document.getElementById("rechercheButton");
+    const selectCategory = document.getElementById("selectCategory");
 
+    // Add a click event listener to the apply button
+    applyButton.addEventListener("click", function () {
+        // Get the values from the input fields
+        const minValue = minInput.value;
+        const maxValue = maxInput.value;
+        const yearValue = yearInput.value;
+        const rechercheValue = rechercheInput.value;
+        const selectedCategory = selectCategory.value;
+
+		console.log("test");
+
+        // Build the URL with the parameters
+        const baseUrl = window.location.href.split("?")[0]; // Get the current URL without query parameters
+        const queryParams = [];
+
+        if (minValue) {
+            queryParams.push(`min=${minValue}`);
+        }
+        if (maxValue) {
+            queryParams.push(`max=${maxValue}`);
+        }
+        if (yearValue) {
+            queryParams.push(`year=${yearValue}`);
+        }
+        if (rechercheValue) {
+            queryParams.push(`recherche=${rechercheValue}`);
+        }
+        if (selectedCategory) {
+            queryParams.push(`category=${selectedCategory}`);
+        }
+
+        const newUrl = `${baseUrl}?${queryParams.join("&")}`;
+
+        // Redirect to the new URL
+        window.location.href = newUrl;
+    });
+</script>
 
 {% endblock %}

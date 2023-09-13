@@ -19,7 +19,8 @@ class Cart(View):
         product_id = int(request.POST.get('product'))
 
         cart = request.session.get('cart')
-        cart.remove(product_id)
+        if product_id in cart:
+            cart.remove(product_id)
         request.session['cart'] = cart
 
         ids = request.session.get('cart')

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from store.models.product import Products
 from store.models.category import Category
 from django.views import View
+from datetime import datetime
 
 
 class Sell (View):
@@ -10,6 +11,7 @@ class Sell (View):
         return render (request, 'sell.html', {'categories': categories})
 
     def post(self, request):
+        price = self.transformPrice(request.POST.get('price'))
         product = Products(name=request.POST.get('name'),
                                 price=request.POST.get('price'),
                                 date=request.POST.get('date'),
@@ -27,8 +29,16 @@ class Sell (View):
         categories = Category.get_all_categories()
         return render(request, 'sell.html', {'categories': categories, 'error': error_message})
 
-
-
+    def transformPrice(self, price):
+        # check if the number convertable to float
+        if not price:
+            return 0
+        if not price.isdigit():
+            return 0
+        price = price.replace(',', '.')
+        price = float(price)
+        price = int(price * 100)
+        return price
 
     def validateProduct(self, product_validation):
         error_message = None
@@ -40,7 +50,9 @@ class Sell (View):
             error_message = "Le prix doit être un nombre valide"
         elif int(product_validation.price) < 1 or int(product_validation.price) > 100:
             error_message = "Le prix doit se trouver entre 1 et 100 euro" 
-        # elif len (product_validation.image) < 3:
-        #     error_message = 'Last Name must be 3 char long or more'
+        elif int(product_validation.date) < 2000:
+            error_message = "L'année d'achat doit etre au minimum 2000" 
+        elif int(product_validation.date) > datetime.now().year:
+            error_message = "L'année d'achat ne peut pas être dans le futur"
 
         return error_message
