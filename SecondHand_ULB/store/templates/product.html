@@ -59,7 +59,7 @@
 
                         <!-- add an if statement, if product.id == request.session.get('customer') -->
                         {% if product.user_id == request.session.customer %}
-                            <a href="/modify/{{product.id}}" class="btn btn-outline-dark flex-shrink-0" type="submit">
+                            <a href="/modify_product/{{product.id}}" class="btn btn-outline-dark flex-shrink-0" type="submit">
                                 <i class="bi-cart-fill me-1"></i>
                                 Modifier
                             </a>

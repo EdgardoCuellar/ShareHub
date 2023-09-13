@@ -24,3 +24,13 @@ class Rating(models.Model):
             return 0
         else:
             return Rating.objects.filter(user_id=user_id).aggregate(models.Avg('rating'))['rating__avg']
+
+    @staticmethod
+    def get_rating(user_id):
+        sell_count = Rating.get_count_user_sells(user_id)
+        user_rating = Rating.get_user_rating(user_id)
+        rating = {
+            'sell_count': sell_count,
+            'user_rating': user_rating
+        }
+        return rating

@@ -5,7 +5,6 @@ class Customer(models.Model):
     last_name = models.CharField (max_length=50)
     description = models.CharField(max_length=288)
     faculty = models.CharField(max_length=50)
-    contact = models.CharField(max_length=100)
     email=models.EmailField()
     password = models.CharField(max_length=100)
 

@@ -1,6 +1,8 @@
 from django.shortcuts import render , redirect
 
 from store.models.customer import Customer
+from store.models.rating import Rating
+from store.models.category import Category
 from django.views import  View
 
 class Profile(View):
@@ -16,4 +18,8 @@ class Profile(View):
             user = request.session.get('customer')
             user = Customer.get_customer_by_id(user)
 
-        return render(request , 'profile.html' , {'user' : user, "same_user": same_user} )
+        user.faculty = Category.get_category_by_id(user.faculty).name
+
+        rating = Rating.get_rating(user.id)
+
+        return render(request , 'profile.html' , {'user' : user, "same_user": same_user, "rating": rating} )

@@ -2,12 +2,12 @@ from django.shortcuts import render, redirect
 from store.models.customer import Customer
 from django.views import View
 
-class Modify(View):
+class ModifyUser(View):
     def get(self, request):
         # Get the customer to be modified
         user = Customer.get_customer_by_id(request.session.get('customer'))
         print(user)
-        return render(request, 'modify.html', {'user': user})
+        return render(request, 'modify_user.html', {'user': user})
 
     def post(self, request):
         # Get the customer to be modified

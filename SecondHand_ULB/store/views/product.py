@@ -12,7 +12,7 @@ class Product(View):
             category = product.category
             product_in_cart = False
             
-            rating = self.get_user_rating(product.user_id)
+            rating = Rating.get_rating(product.user_id)
 
             if product_id in request.session['cart']:
                 product_in_cart = True
@@ -25,7 +25,7 @@ class Product(View):
         product = Products.get_product_by_id(product_id)
         category = product.category
         cart = request.session.get('cart')
-        rating = self.get_user_rating(product.user_id)
+        rating = Rating.get_rating(product.user_id)
         
         product_in_cart = True
         if not cart:
@@ -38,13 +38,3 @@ class Product(View):
         request.session['cart'] = cart
 
         return render(request , 'product.html' , {'product' : product, 'category': category, 'product_in_cart': product_in_cart, 'rating': rating} )
-
-    def get_user_rating(self, user_id):
-        sell_count = Rating.get_count_user_sells(user_id)
-        user_rating = Rating.get_user_rating(user_id)
-        rating = {
-            'sell_count': sell_count,
-            'user_rating': user_rating
-        }
-
-        return rating
