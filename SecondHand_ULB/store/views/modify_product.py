@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from store.models.product import Products
-from store.models.category import Category, Condition
+from store.models.category import Category, Condition, Place
 from django.views import View
 from datetime import datetime
 
@@ -11,10 +11,11 @@ class ModifyProduct (View):
             return redirect('homepage')
 
         categories = Category.get_all_categories()
-        condition = Condition.get_all_conditions()
+        conditions = Condition.get_all_conditions()
+        places = Place.get_all_places()
         product = Products.get_product_by_id(product_id)
         product.price = product.price / 100
-        return render (request, 'modify_product.html', {'product': product, 'categories': categories, 'conditions': condition})
+        return render (request, 'modify_product.html', {'product': product, 'categories': categories, 'conditions': conditions, 'places': places})
 
     def post(self, request, product_id):
         if request.session.get('customer') != Products.get_product_by_id(product_id).user_id:
@@ -27,6 +28,7 @@ class ModifyProduct (View):
             date = request.POST.get('date')
             faculty = request.POST.get('faculty')
             condition = request.POST.get('condition')
+            place = request.POST.get('place')
             description = request.POST.get('description')
             image = request.FILES.get('image')
 
@@ -41,6 +43,8 @@ class ModifyProduct (View):
                 product.category = Category.get_category_by_name(faculty)
             if condition:
                 product.condition = Condition.get_condition_by_name(condition)
+            if place:
+                product.place = Place.get_place_by_name(place)
             if description:
                 product.description = description
             if image:
@@ -54,7 +58,8 @@ class ModifyProduct (View):
 
         categories = Category.get_all_categories()
         condition = Condition.get_all_conditions()
-        return render(request, 'modify_product.html', {'categories': categories,'condition': condition, 'error': error_message})
+        places = Place.get_all_places()
+        return render(request, 'modify_product.html', {'categories': categories,'condition': condition, 'error': error_message, 'places': places})
 
 
 

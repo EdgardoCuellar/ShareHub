@@ -52,3 +52,29 @@ class Condition(models.Model) :
 
     def __str__(self):
         return self.name
+
+class Place(models.Model):
+    name= models.CharField(max_length=50)
+
+    @staticmethod
+    def get_place_by_id(id):
+        try:
+            place = Place.objects.get(id=id)
+            return place
+        except ObjectDoesNotExist:
+            return Place.objects.all()[0]
+    
+    @staticmethod
+    def get_all_places():
+        return Place.objects.all()
+    
+    @staticmethod
+    def get_place_by_name(name):
+        try:
+            place = Place.objects.get(name=name)
+            return place
+        except ObjectDoesNotExist:
+            return Place.objects.all()[0]  # Return None if the place with the given name doesn't exist
+
+    def __str__(self):
+        return self.name

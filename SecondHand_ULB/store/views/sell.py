@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from store.models.product import Products
-from store.models.category import Category, Condition
+from store.models.category import Category, Condition, Place
 from django.views import View
 from datetime import datetime
 
@@ -9,7 +9,8 @@ class Sell (View):
     def get(self, request):
         categories = Category.get_all_categories()
         conditions = Condition.get_all_conditions()
-        return render (request, 'sell.html', {'categories': categories, 'conditions': conditions})
+        places = Place.get_all_places()
+        return render (request, 'sell.html', {'categories': categories, 'conditions': conditions, 'places': places})
 
     def post(self, request):
         price = Products.transformPrice(request.POST.get('price'))
@@ -18,6 +19,7 @@ class Sell (View):
                                 date=request.POST.get('date'),
                                 category=Category.get_category_by_name(request.POST.get('category')),
                                 condition=Condition.get_condition_by_name(request.POST.get('condition')),
+                                place=Place.get_place_by_name(request.POST.get('place')),
                                 description=request.POST.get('description'),
                                 image=request.FILES.get('image'),
                                 user_id=request.session.get('customer'))
@@ -30,7 +32,8 @@ class Sell (View):
 
         categories = Category.get_all_categories()
         conditions = Condition.get_all_conditions()
-        return render(request, 'sell.html', {'categories': categories, 'conditions': conditions, 'error': error_message})
+        places = Place.get_all_places()
+        return render(request, 'sell.html', {'categories': categories, 'conditions': conditions, 'places':places, 'error': error_message})
 
     def validateProduct(self, product_validation):
         error_message = None

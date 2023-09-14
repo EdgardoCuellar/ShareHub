@@ -87,6 +87,24 @@
         cursor: pointer;
         opacity: 0;
     }
+
+    .fa-info-circle:hover::before {
+        content: "Si vous choisissez la livraison par la poste, vous devrez payer le prix de la livraison. N'hésitez pas à mieux expliquer votre moyen d'échange dans votre description";
+        position: absolute;
+        transform: translateX(-50%);
+        background-color: #333;
+        color: #fff;
+        padding: 5px;
+        border-radius: 4px;
+        opacity: 0;
+        visibility: hidden; /* Hide initially */
+        transition: opacity 0.2s, visibility 0.2s;
+    }
+
+    .fa-info-circle:hover::before {
+        opacity: 1;
+        visibility: visible; /* Show the tooltip */
+    }
 </style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -172,6 +190,19 @@
                         {% endfor %}
                     </select>
                 </div>
+            </div>
+
+            <!-- Méthode d'échange -->
+            <div class="form-group">
+                <div style="display: flex; align-items: center;">
+                    <label for="lieu_echange">Lieu d'échange préféré</label>
+                    <i class="fas fa-info-circle info-circle" style="color: #004D95; margin-left: 10px;cursor: pointer;z-index: 1;"></i>
+                </div>
+                <select class="form-select" id="place" name="place">
+                    {% for place in places %}
+                        <option value="{{place.name}}">{{place.name}}</option>
+                    {% endfor %}
+                </select>
             </div>
 
             <!-- Description -->

@@ -187,8 +187,10 @@
                     <label for="lieu_echange">Lieu d'échange préféré</label>
                     <i class="fas fa-info-circle info-circle" style="color: #004D95; margin-left: 10px;cursor: pointer;z-index: 1;"></i>
                 </div>
-                <select class="form-control" id="lieu_echange" name="lieu_echange">
-                    <!-- Add your select options here -->
+                <select class="form-select" id="place" name="place">
+                    {% for place in places %}
+                        <option value="{{place.name}}">{{place.name}}</option>
+                    {% endfor %}
                 </select>
             </div>
             
