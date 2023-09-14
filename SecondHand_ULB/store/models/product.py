@@ -1,10 +1,11 @@
 from django.db import models
-from .category import Category
+from .category import Category, Condition
 class Products(models.Model):
     user_id = models.CharField(max_length=50)
     name = models.CharField(max_length=60)
     price= models.IntegerField(default=0)
     category= models.ForeignKey(Category,on_delete=models.CASCADE,default=1 )
+    condition= models.ForeignKey(Condition,on_delete=models.CASCADE,default=1 )
     description= models.CharField(max_length=250, default='', blank=True, null= True)
     image= models.ImageField(upload_to='products/')
     date = models.IntegerField(default=2000)

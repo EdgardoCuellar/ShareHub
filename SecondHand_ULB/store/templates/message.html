@@ -16,6 +16,7 @@
         max-width: 60%;
         padding: 0;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+        overflow: hidden;
     }
 
     .main-row {
@@ -44,9 +45,8 @@
     }
 
     .sideBar {
-        padding-bottom: 0.5rem;
-        margin-bottom: 0.5rem;
-        border-bottom: solid 1px #c4c4c4;
+        padding: 0.5rem;
+        border-bottom: solid 1px #9EA1D4;
     }
 
     .avatar-icon {
@@ -63,48 +63,48 @@
         margin-left: 5px;
 
     }
-/*Conversation*/
+    /*Conversation*/
 
-.conversation {
-    width: 80%;
+    .conversation {
+        width: 80%;
+        padding: 0 !important;
+        margin: 0 !important;
+        height: 100%;
+        /*width: 100%;*/
+        border-left: 1px solid rgba(0, 0, 0, .08);
+        overflow-y: hidden;
+        overflow: hidden;
+    }
+
+    .message {
     padding: 0 !important;
+    margin-left: 0;
+    margin-top: 0.3rem;
+    margin-bottom: 0;
+    margin-right: 0;
+    
+    background-size: cover;
+    overflow-y: auto;
+    border: 1px solid #f7f7f7;
+    height: calc(100% - 120px);
+    display: list-item;
+    }
+
+    .message-body {
+    margin-bottom: 0.3rem !important;
+    padding: 0 !important;
+    width: auto;
+    height: auto;
+    }
+
+    .message-text {
     margin: 0 !important;
-    height: 100%;
-    /*width: 100%;*/
-    border-left: 1px solid rgba(0, 0, 0, .08);
-    overflow-y: hidden;
-    overflow: hidden;
-}
-
-.message {
-  padding: 0 !important;
-  margin-left: 0;
-  margin-top: 0.3rem;
-  margin-bottom: 0;
-  margin-right: 0;
- 
-  background-size: cover;
-  overflow-y: auto;
-  border: 1px solid #f7f7f7;
-  height: calc(100% - 120px);
-  display: list-item;
-}
-
-.message-body {
-  margin-bottom: 0.3rem !important;
-  padding: 0 !important;
-  width: auto;
-  height: auto;
-}
-
-.message-text {
-  margin: 0 !important;
-  padding: 5px !important;
-  word-wrap:break-word;
-  font-weight: 400;
-  font-size: 14px;
-  padding-bottom: 0 !important;
-}
+    padding: 5px !important;
+    word-wrap:break-word;
+    font-weight: 400;
+    font-size: 14px;
+    padding-bottom: 0 !important;
+    }
 
     .message-time {
         margin: 0 !important;
@@ -197,26 +197,30 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="container app">
   <div class="main-row">
-    <div class="mt-2" style="width: 20%; padding-left: 0.5rem; overflow: hidden;">
+    <div style="width: 20%; padding-left: 0.5rem; overflow: hidden;">
         {% for user in users_with_messages %}
-        <div class="row sideBar">
-            <a href="/message/{{user.id}}">
-            <div class="row sideBar-body">
-                <div class="col-sm-3 col-xs-3 sideBar-avatar">
-                    <div class="avatar-icon">
-                        <img src="{{user.id|user_img}}">
+            {% if user.id == receiver.id %}
+            <div class="row sideBar" style="background-color: #9EA1D433;">
+            {% else %}
+            <div class="row sideBar">
+            {% endif %}
+                <a href="/message/{{user.id}}">
+                <div class="row sideBar-body">
+                    <div class="col-sm-3 col-xs-3 sideBar-avatar">
+                        <div class="avatar-icon">
+                            <img src="{{user.id|user_img}}">
+                        </div>
+                    </div>
+                    <div class="col-sm-9 col-xs-9" style="margin: auto;">
+                        <span class="name-user">{{user.first_name}}</span>
                     </div>
                 </div>
-                <div class="col-sm-9 col-xs-9" style="margin: auto;">
-                    <span class="name-user">{{user.first_name}}</span>
-                </div>
+                </a>
             </div>
-            </a>
-        </div>
         {% endfor %}
     </div>
 
-    <div class="col-sm-8 conversation">
+    <div class="col-sm-8 conversation mt-2">
         {% if receiver %}
         <div class="row heading mt-2" style="padding-left: 0.5rem; padding-bottom: 0.5rem; border-bottom: darkgray solid 1px;">
             <div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
@@ -267,7 +271,7 @@
         <form method="post" action="">
             {% csrf_token %}
             <div class="position-relative">
-                <input type="text" class="reply-input" name="content" placeholder="Type your message" />
+                <input type="text" class="reply-input" name="content" placeholder="Votre message" />
                 <button type="submit" class="reply-send position-absolute" style="margin-top: 8.5px; margin-left: -42px;border: none;">
                     <i class="fa fa-send" style="color: #82A0D8; font-size: large;"></i>
                 </button>

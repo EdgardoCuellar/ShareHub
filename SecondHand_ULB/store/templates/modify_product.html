@@ -146,17 +146,32 @@
             </div>
 
             <!-- Category -->
-            <div class="form-group">
-                <label for="">Categorie</label>
-                <select id="cars" name="category" class="form-select" aria-label="Catégorie">
-                    {% for category in categories %}
-                        {% if category.id == product.category.id %}
-                            <option selected value="{{category.name}}">{{category.name}}</option>
-                        {% else %}
-                            <option value="{{category.name}}">{{category.name}}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
+            <div style="display: flex;">
+                <!-- Category -->
+                <div class="form-group" style="width: 55%;margin-right: 5%;">
+                    <label for="">Categorie</label>
+                    <select id="cars" name="faculty" class="form-select" aria-label="Catégorie">
+                        {% for category in categories %}
+                            {% if category.id == product.category.id %}
+                                <option selected value="{{category.name}}">{{category.name}}</option>
+                            {% else %}
+                                <option value="{{category.name}}">{{category.name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group" style="width: 40%;"">
+                    <label for="">État</label>
+                    <select id="cars" name="condition" class="form-select" aria-label="Etat">
+                        {% for condition in conditions %}
+                            {% if condition.id == product.condition.id %}
+                                <option selected value="{{condition.name}}">{{condition.name}}</option>
+                            {% else %}
+                                <option value="{{condition.name}}">{{condition.name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
 
             <!-- Description -->

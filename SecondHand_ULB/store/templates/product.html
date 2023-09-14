@@ -8,6 +8,8 @@
     .max-height-image {
         height: 70vh;
         width: auto;
+        -webkit-box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.2)
     }
     
     .rating-color{
@@ -42,13 +44,14 @@
                 </div>
                 <h1 class="display-5 fw-bolder">{{product.name}}</h1>
                 <div class="mb-1" style="display: flex;">
-                    <div class="small">{{category.name}} </div>
+                    <div class="small">{{product.category}} </div>
                     <div style="margin-left: 7px; margin-right: 7px;">-</div>
                     <div class="small">{{product.date}}</div>
                 </div>
                 
-                <div class="fs-5 mb-2">
-                    <span>{{product.price|currency}}</span>
+                <div class="fs-5 mb-2" style="display: flex; align-items: end;">
+                    <span style="margin-right: 15px; font-size: larger;">{{product.price|currency}}</span>
+                    <span style="font-size: medium;">{{product.condition}}</span>
                 </div>
                 <p class="lead">{{product.description}}</p>
                 <div class="d-flex">

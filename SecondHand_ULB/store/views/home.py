@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect , HttpResponseRedirect
 from store.models.product import Products
-from store.models.category import Category
+from store.models.category import Category, Condition
 from django.views import View
 
 
@@ -27,13 +27,16 @@ def store(request):
         request.session['cart'] = {}
     products = None
     categories = Category.get_all_categories()
+    conditions = Condition.get_all_conditions()
     
-    products, categoryName = filter(request)
+    products, categoryName, conditionName = filter(request)
 
     data = {}
     data['products'] = products
     data['categories'] = categories
     data['categoryName'] = categoryName
+    data['conditions'] = conditions
+    data['conditionName'] = conditionName
 
     return render(request, 'index.html', data)
 
@@ -43,11 +46,14 @@ def filter(request):
 
     nameSearch = request.GET.get('recherche')
     categoryID = request.GET.get('category')
+    conditionID = request.GET.get('condition')
+
     priceMin = request.GET.get('min')
     priceMax = request.GET.get('max')
     year = request.GET.get('year')
 
     categoryName = "Tout les syllabus"
+    conditionName = "Tout les états"
 
     if categoryID and categoryID != '0':
         categoryName = Category.get_category_by_id(categoryID).name
@@ -63,8 +69,10 @@ def filter(request):
         products = products.filter(price__lte=priceMax)
     if year:
         products = products.filter(date__gte=year)
+    if conditionID and conditionID != '0':
+        products = products.filter(condition=conditionID)
     
-    return products, categoryName
+    return products, categoryName, conditionName
 
 
 

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from store.models.product import Products
-from store.models.category import Category
+from store.models.category import Category, Condition
 from django.views import View
 from datetime import datetime
 
@@ -11,9 +11,10 @@ class ModifyProduct (View):
             return redirect('homepage')
 
         categories = Category.get_all_categories()
+        condition = Condition.get_all_conditions()
         product = Products.get_product_by_id(product_id)
         product.price = product.price / 100
-        return render (request, 'modify_product.html', {'product': product, 'categories': categories})
+        return render (request, 'modify_product.html', {'product': product, 'categories': categories, 'conditions': condition})
 
     def post(self, request, product_id):
         if request.session.get('customer') != Products.get_product_by_id(product_id).user_id:
@@ -24,10 +25,11 @@ class ModifyProduct (View):
             name = request.POST.get('name')
             price = request.POST.get('price')
             date = request.POST.get('date')
-            category = request.POST.get('category')
+            faculty = request.POST.get('faculty')
+            condition = request.POST.get('condition')
             description = request.POST.get('description')
             image = request.FILES.get('image')
-            
+
             if name:
                 product.name = name
             if price:
@@ -35,8 +37,10 @@ class ModifyProduct (View):
                 product.price = price
             if date:
                 product.date = date
-            if category:
-                product.category = Category.get_category_by_name(category)
+            if faculty:
+                product.category = Category.get_category_by_name(faculty)
+            if condition:
+                product.condition = Condition.get_condition_by_name(condition)
             if description:
                 product.description = description
             if image:
@@ -49,7 +53,8 @@ class ModifyProduct (View):
                 return redirect('/product/'+str(product.id))  # Redirect to the homepage or any other appropriate page after successful upload
 
         categories = Category.get_all_categories()
-        return render(request, 'modify_product.html', {'categories': categories, 'error': error_message})
+        condition = Condition.get_all_conditions()
+        return render(request, 'modify_product.html', {'categories': categories,'condition': condition, 'error': error_message})
 
 
 

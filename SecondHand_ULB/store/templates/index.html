@@ -9,7 +9,6 @@
 	.main-container {
 		padding-left: 40px;
         padding-right: 15px;
-		overflow: hidden;
 	}
 
 	.grid-container {
@@ -17,18 +16,27 @@
 		grid-template-columns: repeat(auto-fill, 200px); /* Adjust item width as needed */
 		grid-gap: 16px; /* Adjust spacing between items as needed */
 		justify-content: center; /* Adjust item alignment as needed */
+        margin-bottom: 50px;
 	}
 
 	.product-item {
-		border: 1px solid lightgray;
-		border-radius: 2px;
 		padding: 1px;
 		overflow: hidden;
+        -webkit-box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.2)
 	}
 	
 	.product-item:hover {
-		border: 1px solid #004D95;
+        -webkit-box-shadow: 0px 0px 3px 3px rgba(0, 77, 149, 0.5);
+        box-shadow: 0px 0px 3px 3px rgba(0, 77, 149, 0.5)
 	}
+
+    .product-title {
+        font-family: 'Roboto', sans-serif;
+        font-size: 0.9rem;
+        height: 40px; 
+        overflow: hidden;
+    }
 
 	a {
 		text-decoration: none;
@@ -41,16 +49,18 @@
 
 	.filter-box{
 		height: fit-content;
-		border: 1px solid lightgray;
-		border-radius: 5px;
+        -webkit-box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.2)
 	}
 
 	h3 {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
 		font-size: 1rem;
 		color: #004D95;
 		border-bottom: #000000 solid 1px;
 		padding-bottom: 5px;
-		margin-top: 5px;
+		margin-top: 0.8rem;
 	}
 
     button {
@@ -73,8 +83,8 @@
     <div class="row">
         <!-- filter -->
         <div class="col-lg-3 mx-auto filter-box">
-            <h3 class="mt-3">Nom</h3>
-            <form class="pb-3">
+            <h3>Nom</h3>
+            <form>
                 <div class="input-group">
                     <input id="rechercheInput" type="text" class="form-control" placeholder="Recherche" style="margin-right: 5px;">
                     <div class="input-group-append">
@@ -83,7 +93,7 @@
                 </div>
             </form>
 
-			<div class="list-group mb-3">
+			<div class="list-group">
 				<h3>Catégories</h3>
 				<select id="selectCategory" class="form-select">
 					{% if categoryName != "Tout les syllabus" %}
@@ -101,11 +111,30 @@
 					{% endfor %}
 				</select>
 			</div>
+
+			<div class="list-group">
+				<h3>État</h3>
+				<select id="selectCondition" class="form-select">
+					{% if conditionName != "Tout" %}
+						<option value="0">Tout les états</option>
+					{% else %}
+						<option selected value="0">Tout les états</option>
+					{% endif %}
+			
+					{% for condition in conditions %}
+						{% if conditionName != condition.name %}
+							<option value="{{ condition.id }}">{{ condition.name }}</option>
+						{% else %}
+							<option selected value="{{ condition.id }}">{{ condition.name }}</option>
+						{% endif %}
+					{% endfor %}
+				</select>
+			</div>
 			
             
             <div class="filter-content collapse show" id="collapse_3" style="">
                 <h3>Prix</h3>
-                <div class="card-body text-center" style="margin-top: -10px;">
+                <div class="text-center">
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label>Min</label>
@@ -123,7 +152,7 @@
                 <h3>Année</h3>
                 <div class="card-body text-center" style="margin-top: -10px;">
                     <div style="display: flex;">
-                        <input class="form-control" id="yearInput" placeholder="2022" type="number" style="width: 70%;">
+                        <input class="form-control" id="yearInput" placeholder="2022" type="number" style="width: 70%;margin-left: -1rem;">
                     </div>
                 </div>
             </div>
@@ -140,11 +169,11 @@
 				<div class="product-item">
 					<a href="/product/{{ product.id }}" class="p-0">
 						<div class="mx-auto" style="width: 200px; height: 350px;">
-							<div class="overflow-hidden" style="width: 200px; height: 275px; position: relative;">
+							<div style="width: 200px; height: 275px; position: relative;">
 								<img class="card-img-top" src="{{ product.image.url }}" alt="Card image cap" style="position: absolute; bottom: 0; right: 0; max-width: 100%; height: auto;">
 							</div>
-							<div class="card-body">
-								<p class="card-title">{{ product.name }}</p>
+							<div style="flex: 1 1 auto; padding: 0.2rem 0.8rem;">
+								<p class="card-title product-title">{{ product.name }}</p>
 								<div style="display: flex; justify-content: space-between;">
 									<p class="card-text"><b>{{ product.price|currency }}</b></p>
 									<p class="card-text" style="padding-right: 20px;"><b>{{ product.date}}</b></p>
@@ -178,6 +207,7 @@
         const yearValue = yearInput.value;
         const rechercheValue = rechercheInput.value;
         const selectedCategory = selectCategory.value;
+        const selectedCondition = selectCondition.value;
 
 		console.log("test");
 
@@ -199,6 +229,9 @@
         }
         if (selectedCategory) {
             queryParams.push(`category=${selectedCategory}`);
+        }
+        if (selectedCondition) {
+            queryParams.push(`condition=${selectedCondition}`);
         }
 
         const newUrl = `${baseUrl}?${queryParams.join("&")}`;

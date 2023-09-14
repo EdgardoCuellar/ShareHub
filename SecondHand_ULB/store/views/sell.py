@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from store.models.product import Products
-from store.models.category import Category
+from store.models.category import Category, Condition
 from django.views import View
 from datetime import datetime
 
@@ -8,7 +8,8 @@ from datetime import datetime
 class Sell (View):
     def get(self, request):
         categories = Category.get_all_categories()
-        return render (request, 'sell.html', {'categories': categories})
+        conditions = Condition.get_all_conditions()
+        return render (request, 'sell.html', {'categories': categories, 'conditions': conditions})
 
     def post(self, request):
         price = Products.transformPrice(request.POST.get('price'))
@@ -16,6 +17,7 @@ class Sell (View):
                                 price=price,
                                 date=request.POST.get('date'),
                                 category=Category.get_category_by_name(request.POST.get('category')),
+                                condition=Condition.get_condition_by_name(request.POST.get('condition')),
                                 description=request.POST.get('description'),
                                 image=request.FILES.get('image'),
                                 user_id=request.session.get('customer'))
@@ -27,7 +29,8 @@ class Sell (View):
             return redirect('store')  # Redirect to the homepage or any other appropriate page after successful upload
 
         categories = Category.get_all_categories()
-        return render(request, 'sell.html', {'categories': categories, 'error': error_message})
+        conditions = Condition.get_all_conditions()
+        return render(request, 'sell.html', {'categories': categories, 'conditions': conditions, 'error': error_message})
 
     def validateProduct(self, product_validation):
         error_message = None
