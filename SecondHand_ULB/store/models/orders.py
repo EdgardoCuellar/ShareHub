@@ -28,4 +28,8 @@ class Order(models.Model):
     def get_orders_by_buyer(buyer_id):
         return Order.objects.filter(buyer_id=buyer_id).order_by('-date')
 
+    @staticmethod
+    def get_orders_by_seller(seller_id):
+        return Order.objects.filter(seller_id=seller_id).order_by('-date')
+
 

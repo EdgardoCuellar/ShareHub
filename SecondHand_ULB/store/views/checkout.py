@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 
 from django.contrib.auth.hashers import check_password
-from store.models.customer import Customer
 from django.views import View
 
+from store.models.customer import Customer
 from store.models.product import Products
 from store.models.orders import Order
+from store.models.message import Message
 
 
 class CheckOut(View):
@@ -23,7 +24,8 @@ class CheckOut(View):
             order.save()
             product.sold = True
             product.save()
-
+            Message.send_message(buyer, product.user_id,
+             'Bonjour, je viens de passer une commande pour votre produit ' + product.name + '.')
 
         request.session['cart'] = {}
 

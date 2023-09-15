@@ -4,6 +4,14 @@
 {% block content %}
 {% load cart %}
 {% load custom_filter %}
+
+<style>
+    a {
+        text-decoration: none !important;
+        color: #000000dd;
+    }
+</style>
+
 <div class="container">
    <div class="border rounded p-4 m-4">
         <p class="display-4 pl-4 ml-4">Vos achats</p>
@@ -11,7 +19,6 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Nombre</th>
                     <th>Image</th>
                     <th>Nom</th>
                     <th>Date</th>
@@ -25,17 +32,19 @@
                 
                 {% for order in orders %}
                 <tr>
-                    <td>{{forloop.counter}}</td>
                     <td><img style="height: 80px;" class="rounded-circle" src="{{order.product.image.url}}" alt=""></td>
-                    <td>{{order.product.name}}</td>
+                    <td><a href="product/{{order.product.id}}">{{order.product.name}}</a></td>
                     <td>{{order.date}}</td>
                     <td>{{order.price|currency}}</td>
-                    <td>{{order.place_description}}</td>
-                    <td>{{order.seller.first_name}}</td>
+                    <td>
+                        <label>{{order.product.place}}</label>
+                        {{order.place_description}}
+                    </td>
+                    <td><a href="profile/{{order.seller.id}}">{{order.seller.first_name}}</a></td>
                     {% if order.status %}
                         <td><small class="badge badge-success" style="color: green;">Completed</small></td>
                     {%else%}
-                        <td><small class="badge badge-warning" style="color: yellow;">En attente</small></td>
+                        <td><small class="badge badge-warning" style="color: orange;">En attente</small></td>
                     {% endif %}
                 </tr>
 

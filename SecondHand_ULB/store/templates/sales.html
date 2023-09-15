@@ -4,41 +4,74 @@
 {% block content %}
 {% load cart %}
 {% load custom_filter %}
+
+<style>
+    a {
+        text-decoration: none !important;
+        color: #000000dd;
+    }
+
+    .main-container {
+        border-radius: 10px;
+        color: #000000dd;
+        -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1); 
+    }
+</style>
+
 <div class="container">
-   <div class="border rounded p-4 m-4">
+   <div class="main-container p-4 m-4">
         <p class="display-4 pl-4 ml-4">Vos ventes</p>
-        <hr>
         <table class="table">
             <thead>
                 <tr>
-                    <th>Nombre</th>
                     <th>Image</th>
                     <th>Nom</th>
                     <th>Date</th>
                     <th>Prix</th>
-                    <th>Lieu d'échange</th>
+                    <th>Lieu d'échange 
+                        <i class="fas fa-info-circle" style="color: #004D95; margin-left: 10px;" data-bs-toggle="tooltip" data-bs-html="true" 
+                            title="Veillez préciser la manière dont vous souhaitez remettre le produit, ou envoyez un message à votre acheteur.">
+                        </i>
+                    </th>
                     <th>Vendeur</th>
                     <th>Status</th>
+                    <th>Mettre à jour</th>
                 </tr>
             </thead>
             <tbody>
                 
                 {% for order in orders %}
-                <tr>
-                    <td>{{forloop.counter}}</td>
-                    <td><img style="height: 80px;" class="rounded-circle" src="{{order.product.image.url}}" alt=""></td>
-                    <td>{{order.product.name}}</td>
-                    <td>{{order.date}}</td>
-                    <td>{{order.price|currency}}</td>
-                    <td>{{order.place_description}}</td>
-                    <td>{{order.seller.first_name}}</td>
-                    {% if order.status %}
-                        <td><small class="badge badge-success" style="color: green;">Completed</small></td>
-                    {%else%}
-                        <td><small class="badge badge-warning" style="color: yellow;">En attente</small></td>
-                    {% endif %}
-                </tr>
-
+                <form action="/modify_product/{{order.product.id}}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <tr>
+                        <td><img style="height: 80px;" class="" src="{{order.product.image.url}}" alt=""></td>
+                        <td><a href="product/{{order.product.id}}">{{order.product.name}}</a></td>
+                        <td>{{order.date}}</td>
+                        <td>{{order.price|currency}}</td>
+                        <td>
+                            <label>{{order.product.place}}</label>
+                            <div class="form-group">
+                                <textarea type="text" name="description" id=""
+                                value="{{values.description}}" 
+                                class=" form-control-sm form-control input-block"
+                                placeholder="{{product.description}}"></textarea>
+                            </div>
+                        </td>
+                        <td><a href="profile/{{order.seller.id}}">{{order.seller.first_name}}</a></td>
+                        <td>
+                            <div class="form-check">
+                                <label class="form-check-label" for="statusCheckbox">
+                                    Remis
+                                </label>
+                                <input class="form-check-input" type="checkbox" name="status" id="statusCheckbox">
+                            </div>
+                        </td>
+                        <td>
+                            <input type="submit" class="btn btn-outline-dark flex-shrink-0" value="Appliquer">
+                        </td>
+                    </tr>
+                </form>
                 {% endfor %}
                
             </tbody>

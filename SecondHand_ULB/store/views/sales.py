@@ -13,7 +13,7 @@ class Sales(View):
         if not request.session.get('customer'):
             return redirect('login')
 
-        customer = request.session.get('customer')
-        orders = Order.get_orders_by_buyer(customer)
+        seller = request.session.get('customer')
+        orders = Order.get_orders_by_seller(seller)
         
-        return render(request , 'orders.html'  , {'orders' : orders})
+        return render(request , 'sales.html'  , {'orders' : orders})

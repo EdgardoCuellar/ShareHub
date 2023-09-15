@@ -10,3 +10,11 @@ class Message(models.Model):
 
     def __str__(self):
         return f"From {self.sender} to {self.receiver} - {self.timestamp}"
+
+    
+    @staticmethod
+    def send_message(sender_id, receiver_id, content):
+        sender = Customer.get_customer_by_id(sender_id)
+        receiver = Customer.get_customer_by_id(receiver_id)
+        message = Message(sender=sender, receiver=receiver, content=content)
+        message.save()
