@@ -7,7 +7,7 @@ from datetime import datetime
 
 class ModifyProduct (View):
     def get(self, request, product_id):
-        if request.session.get('customer') != Products.get_product_by_id(product_id).user_id:
+        if request.session.get('customer') != Products.get_product_by_id(product_id).user_id or Products.get_product_by_id(product_id).sold:
             return redirect('homepage')
 
         categories = Category.get_all_categories()
@@ -51,7 +51,7 @@ class ModifyProduct (View):
                 product.image = image
 
             error_message = self.validateProduct(product)
-            print(error_message)
+            
             if not error_message:
                 product.save()
                 return redirect('/product/'+str(product.id))  # Redirect to the homepage or any other appropriate page after successful upload

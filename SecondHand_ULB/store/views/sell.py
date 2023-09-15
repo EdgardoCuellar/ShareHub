@@ -25,7 +25,7 @@ class Sell (View):
                                 user_id=request.session.get('customer'))
 
         error_message = self.validateProduct(product)
-        print(error_message)
+        
         if not error_message:
             product.register()
             return redirect('store')  # Redirect to the homepage or any other appropriate page after successful upload

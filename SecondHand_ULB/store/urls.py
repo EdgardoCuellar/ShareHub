@@ -8,6 +8,7 @@ from .views.login import Login , logout
 from .views.cart import Cart
 from .views.checkout import CheckOut
 from .views.orders import OrderView
+from .views.sales import Sales
 from .views.sell import Sell
 from .views.profile import Profile
 from .views.product import Product, remove
@@ -32,6 +33,7 @@ urlpatterns = [
     path('check-out', CheckOut.as_view() , name='checkout'),
     path('sell', Sell.as_view(), name='sell'),
     path('orders', auth_middleware(OrderView.as_view()), name='orders'),
+    path('sales', auth_middleware(Sales.as_view()), name='sales'),
     path('profile', Profile.as_view(), name='profile'),
     path('profile/<int:user_id>', Profile.as_view(), name='profile'),
     path('product', store, name='store'),

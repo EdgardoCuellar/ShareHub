@@ -84,9 +84,11 @@
           <div class="col-lg-6">
               <h3>Total: {{ products|total_cart_price|currency }}</h3>
           </div>
-          <div class="col-lg-6 text-right">
-              <a href="#" data-toggle="modal" data-target="#exampleModal" class="buy-btn">Acheter</a>
-          </div>
+          {% if products|length > 0 %}
+            <div class="col-lg-6 text-right">
+                <a href="#" data-toggle="modal" data-target="#exampleModal" class="buy-btn">Acheter</a>
+            </div>
+          {% endif %}
         </div>      
       
       </div>
@@ -114,11 +116,6 @@
           <div class="m-2 p-3">
             <form action="/check-out" method="POST">
                 {% csrf_token %}
-                <div class="form-group">
-                  <label for="">Address</label>
-                  <input type="text" name="address" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                  
-                </div>
                 <input type="submit" class="btn float-right btn-outline-success col-lg-6" value="Check out">
             </form>
           </div>

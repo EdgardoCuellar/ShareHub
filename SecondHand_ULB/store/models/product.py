@@ -10,6 +10,7 @@ class Products(models.Model):
     description= models.CharField(max_length=250, default='', blank=True, null= True)
     image= models.ImageField(upload_to='products/')
     date = models.IntegerField(default=2000)
+    sold = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -36,9 +37,11 @@ class Products(models.Model):
     @staticmethod
     def get_products_by_id(ids):
         return Products.objects.filter (id__in=ids)
+    
     @staticmethod
     def get_all_products():
-        return Products.objects.all()
+        # get all products sold = false
+        return Products.objects.filter(sold=False)
 
     @staticmethod
     def get_all_products_by_categoryid(category_id):

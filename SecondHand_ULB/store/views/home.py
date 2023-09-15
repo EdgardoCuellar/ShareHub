@@ -13,11 +13,10 @@ class Index(View):
         cart = request.session.get('cart')
 
         request.session['cart'] = cart
-        print('cart' , request.session['cart'])
+        
         return redirect('homepage')
 
     def get(self , request):
-        # print()
         return HttpResponseRedirect(f'/store{request.get_full_path()[1:]}')
 
 

@@ -64,31 +64,32 @@
                         {% csrf_token %}
 
                         <!-- add an if statement, if product.id == request.session.get('customer') -->
-                        {% if product.user_id == request.session.customer %}
-                            <a href="/modify_product/{{product.id}}" class="btn btn-outline-dark flex-shrink-0" type="submit">
-                                <i class="bi-cart-fill me-1"></i>
-                                Modifier
-                            </a>
-                            <a href="/product/remove/{{product.id}}" class="btn btn-outline-dark flex-shrink-0" type="submit">
-                                <i class="bi-cart-fill me-1"></i>
-                                Supprimer
-                            </a>
-                        {% else %}
-                            {% if product_in_cart %}
-                                <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                        {% if product.sold == False %}
+                            {% if product.user_id == request.session.customer %}
+                                <a href="/modify_product/{{product.id}}" class="btn btn-outline-dark flex-shrink-0" type="submit">
                                     <i class="bi-cart-fill me-1"></i>
-                                    Retirer du panier
-                                </button>
+                                    Modifier
+                                </a>
+                                <a href="/product/remove/{{product.id}}" class="btn btn-outline-dark flex-shrink-0" type="submit">
+                                    <i class="bi-cart-fill me-1"></i>
+                                    Supprimer
+                                </a>
                             {% else %}
-                                <button class="btn btn-outline-dark flex-shrink-0" type="submit">
-                                    <i class="bi-cart-fill me-1"></i>
-                                    Ajouter au panier
-                                </button>
+                                {% if product_in_cart %}
+                                    <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                                        <i class="bi-cart-fill me-1"></i>
+                                        Retirer du panier
+                                    </button>
+                                {% else %}
+                                    <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                                        <i class="bi-cart-fill me-1"></i>
+                                        Ajouter au panier
+                                    </button>
+                                {% endif %}
                             {% endif %}
                         {% endif %}
                     </form>
-
-                    {% endif %}
+                {% endif %}
                 </div>
             </div>
         </div>

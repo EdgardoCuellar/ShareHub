@@ -10,20 +10,21 @@ from store.models.orders import Order
 
 class CheckOut(View):
     def post(self, request):
-        address = request.POST.get('address')
-        customer = request.session.get('customer')
+        buyer = request.session.get('customer')
         cart = request.session.get('cart')
-        products = Products.get_products_by_id(list(cart.keys()))
-        print(address, customer, cart, products)
+        products = Products.get_products_by_id(cart)
 
         for product in products:
-            print(cart.get(str(product.id)))
-            order = Order(customer=Customer(id=customer),
-                          product=product,
+            order = Order(buyer=Customer(id=buyer),
+                          seller=Customer(id=product.user_id),
+                          product=Products(id=product.id),
                           price=product.price,
-                          address=address,
-                          quantity=cart.get(str(product.id)))
+                          status=False,)
             order.save()
+            product.sold = True
+            product.save()
+
+
         request.session['cart'] = {}
 
         return redirect('cart')
