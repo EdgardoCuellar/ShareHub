@@ -34,15 +34,19 @@
                             title="Veillez préciser la manière dont vous souhaitez remettre le produit, ou envoyez un message à votre acheteur.">
                         </i>
                     </th>
-                    <th>Vendeur</th>
-                    <th>Status</th>
+                    <th>Acheteur</th>
+                    <th>Status
+                    <i class="fas fa-exclamation-circle" style="color: #004D95; margin-left: 10px;" data-bs-toggle="tooltip" data-bs-html="true" 
+                        title="Lorsque vous indiquez le produit comme remis vous ne poouvez plus revenir en arrière.">
+                    </i>
+                    </th>
                     <th>Mettre à jour</th>
                 </tr>
             </thead>
             <tbody>
                 
                 {% for order in orders %}
-                <form action="/modify_product/{{order.product.id}}" method="POST" enctype="multipart/form-data">
+                <form action="/sales" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <tr>
                         <td><img style="height: 80px;" class="" src="{{order.product.image.url}}" alt=""></td>
@@ -52,22 +56,24 @@
                         <td>
                             <label>{{order.product.place}}</label>
                             <div class="form-group">
-                                <textarea type="text" name="description" id=""
+                                <textarea type="text" name="place_description" id=""
                                 value="{{values.description}}" 
                                 class=" form-control-sm form-control input-block"
-                                placeholder="{{product.description}}"></textarea>
+                                placeholder="{{product.description}}">{{order.place_description}}</textarea>
                             </div>
                         </td>
-                        <td><a href="profile/{{order.seller.id}}">{{order.seller.first_name}}</a></td>
+                        <td><a href="profile/{{order.buyer.id}}">{{order.buyer.first_name}}</a></td>
                         <td>
                             <div class="form-check">
                                 <label class="form-check-label" for="statusCheckbox">
                                     Remis
                                 </label>
-                                <input class="form-check-input" type="checkbox" name="status" id="statusCheckbox">
+                                <input class="form-check-input" type="checkbox" name="status" id="statusCheckbox"
+                                {% if order.status %}checked disabled{% endif %}>
                             </div>
                         </td>
                         <td>
+                            <input hidden type="text" name='order' value='{{order.id}}'>
                             <input type="submit" class="btn btn-outline-dark flex-shrink-0" value="Appliquer">
                         </td>
                     </tr>

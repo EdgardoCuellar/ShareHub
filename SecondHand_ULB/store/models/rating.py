@@ -6,10 +6,7 @@ class Rating(models.Model):
     user_id = models.IntegerField()
     user_rated_id = models.IntegerField()
     rating = models.IntegerField(default=0)
-
-
-    def rateUser(self):
-        self.save()
+    comment = models.CharField(max_length=250, default='', blank=True, null=True)
 
     @staticmethod
     def get_count_user_sells(user_id):

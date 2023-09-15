@@ -25,6 +25,10 @@ class Order(models.Model):
         self.save()
 
     @staticmethod
+    def get_order_by_id(order_id):
+        return Order.objects.get(id=order_id)
+
+    @staticmethod
     def get_orders_by_buyer(buyer_id):
         return Order.objects.filter(buyer_id=buyer_id).order_by('-date')
 

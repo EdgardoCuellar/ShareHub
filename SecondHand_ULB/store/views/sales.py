@@ -17,3 +17,20 @@ class Sales(View):
         orders = Order.get_orders_by_seller(seller)
         
         return render(request , 'sales.html'  , {'orders' : orders})
+
+
+    def post(self, request):
+        order = request.POST.get('order')
+        order = Order.objects.get(id=order)
+
+        status = request.POST.get('status')
+        place_description = request.POST.get('place_description')
+
+        if status:
+            order.status = True
+        if place_description:
+            order.place_description = place_description
+        order.save()
+
+        return redirect('sales')
+

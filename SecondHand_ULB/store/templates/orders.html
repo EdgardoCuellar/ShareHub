@@ -10,12 +10,42 @@
         text-decoration: none !important;
         color: #000000dd;
     }
+
+    .disabled {
+        color: #00000088;
+    }
+    
+    .rating-color{
+        color:gold !important;
+        cursor: pointer;
+    }
+
+    .main-container {
+        border-radius: 10px;
+        color: #000000dd;
+        -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1); 
+    }
 </style>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('.fa-star:not(.disabled)').on('click', function() {
+      const selectedRating = $(this).data('rating');
+      $('#selectedRating').val(selectedRating);
+
+      // Change the color of stars based on the selected rating
+      $('.fa-star').removeClass('rating-color');
+      $(this).prevAll('.fa-star').addBack().addClass('rating-color');
+    });
+  });
+</script>
+
+
 <div class="container">
-   <div class="border rounded p-4 m-4">
+   <div class="main-container p-4 m-4">
         <p class="display-4 pl-4 ml-4">Vos achats</p>
-        <hr>
         <table class="table">
             <thead>
                 <tr>
@@ -26,13 +56,14 @@
                     <th>Lieu d'échange</th>
                     <th>Vendeur</th>
                     <th>Status</th>
+                    <th>Noter</th>
                 </tr>
             </thead>
             <tbody>
                 
                 {% for order in orders %}
                 <tr>
-                    <td><img style="height: 80px;" class="rounded-circle" src="{{order.product.image.url}}" alt=""></td>
+                    <td><img style="height: 80px;" class="" src="{{order.product.image.url}}" alt=""></td>
                     <td><a href="product/{{order.product.id}}">{{order.product.name}}</a></td>
                     <td>{{order.date}}</td>
                     <td>{{order.price|currency}}</td>
@@ -46,6 +77,35 @@
                     {%else%}
                         <td><small class="badge badge-warning" style="color: orange;">En attente</small></td>
                     {% endif %}
+
+                    <td>
+                        {% if order.status %}
+                        <form action="/orders" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" id="selectedRating" name="rating" value="0">
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            <div class="ratings mt-2">
+                              <i class="fa fa-star" data-rating="1"></i>
+                              <i class="fa fa-star" data-rating="2"></i>
+                              <i class="fa fa-star" data-rating="3"></i>
+                              <i class="fa fa-star" data-rating="4"></i>
+                              <i class="fa fa-star" data-rating="5"></i>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Submit Rating</button>
+                          </form>
+                        {% else %}
+                            <div class="ratings mt-2">
+                                <input type="hidden">
+                                    <i class="fa fa-star disabled"></i>
+                                    <i class="fa fa-star disabled"></i>
+                                    <i class="fa fa-star disabled"></i>
+                                    <i class="fa fa-star disabled"></i>
+                                    <i class="fa fa-star disabled"></i>
+                            </div>
+                        {% endif %}
+
+                    </td>
+
                 </tr>
 
                 {% endfor %}
