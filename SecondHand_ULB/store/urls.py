@@ -16,6 +16,7 @@ from .views.message import MessagesView
 from .views.modify_user import ModifyUser
 from .views.modify_product import ModifyProduct
 from .views.my_products import MyProductsView
+from .views.forgot_password import ForgoPasswordView
 
 from .middlewares.auth import  auth_middleware
 
@@ -46,7 +47,7 @@ urlpatterns = [
     path('modify_product/<int:product_id>', ModifyProduct.as_view(), name='modify_product'),
     path('message', MessagesView.as_view(), name='messages'),
     path('message/<int:receiver_id>', MessagesView.as_view(), name='messages'),
-
+    path('forgot_password/', ForgoPasswordView.as_view(), name='forgot_password'),
 ]
 
 if settings.DEBUG:
