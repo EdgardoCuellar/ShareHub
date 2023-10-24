@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+
+<style>
+    a {
+        text-decoration: none !important;
+        color: #000000dd;
+    }
+
+    .disabled {
+        color: #00000088;
+    }
+    
+    .rating-color{
+        color:gold !important;
+        cursor: pointer;
+    }
+
+    .main-container {
+        border-radius: 10px;
+        color: #000000dd;
+        -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1); 
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('.fa-star:not(.disabled)').on('click', function() {
+      const selectedRating = $(this).data('rating');
+      $('#selectedRating').val(selectedRating);
+
+      // Change the color of stars based on the selected rating
+      $('.fa-star').removeClass('rating-color');
+      $(this).prevAll('.fa-star').addBack().addClass('rating-color');
+    });
+  });
+</script>
+
+
+<div class="container">
+   <div class="main-container p-4 m-4">
+        <p class="display-4 pl-4 ml-4">Vos articles</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Nom</th>
+                    <th>Date</th>
+                    <th>Prix</th>
+                    <th>État</th>
+                    <th>Lieu d'échange</th>
+                    <th>Description</th>
+                    <th>Modifier</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for product in products %}
+                <tr>
+                    <td><img style="height: 80px;" class="" src="{{product.image.url}}" alt=""></td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.date}}</td>
+                    <td>{{product.price|currency}}</td>
+                    <td>{{product.condition}}</td>
+                    <td>
+                        <label>{{product.place}}</label>
+                        {{product.place_description}}
+                    </td>
+                    <td>{{product.description}}</td>
+                    <td><a href="modify_product/{{product.id}}">Modifier</a></td>
+                </tr>
+
+                {% endfor %}
+               
+            </tbody>
+
+        </table>
+       
+   </div>
+</div>
+
+
+
+
+
+{% endblock %}

@@ -15,6 +15,7 @@ from .views.product import Product, remove
 from .views.message import MessagesView
 from .views.modify_user import ModifyUser
 from .views.modify_product import ModifyProduct
+from .views.my_products import MyProductsView
 
 from .middlewares.auth import  auth_middleware
 
@@ -40,6 +41,7 @@ urlpatterns = [
     path('product/<int:product_id>', Product.as_view(), name='product'),
     path('product/remove/<int:product_id>', remove, name='product_remove'),
     path('modify_user', ModifyUser.as_view(), name='modify_user'),
+    path('my_products', auth_middleware(MyProductsView.as_view()), name='my_products'),
     path('modify_product', store, name='store'),
     path('modify_product/<int:product_id>', ModifyProduct.as_view(), name='modify_product'),
     path('message', MessagesView.as_view(), name='messages'),

@@ -22,6 +22,59 @@
         box-shadow: 0px 0px 6px 0 rgba(0, 0, 0, 0.1)
     }
 
+    .button {
+        color: #fafafa;
+        text-decoration: none;
+        margin-top: 1rem;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        width: 110px;
+        height: 40px;
+        display: flex; /* Add this */
+        align-items: center; /* Add this */
+        justify-content: center; /* Add this */
+        -webkit-box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.1)
+    }
+
+    .btn-modify {
+        background-color: #DD2C00;
+    }
+
+    .btn-modify:hover {
+        color: #EEE;
+        background-color: #BF360C;
+    }
+
+    .btn-achats {
+        background-color: #00C853;
+    }
+
+    .btn-achats:hover {
+        color: #EEE;
+        background-color: #388E3C;
+    }
+
+    .btn-ventes {
+        background-color: #00BFA5;
+    }
+
+    .btn-ventes:hover {
+        color: #EEE;
+        background-color: #4caf50;
+    }
+
+    .btn-message {
+        background-color: #0091EA;
+    }
+
+    .btn-message:hover {
+        color: #EEE;
+        background-color: #0288D1;
+    }
+
 </style>
 
 <div class="container">
@@ -55,16 +108,15 @@
                             <div class="col-sm-20 mt-3" style="height: 12vh;">
                                 <h5 class="font-weight-normal f-w-600" style="font-size: 2vh;color: #000000dd;">{{ user.description }}</h6>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-6 mt-2">
-                                    {% if same_user %}
-                                        <a href="/modify_user" class="btn btn-outline-primary mt-3">Modifier</a>
-                                        <a href="/orders" class="btn btn-outline-secondary mt-3">Mes achats</a>
-                                        <a href="/sales" class="btn btn-outline-secondary mt-3">Mes ventes</a>
-                                    {% else %}
-                                        <a href="/message/{{ user.id }}" class="btn btn-outline-primary mt-3">Message</a>
-                                    {% endif %}
-                                </div>
+                            <div class="mt-2" style="width: 100%; display: flex; justify-content: space-between;">
+                                {% if same_user %}
+                                    <a href="/modify_user" class="button btn-modify">Modifier</a>
+                                    <a href="/my_products" class="button btn-modify">Mes articles</a>
+                                    <a href="/orders" class="button btn-achats">Mes achats</a>
+                                    <a href="/sales" class="button btn-ventes">Mes ventes</a>
+                                {% else %}
+                                    <a href="/message/{{ user.id }}" class="button btn-message">Message</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

@@ -105,9 +105,14 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">
-              Check Out Form
+              Processus d'achat
           </h5>
           <hr>
+          <span>
+            Le processus d'achat est assez simplifier, s'agisant d'un projet étudiant nous n'avons pas pu mettre en place un système de paiement sécurisé. De se fait vous devrez vous mettre en accord avec l'acheteur par message pour proceder aau paiment, aussi cela nous permet de ne pas prendre de commission sur vos ventes et de rester 100% gratuit.<br>
+            En ce qui concerne la méthode livraison des différents syllabus, nous avons un local dans le quelle vous pouvez deposer le syllabus, ou sinon vous pouvez vous arranger avec le vendeur par message.<br>
+            Merci de votre compréhension et de votre soutient à ce projet.
+          </span>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -116,7 +121,7 @@
           <div class="m-2 p-3">
             <form action="/check-out" method="POST">
                 {% csrf_token %}
-                <input type="submit" class="btn float-right btn-outline-success col-lg-6" value="Check out">
+                <input type="submit" class="btn float-right btn-outline-success col-lg-6" value="Acheter">
             </form>
           </div>
         </div>

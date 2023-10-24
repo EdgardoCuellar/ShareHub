@@ -1,5 +1,7 @@
 from django.db import models
 from .category import Category, Condition, Place
+import random
+
 class Products(models.Model):
     user_id = models.CharField(max_length=50)
     name = models.CharField(max_length=60)
@@ -37,6 +39,13 @@ class Products(models.Model):
     @staticmethod
     def get_products_by_id(ids):
         return Products.objects.filter (id__in=ids)
+
+    @staticmethod
+    def get_products_by_userid(user_id, sold=False):
+        if not sold:
+            return Products.objects.filter (user_id=user_id, sold=False)
+        else:
+            return Products.objects.filter (user_id=user_id)
     
     @staticmethod
     def get_all_products():
@@ -60,4 +69,8 @@ class Products(models.Model):
         price = price.replace(',', '.')
         price = float(price)
         price = int(price * 100)
+
+        # Here's the logic to convert the price to our price fixation system
+        price = price + random.randint(-int(price * 0.2), int(price * 0.2))
+
         return price

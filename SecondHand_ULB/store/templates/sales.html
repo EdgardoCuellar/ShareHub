@@ -40,7 +40,6 @@
                         title="Lorsque vous indiquez le produit comme remis vous ne poouvez plus revenir en arrière.">
                     </i>
                     </th>
-                    <th>Mettre à jour</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,6 +60,8 @@
                                 class=" form-control-sm form-control input-block"
                                 placeholder="{{product.description}}">{{order.place_description}}</textarea>
                             </div>
+                            <input hidden type="text" name='order' value='{{order.id}}'>
+                            <input type="submit" class="btn btn-outline-dark flex-shrink-0" value="Mettre à jour">
                         </td>
                         <td><a href="profile/{{order.buyer.id}}">{{order.buyer.first_name}}</a></td>
                         <td>
@@ -71,10 +72,6 @@
                                 <input class="form-check-input" type="checkbox" name="status" id="statusCheckbox"
                                 {% if order.status %}checked disabled{% endif %}>
                             </div>
-                        </td>
-                        <td>
-                            <input hidden type="text" name='order' value='{{order.id}}'>
-                            <input type="submit" class="btn btn-outline-dark flex-shrink-0" value="Appliquer">
                         </td>
                     </tr>
                 </form>

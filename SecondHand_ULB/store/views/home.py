@@ -69,6 +69,7 @@ def filter(request):
     if year:
         products = products.filter(date__gte=year)
     if conditionID and conditionID != '0':
+        conditionName = Condition.get_condition_by_id(conditionID).name
         products = products.filter(condition=conditionID)
     
     return products, categoryName, conditionName
