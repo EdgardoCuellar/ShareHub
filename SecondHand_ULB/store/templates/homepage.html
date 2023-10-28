@@ -4,57 +4,194 @@
 {% block content %}
 
 <style>
-    .circle {
-        width: 100px;
+    header.masthead {
+        position: relative;
+        background: url("../../media/img/ulb_2.jpg") no-repeat center center;
+        background-size: cover;
+        padding-top: 8rem;
+        padding-bottom: 8rem;
+    }
+    header.masthead:before {
+        content: "";
+        position: absolute;
+        background-color: #004D95;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0.1;
+    }
+
+    h1 {
+        color: #FAFAFA;
+        font-size: 5rem;  
+        text-shadow: 1px 1px 2px black;
+    }
+
+    @media (min-width: 768px) {
+        header.masthead {
+            padding-top: 12rem;
+            padding-bottom: 12rem;
+        }
+    }
+
+    .btn-magasin {
+        background-color: #004D95;
+        color: #FAFAFA;
+        border-radius: 0;
+        border: 0;
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: 0.1rem;
+        text-transform: uppercase;
+        transition: 0.2s ease-out;
+    }
+    
+    .top-icon {
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
         height: 100px;
-        background-color: #007bff;
-        border-radius: 50%;
+        width: 100px;
+        margin: 0 auto;
+        margin-bottom: 1rem;
+    }
+
+    .short-top {
         text-align: center;
-        color: #fff;
-        margin: 20px;
+        font-family: 'Roboto', sans-serif;
     }
 
-    .circle-text {
-        margin-top: 10px;
+    .showcase .showcase-text {
+        padding: 3rem;
     }
-
-    .btn-store {
-        background-color: #007bff;
-        color: #fff;
-        padding: 10px 20px;
-        font-size: 24px;
-        border: none;
+    .showcase .showcase-img {
+        min-height: 17.5rem;
+        max-height: 25rem;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
+    @media (min-width: 768px) {
+        .showcase .showcase-text {
+            padding: 7rem;
+        }
+    }
+      
+    
+    .testimonials {
+        padding-top: 7rem;
+        padding-bottom: 7rem;
+    }
+    .testimonials .testimonial-item {
+        max-width: 18rem;
+    }
+    .testimonials .testimonial-item img {
+        max-width: 12rem;
+        box-shadow: 0px 5px 5px 0px #adb5bd;
+    }
+    
+    footer.footer {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
     }
 </style>
-
-
-<div class="container">
-    
-        <h1 class="mt-4" style="color: #004D95 ;">SecondHand ULB</h1>
-        <p class="lead"  style="color: #004D95 ;">Pour donner une deuxième vie à vos anciens syllabus</p>
-        <a href="/store" class="btn btn-store btn-lg mt-3">Magasin</a>
-    <div class="row mt-5">
-        <div class="col-md-4">
-            <div class="circle">
-                <div class="circle-text">Text 1</div>
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container position-relative">
+                <div class="row justify-content-center">
+                    <div class="col-xl-6">
+                        <div class="text-center text-white">
+                            <!-- Page heading-->
+                            <h1 class="mb-5">ShareHub ULB</h1>
+                            <a href="/store" class="col-auto"><button class="btn-magasin" id="submitButton" type="submit">Magasin</button></a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="circle">
-                <div class="circle-text">Text 2</div>
+        </header>
+        <!-- Icons Grid-->
+        <section class="features-icons text-center">
+            <div class="container">
+                <div class="row" style="margin-top: 30px; margin-bottom: 30px;">
+                    <div class="col-lg-4">
+                        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                            <div class="top-icon" style="background-image: url('../../media/img/esay.png');"></div>
+                            <h3>Simple</h3>
+                            <p class="lead mb-0">Un site super simple pour revendre ces syllabus</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                            <div class="top-icon" style="background-image: url('../../media/img/no_cost.png');"></div>
+                            <h3>Sans frais</h3>
+                            <p class="lead mb-0">Le site est 100% gratuit, il n'y aucun frais qui est pris, tout est transparent</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                            <div class="top-icon" style="background-image: url('../../media/img/renewable.png');"></div>
+                            <h3>Ecologique & Economique</h3>
+                            <p class="lead mb-0">Permet de donner une second vie à ces syllabus, ou d'en acheter pour moins cher</p>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </section>
+        <!-- Image Showcases-->
+        <hr>
+        <div class="short-top">
+            <h2 style="color:#000;">Un projet de mémoire et fonctionnement du site</h2>
+            <p class="lead mb-0">Voici une courte section qui explique en quelques points l'interret de ce projet, qui est relié à un projet de mémoire.</p>    
         </div>
-        <div class="col-md-4">
-            <div class="circle">
-                <div class="circle-text">Text 3</div>
+        <section class="showcase mt-4">
+            <div class="container-fluid p-0">
+                <div class="row g-0">
+                    <div class="col-lg-4 order-lg-2 text-white showcase-img" style="background-image: url('../../media/img/syllabus.png');"></div>
+                    <div class="col-lg-8 order-lg-1 my-auto showcase-text">
+                        <h2>Mémoire</h2>
+                        <p class="lead mb-0">When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!
+                            When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!
+                            When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!
+                        </p>
+                    </div>
+                </div>
+                <div class="row g-0">
+                    <div class="col-lg-4 text-white showcase-img" style="background-image: url('../../media/img/research.png');"></div>
+                    <div class="col-lg-8 my-auto showcase-text">
+                        <h2>Motivation</h2>
+                        <p class="lead mb-0">Newly improved, and full of great utility classes, Bootstrap 5 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 5!
+                            Newly improved, and full of great utility classes, Bootstrap 5 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 5!
+                            Newly improved, and full of great utility classes, Bootstrap 5 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 5!
+                        </p>
+                    </div>
+                </div>
+                <div class="row g-0">
+                    <div class="col-lg-4 order-lg-2 text-white showcase-img" style="background-image: url('../../media/img/price.png');"></div>
+                    <div class="col-lg-8 order-lg-1 my-auto showcase-text">
+                        <h2>Fonctionnement particulier</h2>
+                        <p class="lead mb-0">Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!
+                            Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!
+                            Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!
+                        </p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
+        </section>
+        
+        <hr>
 
-<!-- Add Bootstrap JS and jQuery links here -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-
+        <section class="testimonials text-center">
+            <div class="container">
+                <h2 class="mb-5">Si vous avez des suggestions ou demandes, ca se passe ici</h2>
+                <div class="row">
+                    <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                        <h5><a href="#">GOOGLE FORM TO DO</a></h5>
+                        <p class="font-weight-light mb-0">Merci d'avance !</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
 {% endblock %}

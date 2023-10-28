@@ -49,11 +49,11 @@
       <div class="col-10">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 class="fw-normal mb-0 text-black">Panier</h3>
+          <h3 class="fw-normal mb-0 text-black">Vos offres</h3>
         </div>
         {% if products|length == 0 %}
           <div class="alert alert-info" role="alert">
-            Votre panier est vide
+            Vous n'avez aucune offre active pour le moment.
           </div>
         {% else %}
           {% for product in products %}

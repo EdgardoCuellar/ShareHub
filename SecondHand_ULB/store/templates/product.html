@@ -50,7 +50,13 @@
                 </div>
                 
                 <div class="fs-5 mb-2" style="display: flex; align-items: end;">
-                    <span style="margin-right: 15px; font-size: larger;">{{product.price|currency}}</span>
+                    <span style="margin-right: 15px; font-size: larger;">Prix minimum: 
+                    {% if product.user_id == request.session.customer %}
+                        {{product.price|currency}}
+                    {% else %}
+                        {{product.price|min_price|currency}}
+                    {% endif %}    
+                    </span>
                     <span style="font-size: medium;">{{product.condition}}</span>
                 </div>
                 <div class="fs-5 mb-2" style="display: flex; align-items: end;">
@@ -81,9 +87,14 @@
                                         Retirer du panier
                                     </button>
                                 {% else %}
+                                    <!-- Create an input text, to propose a price -->
+                                    <div class="mb-2"  style="display: flex; align-items: center;">
+                                        <span>Votre proposition de prix :</span>
+                                        <input type="text" name="price" id="price" class="form-control" style="width: 75px; margin-left: 0.5rem;"/>
+                                    </div>
                                     <button class="btn btn-outline-dark flex-shrink-0" type="submit">
                                         <i class="bi-cart-fill me-1"></i>
-                                        Ajouter au panier
+                                        Proposer
                                     </button>
                                 {% endif %}
                             {% endif %}
