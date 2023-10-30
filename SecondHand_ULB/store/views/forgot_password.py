@@ -6,6 +6,11 @@ from django.utils.encoding import force_bytes
 from django.core.mail import send_mail
 from django.views import View
 
+from django.contrib.auth.hashers import make_password
+from store.models.customer import Customer
+
+import random
+import string
 
 class ForgoPasswordView(View):
 
@@ -15,23 +20,36 @@ class ForgoPasswordView(View):
     def post(self, request):
         email = request.POST.get('email')
         try:
-            user = User.objects.get(email=email)
+            user = Customer.get_customer_by_email(email)
         except User.DoesNotExist:
             user = None
 
         if user:
             # Generate a password reset token and send it via email
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-
-            reset_link = f"http://yourwebsite.com/reset_password/{uid}/{token}/"
-
+            key = self.generate_key(user.id)
+            
             # Send an email to the user with the reset link
-            subject = "Password Reset"
-            message = f"Click the following link to reset your password: {reset_link}"
-            from_email = "your_email@example.com"
+            subject = "Mot de passe oublié - ShareHub"
+            message = f"Utilisez cette clé pour vous connecter à votre compte: {key}"
+            from_email = "sharehub.ulb@gmail.com"
             recipient_list = [email]
 
             send_mail(subject, message, from_email, recipient_list)
+        
+            user.password = make_password(key) 
+            user.save()
 
-            return render(request, "password_reset_email_sent.html")  # Create this template
+            return redirect('login') 
+        return render(request, "forgot_password.html", {'error': 'L\'adresse email n\'est relié à aucun compte!'})
+
+    def generate_key(self, user):
+        random.seed(hash(user))
+
+        # Define the length of the random key
+        key_length = 16
+
+        # Generate a random key of 16 characters
+        random_key = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(key_length))
+
+        print(random_key)
+        return random_key
