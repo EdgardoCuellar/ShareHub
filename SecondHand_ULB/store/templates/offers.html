@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+
+<style>
+  a {
+    text-decoration: none !important;
+    color: #000000dd;
+  }
+
+  .trash-icon{
+    border: none;
+    padding-left: 50px;
+    overflow: visible;
+    background-image: url('https://cdn.discordapp.com/attachments/718214061283737712/1150786472287416370/icons8-trash-64.png');
+    background-size: 100%;
+    background-color: transparent;
+  }
+
+  .buy-btn {
+    font-size: large;
+    color: #000000dd;
+    padding: 5px 20px;
+    border: #004D95 solid 2px;
+    border-radius: 10px;
+    margin: auto;
+    text-decoration: none;
+  }
+
+    .buy-btn:hover {
+        background-color: #004D95;
+        color: white;
+    }
+</style>
+
+<section class="h-100" style="background-color: #F5F5F5;">
+  <div class="container h-100 py-3">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-10">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="fw-normal mb-0 text-black">Vos offres</h3>
+        </div>
+        <table class="table">
+          <thead>
+              <tr>
+                  <th>Vos articles</th>
+                  <th>Les offres
+                    <i class="fas fa-info-circle" style="color: #004D95; margin-left: 10px;" data-bs-toggle="tooltip" data-bs-html="true" 
+                    title="Veillez préciser la manière dont vous souhaitez remettre le produit, ou envoyez un message à votre acheteur.">
+                    </i>
+                  </th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for product in products %}
+            <tr style="height: 25vh;">
+              <td>
+                <div class="card rounded-3 mb-2">
+                  <div class="card-body p-2">
+                    <div class="row d-flex justify-content-between align-items-center" style="height: 100%; padding-left: 0.5rem;">
+                      <div class="col-md-2 col-lg-2 col-xl-2">
+                        <img src="{{ product.0.image.url }}" style="height: 23vh; width: auto;">
+                      </div>
+                      <div class="col-md-3 col-lg-3 col-xl-5">
+                        <p class="lead fw-normal mb-2"><a href="/product/{{ product.0.id }}">{{ product.0.name }}</a></p>
+                        <p><span class="text-muted"><a href="/product/{{ product.0.id }}">{{ product.0.category }}</a></span></p>
+                      </div>
+                      <div class="col-md-3 col-lg-2 col-xl-2">
+                        <h5 class="mb-0">{{ product.0.price|currency }}</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                {% if product.2 > 0 %}
+                  <div>
+                    <h5 class="mb-0">Nombre d'offres: {{ product.2 }}</h5>
+                    <h5>{{product.1.price|currency}}</h5>
+                    <form action="/check-out" method="POST" class="accept">
+                      {% csrf_token %}
+                      <input hidden type="text" name='offer' value='{{product.1.id}}'>
+                      <input type="submit" value="Accepter">
+                    </form>
+                    <form action="/offers" method="POST" class="refuse">
+                      {% csrf_token %}
+                      <input hidden type="text" name='offer' value='{{product.1.id}}'>
+                      <input type="submit" value="Refuser">
+                    </form>
+                  </div>
+                {% else %}
+                  <span class="no_offer">Vous n'avez pas d'offre pour ce produit</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+            
+          </tbody>         
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% comment %} 
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+              Processus d'achat
+          </h5>
+          <hr>
+          <span>
+            Le processus d'achat est assez simplifier, s'agisant d'un projet étudiant nous n'avons pas pu mettre en place un système de paiement sécurisé. De se fait vous devrez vous mettre en accord avec l'acheteur par message pour proceder aau paiment, aussi cela nous permet de ne pas prendre de commission sur vos ventes et de rester 100% gratuit.<br>
+            En ce qui concerne la méthode livraison des différents syllabus, nous avons un local dans le quelle vous pouvez deposer le syllabus, ou sinon vous pouvez vous arranger avec le vendeur par message.<br>
+            Merci de votre compréhension et de votre soutient à ce projet.
+          </span>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="m-2 p-3">
+            <form action="/check-out" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn float-right btn-outline-success col-lg-6" value="Acheter">
+            </form>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div> {% endcomment %}
+
+
+{% endblock %}

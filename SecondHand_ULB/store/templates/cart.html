@@ -49,87 +49,43 @@
       <div class="col-10">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 class="fw-normal mb-0 text-black">Vos offres</h3>
+          <h3 class="fw-normal mb-0 text-black">Vos propositions</h3>
         </div>
-        {% if products|length == 0 %}
+        {% if offers|length == 0 %}
           <div class="alert alert-info" role="alert">
-            Vous n'avez aucune offre active pour le moment.
+            Vous n'avez aucune proposition active pour le moment.
           </div>
         {% else %}
-          {% for product in products %}
+          {% for offer in offers %}
           <div class="card rounded-3 mb-2" style="height: 25vh;">
             <div class="card-body p-2">
               <div class="row d-flex justify-content-between align-items-center" style="height: 100%;padding-left: 0.5rem;">
                 <div class="col-md-2 col-lg-2 col-xl-2">
-                  <img src="{{product.image.url}}" style="height: 23vh;width: auto;">
+                  <img src="{{offer.product.image.url}}" style="height: 23vh;width: auto;">
                 </div>
                 <div class="col-md-4 col-lg-3 col-xl-5">
-                  <p class="lead fw-normal mb-2"><a href="/product/{{product.id}}">{{product.name}}</a></p>
-                  <p><span class="text-muted"><a href="/product/{{product.id}}">{{product.category}}</a></p>
+                  <p class="lead fw-normal mb-2"><a href="/product/{{offer.product.id}}">{{offer.product.name}}</a></p>
+                  <p><span class="text-muted"><a href="/product/{{offer.product.id}}">{{offer.product.category}}</a></p>
                 </div>
-                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                  <h5 class="mb-0">{{product.price|currency}}</h5>
+                <div class="col-md-3 col-lg-2 col-xl-2">
+                  <h5 class="mb-0">Minimum: {{offer.product.price|min_price|currency}}</h5>
+                </div>
+                <div class="col-md-3 col-lg-2 col-xl-2">
+                  <h5 class="mb-0">Offre: {{offer.price|currency}}</h5>
                 </div>
                 <form action="/cart" method="POST" class="col-md-1">
                   {% csrf_token %}
-                  <input hidden type="text" name='product' value='{{product.id}}'>
+                  <input hidden type="text" name='offer' value='{{offer.id}}'>
                   <input type="submit" class="trash-icon" value="" style="height: 50px;">
                 </form>
               </div>
             </div>
           </div>
           {% endfor %}
-        {% endif %}
-        <div class="row total-div mt-4">
-          <div class="col-lg-6">
-              <h3>Total: {{ products|total_cart_price|currency }}</h3>
-          </div>
-          {% if products|length > 0 %}
-            <div class="col-lg-6 text-right">
-                <a href="#" data-toggle="modal" data-target="#exampleModal" class="buy-btn">Acheter</a>
-            </div>
-          {% endif %}
-        </div>      
-      
+        {% endif %}      
       </div>
     </div>
   </div>
 </section>
-
-
-<!-- modal -->
-
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">
-              Processus d'achat
-          </h5>
-          <hr>
-          <span>
-            Le processus d'achat est assez simplifier, s'agisant d'un projet étudiant nous n'avons pas pu mettre en place un système de paiement sécurisé. De se fait vous devrez vous mettre en accord avec l'acheteur par message pour proceder aau paiment, aussi cela nous permet de ne pas prendre de commission sur vos ventes et de rester 100% gratuit.<br>
-            En ce qui concerne la méthode livraison des différents syllabus, nous avons un local dans le quelle vous pouvez deposer le syllabus, ou sinon vous pouvez vous arranger avec le vendeur par message.<br>
-            Merci de votre compréhension et de votre soutient à ce projet.
-          </span>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="m-2 p-3">
-            <form action="/check-out" method="POST">
-                {% csrf_token %}
-                <input type="submit" class="btn float-right btn-outline-success col-lg-6" value="Acheter">
-            </form>
-          </div>
-        </div>
-        
-      </div>
-    </div>
-  </div>
-
-
 
 {% endblock %}

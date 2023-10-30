@@ -7,26 +7,34 @@ from store.models.customer import Customer
 from store.models.product import Products
 from store.models.orders import Order
 from store.models.message import Message
+from store.models.prices import Prices
 
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 class CheckOut(View):
     def post(self, request):
-        buyer = request.session.get('customer')
-        cart = request.session.get('cart')
-        products = Products.get_products_by_id(cart)
+        offer_id = int(request.POST.get('offer'))
+        offer = Prices.get_price_by_id(offer_id)
 
-        for product in products:
-            order = Order(buyer=Customer(id=buyer),
-                          seller=Customer(id=product.user_id),
-                          product=Products(id=product.id),
-                          price=product.price,
-                          status=False,)
-            order.save()
-            product.sold = True
-            product.save()
-            Message.send_message(buyer, product.user_id,
-             'Bonjour, je viens de passer une commande pour votre produit ' + product.name + '.')
+        order = Order(buyer=Customer(id=offer.buyer.id),
+                        seller=Customer(id=offer.seller.id),
+                        product=Products(id=offer.product.id),
+                        price=offer.price,
+                        status=False,)
+        order.save()
+        offer.product.sold = True
+        offer.product.save()
 
-        request.session['cart'] = {}
+        # Send an email to the buyer
+        subject = "Confirmation d'offre ShareHub ULB"
+        message = f"Bonjour, votre commande pour le produit {offer.product.name} a été acceptée. Vous pouvez maintenant verifier la suite du processus d'achat sur notre site."
+        from_email = "sharehub.ulb@gmail.com"
+        recipient_list = [offer.buyer.email]  # Assuming you have an email field in your Customer model
 
-        return redirect('cart')
+        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+        offer.delete()
+        return redirect('homepage')
+

@@ -43,7 +43,9 @@
     }
 
     footer {
+      display: flex;
       margin-top: auto;
+      background-color: #DDD;
     }
   </style>
 </head>
@@ -63,8 +65,13 @@
       <ul class="navbar-nav mr-auto">
         {% if request.session.customer %}
         <li class="nav-item {% if request.path == '/cart' %}active{% endif %}">
-          <a class="nav-link" href="/cart">Offres 
+          <a class="nav-link" href="/cart">Propositions 
             {% if request.session.cart %}<span class="badge badge-success display-8"> {{request.session.cart|length}}</span>{% endif %}
+            <span class="sr-only">(current)</span></a>
+        </li>
+        
+        <li class="nav-item {% if request.path == '/offers' %}active{% endif %}">
+          <a class="nav-link" href="/offers">Offres 
             <span class="sr-only">(current)</span></a>
         </li>
         
@@ -131,23 +138,19 @@
 
 </body>
 
-<footer class="footer bg-light">
-  <div class="container">
-      <div class="row">
-          <div class="h-100 text-center text-lg-start my-auto">
-              <ul class="list-inline mb-2">
-                  <li class="list-inline-item"><a href="#!">About</a></li>
-                  <li class="list-inline-item">⋅</li>
-                  <li class="list-inline-item"><a href="#!">Contact</a></li>
-                  <li class="list-inline-item">⋅</li>
-                  <li class="list-inline-item"><a href="#!">Terms of Use</a></li>
-                  <li class="list-inline-item">⋅</li>
-                  <li class="list-inline-item"><a href="#!">Privacy Policy</a></li>
-              </ul>
-              <p class="text-muted small mb-4 mb-lg-0">&copy; ShareHub ULB 2023.</p>
-          </div>
-      </div>
-  </div>
+<footer class="footer">
+        <div class="h-100 text-center text-lg-start my-auto">
+            <ul class="list-inline mb-2">
+                <li class="list-inline-item"><a href="#!">About</a></li>
+                <li class="list-inline-item">⋅</li>
+                <li class="list-inline-item"><a href="#!">Contact</a></li>
+                <li class="list-inline-item">⋅</li>
+                <li class="list-inline-item"><a href="#!">Terms of Use</a></li>
+                <li class="list-inline-item">⋅</li>
+                <li class="list-inline-item"><a href="#!">Privacy Policy</a></li>
+            </ul>
+            <p class="text-muted small mb-4 mb-lg-0">&copy; ShareHub ULB 2023.</p>
+        </div>
 </footer>
 
 

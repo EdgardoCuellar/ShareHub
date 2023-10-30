@@ -6,6 +6,7 @@ from .views.home import Index , store
 from .views.signup import Signup
 from .views.login import Login , logout
 from .views.cart import Cart
+from .views.offers import Offers
 from .views.checkout import CheckOut
 from .views.orders import OrderView
 from .views.sales import Sales
@@ -32,6 +33,7 @@ urlpatterns = [
     path('login', Login.as_view(), name='login'),
     path('logout', logout , name='logout'),
     path('cart', auth_middleware(Cart.as_view()) , name='cart'),
+    path('offers', auth_middleware(Offers.as_view()) , name='offers'),
     path('check-out', CheckOut.as_view() , name='checkout'),
     path('sell', Sell.as_view(), name='sell'),
     path('orders', auth_middleware(OrderView.as_view()), name='orders'),

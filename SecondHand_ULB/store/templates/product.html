@@ -81,21 +81,25 @@
                                     Supprimer
                                 </a>
                             {% else %}
-                                {% if product_in_cart %}
-                                    <button class="btn btn-outline-dark flex-shrink-0" type="submit">
-                                        <i class="bi-cart-fill me-1"></i>
-                                        Retirer du panier
-                                    </button>
+                                {% if product_offer %}
+                                    <div class="mb-2"  style="display: flex; align-items: center;">
+                                        <span>Votre offre actuelle {{product_offer}}</span>
+                                        <button class="btn btn-outline-dark flex-shrink-0" style="margin-left: 2rem;" type="submit">
+                                            <i class="bi-cart-fill me-1"></i>
+                                            Retirer votre offre
+                                        </button>
+                                    </div>
                                 {% else %}
                                     <!-- Create an input text, to propose a price -->
                                     <div class="mb-2"  style="display: flex; align-items: center;">
                                         <span>Votre proposition de prix :</span>
-                                        <input type="text" name="price" id="price" class="form-control" style="width: 75px; margin-left: 0.5rem;"/>
+                                        <input type="text" name="offer" id="offer" class="form-control" style="width: 75px; margin-left: 0.5rem;"/>
                                     </div>
                                     <button class="btn btn-outline-dark flex-shrink-0" type="submit">
                                         <i class="bi-cart-fill me-1"></i>
                                         Proposer
                                     </button>
+                                    <span style="color: red;">{{error}}</span>
                                 {% endif %}
                             {% endif %}
                         {% endif %}
