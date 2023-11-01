@@ -68,8 +68,10 @@
                     <td>{{order.date}}</td>
                     <td>{{order.price|currency}}</td>
                     <td>
+                        <div class="d-flex flex-column">
                         <label>{{order.product.place}}</label>
-                        {{order.place_description}}
+                        <span>{{order.place_description}}</span>
+                        </div>
                     </td>
                     <td><a href="profile/{{order.seller.id}}">{{order.seller.first_name}}</a></td>
                     {% if order.status %}
@@ -80,19 +82,31 @@
 
                     <td>
                         {% if order.status %}
-                        <form action="/orders" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" id="selectedRating" name="rating" value="0">
-                            <input type="hidden" name="order_id" value="{{ order.id }}">
-                            <div class="ratings mt-2">
-                              <i class="fa fa-star" data-rating="1"></i>
-                              <i class="fa fa-star" data-rating="2"></i>
-                              <i class="fa fa-star" data-rating="3"></i>
-                              <i class="fa fa-star" data-rating="4"></i>
-                              <i class="fa fa-star" data-rating="5"></i>
-                            </div>
-                            <button type="submit" class="btn btn-primary mt-2">Submit Rating</button>
-                          </form>
+                            {% if order.rated %}
+                                <div class="ratings mt-2">
+                                    {% for _ in "12345" %}
+                                        {% if forloop.counter <= order.rated %}
+                                            <i class="fa fa-star rating-color"></i>
+                                        {% else %} 
+                                            <i class="fa fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <form action="/orders" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" id="selectedRating" name="rating" value="0">
+                                    <input type="hidden" name="order_id" value="{{ order.id }}">
+                                    <div class="ratings mt-2">
+                                    <i class="fa fa-star" data-rating="1"></i>
+                                    <i class="fa fa-star" data-rating="2"></i>
+                                    <i class="fa fa-star" data-rating="3"></i>
+                                    <i class="fa fa-star" data-rating="4"></i>
+                                    <i class="fa fa-star" data-rating="5"></i>
+                                    </div>
+                                    <button type="submit" class="btn btn-warning mt-2">Valider</button>
+                                </form>
+                            {% endif %}
                         {% else %}
                             <div class="ratings mt-2">
                                 <input type="hidden">

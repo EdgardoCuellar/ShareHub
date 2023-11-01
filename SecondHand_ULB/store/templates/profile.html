@@ -23,56 +23,64 @@
     }
 
     .button {
-        color: #fafafa;
+        color: #010101;
+        background-color: #FAFAFA;
         text-decoration: none;
         margin-top: 1rem;
         font-family: 'Roboto', sans-serif;
         font-weight: 400;
         font-size: 1.2rem;
         border-radius: 5px;
-        width: 110px;
+        width: 115px;
         height: 40px;
-        display: flex; /* Add this */
-        align-items: center; /* Add this */
-        justify-content: center; /* Add this */
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
         -webkit-box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.1);
-        box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.1)
+        box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.1);
     }
 
-    .btn-modify {
-        background-color: #DD2C00;
+    .user-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .user-info h3 {
+        margin: 0;
     }
 
-    .btn-modify:hover {
-        color: #EEE;
-        background-color: #BF360C;
+    .settings {
+        height: 2.5rem;
+        width: auto;
+        cursor: pointer;
     }
 
     .btn-achats {
-        background-color: #00C853;
+        border: 2px solid #00C853;
     }
 
     .btn-achats:hover {
-        color: #EEE;
-        background-color: #388E3C;
+        color: #000;
+        border: 2px solid #388E3C;
     }
 
     .btn-ventes {
-        background-color: #00BFA5;
+        border: 2px solid #00BFA5;
     }
 
     .btn-ventes:hover {
-        color: #EEE;
-        background-color: #4caf50;
+        color: #000;
+        border: 2px solid #4caf50;
     }
 
     .btn-message {
-        background-color: #0091EA;
+        border: 2px solid #0091EA;
     }
 
     .btn-message:hover {
-        color: #EEE;
-        background-color: #0288D1;
+        color: #000;
+        border: 2px solid #0288D1;
     }
 
 </style>
@@ -83,7 +91,7 @@
         <div class="row container d-flex justify-content-center mt-5">
           <div class="col-xl-7 col-md-14">
             <div class="user-card-full">
-                <div class="profile-block row m-l-0 m-r-0 pt-4 pb-3" style="padding-left: 1rem;padding-right: 1rem; height: 35vh;">
+                <div class="profile-block row m-l-0 m-r-0 pt-4" style="padding-left: 1rem;padding-right: 1rem;padding-bottom:15rem; height: 35vh;">
                     <div class="col-sm-4 bg-c-lite-green user-profile">
                         <div class="card-block text-center text-black">
                             <div style="margin-bottom: 3vh;">
@@ -103,15 +111,21 @@
                     </div>
                     <div class="col-sm-8">
                         <div class="card-block">
-                            <h3 class="f-w-600" style="font-size: 4vh;">{{ user.first_name }} {{ user.last_name }}</h6>
+                            <div class="user-info">
+                                <h3 class="f-w-600" style="font-size: 4vh;">{{ user.first_name }} {{ user.last_name }}</h6>
+                                {% if same_user %}
+                                    <a href="/modify_user">
+                                        <img src="../../media/img/settings.png" alt="Settings" class="settings">
+                                    </a>
+                                {% endif %}
+                            </div>
                             <h4 class="f-w-300" style="font-size: 2vh;color: darkgray;">{{ user.faculty }}</h4>
                             <div class="col-sm-20 mt-3" style="height: 12vh;">
                                 <h5 class="font-weight-normal f-w-600" style="font-size: 2vh;color: #000000dd;">{{ user.description }}</h6>
                             </div>
-                            <div class="mt-2" style="width: 100%; display: flex; justify-content: space-between;">
+                            <div class="mt-2" style="width: 100%; display: flex; justify-content: space-between;align-items: center;">
                                 {% if same_user %}
-                                    <a href="/modify_user" class="button btn-modify">Modifier</a>
-                                    <a href="/my_products" class="button btn-modify">Mes articles</a>
+                                    <a href="/my_products" class="button btn-message">Mes articles</a>
                                     <a href="/orders" class="button btn-achats">Mes achats</a>
                                     <a href="/sales" class="button btn-ventes">Mes ventes</a>
                                 {% else %}

@@ -29,7 +29,9 @@ class OrderView(View):
 
         # Update the order's user_rating with the submitted rating_score
         rating = Rating(user_id=order.seller.id, user_rated_id=order.buyer.id, rating=rating_score)
+        order.rated = rating_score
         rating.save()
+        order.save()
 
         return redirect('orders')
 

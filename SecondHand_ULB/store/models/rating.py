@@ -20,7 +20,11 @@ class Rating(models.Model):
         if Rating.get_count_user_sells(user_id) == 0:
             return 0
         else:
-            return Rating.objects.filter(user_id=user_id).aggregate(models.Avg('rating'))['rating__avg']
+            return Rating.objects.filter(user_rated_id=user_id).aggregate(models.Avg('rating'))['rating__avg']
+
+    @staticmethod
+    def get_user_id_ratings(user_id):
+        return Rating.objects.filter(user_id=user_id)
 
     @staticmethod
     def get_rating(user_id):
@@ -31,3 +35,4 @@ class Rating(models.Model):
             'user_rating': user_rating
         }
         return rating
+    

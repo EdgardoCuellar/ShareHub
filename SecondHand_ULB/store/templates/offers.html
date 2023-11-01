@@ -11,29 +11,34 @@
     color: #000000dd;
   }
 
-  .trash-icon{
-    border: none;
-    padding-left: 50px;
-    overflow: visible;
-    background-image: url('https://cdn.discordapp.com/attachments/718214061283737712/1150786472287416370/icons8-trash-64.png');
-    background-size: 100%;
-    background-color: transparent;
-  }
-
-  .buy-btn {
+  .btn {
+    width: 150px;
     font-size: large;
-    color: #000000dd;
     padding: 5px 20px;
-    border: #004D95 solid 2px;
     border-radius: 10px;
     margin: auto;
     text-decoration: none;
   }
 
-    .buy-btn:hover {
-        background-color: #004D95;
-        color: white;
-    }
+  .accept {
+    color: #000000dd;
+    border: #004D95 solid 2px;
+  }
+
+  .accept:hover {
+      background-color: #004D95;
+      color: white;
+  }
+
+  .refuse {
+    color: red;
+    border: #004D95 solid 2px;
+  }
+
+  .refuse:hover {
+      background-color: red;
+      color: white;
+  }
 </style>
 
 <section class="h-100" style="background-color: #F5F5F5;">
@@ -80,17 +85,19 @@
                 {% if product.2 > 0 %}
                   <div>
                     <h5 class="mb-0">Nombre d'offres: {{ product.2 }}</h5>
-                    <h5>{{product.1.price|currency}}</h5>
-                    <form action="/check-out" method="POST" class="accept">
-                      {% csrf_token %}
-                      <input hidden type="text" name='offer' value='{{product.1.id}}'>
-                      <input type="submit" value="Accepter">
-                    </form>
-                    <form action="/offers" method="POST" class="refuse">
-                      {% csrf_token %}
-                      <input hidden type="text" name='offer' value='{{product.1.id}}'>
-                      <input type="submit" value="Refuser">
-                    </form>
+                    <div style="margin-top:0.5rem; align-items:center;text-align: center;">
+                      <h5>{{product.1.price|currency}}</h5>
+                      <form action="/check-out" method="POST">
+                        {% csrf_token %}
+                        <input hidden type="text" name='offer' value='{{product.1.id}}'>
+                        <input type="submit" value="Accepter" class="btn accept">
+                      </form>
+                      <form action="/offers" method="POST" class="mt-2">
+                        {% csrf_token %}
+                        <input hidden type="text" name='offer' value='{{product.1.id}}'>
+                        <input type="submit" value="Refuser"  class="btn refuse">
+                      </form>
+                    </div>
                   </div>
                 {% else %}
                   <span class="no_offer">Vous n'avez pas d'offre pour ce produit</span>

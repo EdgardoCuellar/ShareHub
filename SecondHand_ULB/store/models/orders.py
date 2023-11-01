@@ -20,6 +20,7 @@ class Order(models.Model):
     place_description = models.CharField(max_length=200, default='', blank=True)
     date = models.DateField(default=datetime.datetime.today)
     status = models.BooleanField(default=False)
+    rated = models.IntegerField(default=0)
 
     def placeOrder(self):
         self.save()
