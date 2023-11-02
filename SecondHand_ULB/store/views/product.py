@@ -15,24 +15,25 @@ class Product(View):
             if offer:
                 offer = offer[0]
             rating = Rating.get_rating(product.user_id)
-            
-            return render(request , 'product.html' , {'product' : product, 'product_offer': offer, 'rating': rating} )
+            nb_offers = len(Prices.get_prices_by_product_id(product_id))
+            return render(request , 'product.html' , {'product' : product, 'product_offer': offer, 'rating': rating, 'nb_offers': nb_offers} )
         else:
             return redirect('store')
 
     def post(self , request, product_id=None):
         product = Products.get_product_by_id(product_id)
         rating = Rating.get_rating(product.user_id)
+        nb_offers = len(Prices.get_prices_by_product_id(product_id))
         if request.POST.get('offer'):
             offer = request.POST.get('offer')
         else:
             offer = Prices.get_price_by_buyer_product(request.session.get('customer') ,product_id)
             offer.delete()
-            return render(request , 'product.html' , {'product' : product, 'product_offer': None, 'rating': rating} )
+            return render(request , 'product.html' , {'product' : product, 'product_offer': None, 'rating': rating, 'nb_offers': nb_offers} )
 
         offer = offer.replace(',', '.')        
         if not self.is_offer_valid(offer):
-            return render(request , 'product.html' , {'product' : product, 'product_offer': None, 'rating': rating, 'error': 'Veuillez entrer un prix valide.'} )
+            return render(request , 'product.html' , {'product' : product, 'product_offer': None, 'rating': rating, 'error': 'Veuillez entrer un prix valide.', 'nb_offers': nb_offers} )
 
         offer = int(float(offer) * 100)
         
@@ -43,7 +44,7 @@ class Product(View):
                            price=offer)
         new_offer.save()
 
-        return render(request , 'product.html' , {'product' : product, 'product_offer': new_offer, 'rating': rating} )
+        return render(request , 'product.html' , {'product' : product, 'product_offer': new_offer, 'rating': rating, 'nb_offers': nb_offers} )
 
     def is_offer_valid(self, offer):
         #Check if the offer price is valid, it should be higher than the product price and should be a number

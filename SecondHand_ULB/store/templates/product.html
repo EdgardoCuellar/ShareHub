@@ -81,6 +81,11 @@
                                     Supprimer
                                 </a>
                             {% else %}
+                                {% if nb_offers > 0 %}
+                                    <div class="mb-1">
+                                        <span>Il y a déjà <b>{{nb_offers}}</b> propositions</span>
+                                    </div>
+                                {% endif %}
                                 {% if product_offer %}
                                     <div class="mb-2"  style="display: flex; align-items: center;">
                                         <span>Votre offre actuelle {{product_offer}}</span>
