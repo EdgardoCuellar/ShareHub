@@ -26,7 +26,8 @@
         font-family: 'Open Sans', sans-serif;
         color: #FFF;
         font-size: 5.25rem;  
-        text-shadow: 1.5px 1.5px 2.5px #004D95;
+        font-weight: 300;
+        background-color: #004D95cc;
     }
 
     .subtitle{
@@ -92,6 +93,7 @@
     @media (min-width: 768px) {
         .showcase .showcase-text {
             padding: 7rem;
+            padding-top: 4rem;
         }
     }
       
@@ -103,7 +105,7 @@
         display: flex;
         justify-content: center;
         padding-bottom: 2rem;
-        background-color: #f5f5f5;
+        background-color: #fafafa;
         border-radius: 150px;
         width: 170px;
         height: auto;
@@ -143,7 +145,7 @@
                         <div class="text-center text-white">
                             <!-- Page heading-->
                             <h1 class="mb-5">ShareHub ULB</h1>
-                            <a href="/store" class="col-auto"><button class="btn-magasin" id="submitButton" type="submit">Magasin</button></a>
+                            <a href="/store" class="col-auto"><button class="btn-magasin" id="submitButton" type="submit">Entrer</button></a>
                         </div>
                     </div>
                 </div>
@@ -183,8 +185,10 @@
                 <img src="/media/img/logo.png" class="infos-img" alt="ShareHub Logo">
             </div>
             <div class="short-top">
-                <h2 style="color:#000;">Un projet de mémoire et fonctionnement du site</h2>
-                <p class="lead mb-0">Voici une courte section qui explique en quelques points l'interret de ce projet, qui est relié à un projet de mémoire.</p>    
+                <h2 style="color:#000;">ShareHub plus en détaille</h2>
+                <p class="lead mb-0" style="padding-left: 5rem;padding-right: 5rem;">
+                    ShareHub n'est pas seulement un site d'échange de syllabus entre étudiants, il est à la base un projet de mémoire. Ce projet vise à tester diverses théories économiques et comportementales relatives aux plateformes de seconde main.
+                </p>    
             </div>
             <section class="showcase mt-4">
                 <div class="container-fluid p-0">
@@ -192,9 +196,10 @@
                         <div class="col-lg-4 order-lg-2 text-white showcase-img" style="background-image: url('/media/img/syllabus.png');"></div>
                         <div class="col-lg-8 order-lg-1 my-auto showcase-text">
                             <h2>Projet de mémoire</h2>
-                            <p class="lead mb-0">When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!
-                                When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!
-                                When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!
+                            <p class="lead mb-0">
+                                ShareHub est à la base un projet de mémoire qui vise à tester en conditions réelles diverses théories économiques et comportementales relatives aux plateformes de seconde main.
+                                Il s'agit d'un projet à la croisée de l'informatique et de l'économie, basé sur les travaux de divers d'anciens étudiants et de professeurs de l'ULB. 
+                                En utilisant ShareHub, vous contribuez à l'avancement de la recherche et à l'amélioration de la compréhension des plateformes de seconde main, tout en permettant aux étudiants de l'ULB de revendre leurs syllabus.
                             </p>
                         </div>
                     </div>
@@ -202,9 +207,11 @@
                         <div class="col-lg-4 text-white showcase-img" style="background-image: url('/media/img/research.png');"></div>
                         <div class="col-lg-8 my-auto showcase-text">
                             <h2>Motivation & Fonctionement</h2>
-                            <p class="lead mb-0">Newly improved, and full of great utility classes, Bootstrap 5 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 5!
-                                Newly improved, and full of great utility classes, Bootstrap 5 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 5!
-                                Newly improved, and full of great utility classes, Bootstrap 5 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 5!
+                            <p class="lead mb-0">
+                                Étant donné qu'il n'existe pas de plateforme en ligne permettant aux étudiants de l'ULB de revendre leurs syllabus, à l'exception de divers groupes Facebook. La création de cette plateforme s'est avérée une chouette idée.
+                                ShareHub aspire à être plus qu'un simple projet de mémoire. Il est conçu pour servir les étudiants au fil des années, en s'adaptant et en s'améliorant continuellement grâce aux différents retours.
+                                De plus, il s'agit d'un projet Open Source, offrant ainsi un accès libre au code source, permettant à quiconque de contribuer à l'amélioration de la plateforme.
+                                ShareHub vise avant tout à offrir une expérience d'utilisation aussi simple que possible, ainsi qu'une transparence totale.
                             </p>
                         </div>
                     </div>
@@ -212,10 +219,15 @@
                         <div class="col-lg-4 order-lg-2 text-white showcase-img" style="background-image: url('/media/img/price.png');"></div>
                         <div class="col-lg-8 order-lg-1 my-auto showcase-text">
                             <h2>Principe d'achat et de prix</h2>
-                            <p class="lead mb-0">Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!
-                                Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!
-                                Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!
-                            </p>
+                            <p class="lead mb-0">
+                                La particularité de ShareHub, qui le distingue des autres plateformes de seconde main, est la façon dont le système d'achat et de prix est conçu.
+                                La plupart des sites de seconde main mettent en place un système d'enchères, où le prix d'un produit augmente en fonction de la fameuse loi de l'offre et de la demande, créant un marché compétitif propice à la surenchère.
+                                ShareHub reprend essentiellement le système d'enchères, mais le réinvente de manière plus équitable ou redistributif, dans un marché plutôt imprévisible.
+                                <br>
+                                Le fonctionnement de ShareHub est le suivant : un vendeur définira un prix minimum pour son produit, qui est le montant minimum qu'il est prêt à accepter pour son article. Ensuite, les potentiels acheteurs pourront soumettre des offres pour le produit, en ayant connaissance du prix minimum fixé par le vendeur, mais sans avoir accès aux offres des autres acheteurs.
+                                Par la suite, le vendeur recevra les différentes offres, une par une, dans un ordre aléatoire, et il aura la possibilité de les accepter ou de les refuser, en sachant qu'il ne pourra pas revenir sur sa décision. Ainsi, le prix final du produit sera déterminé par l'acceptation d'une offre spécifique par le vendeur. Ce processus unique permet de garantir un prix équitable pour les acheteurs et de mettre en valeur la valeur subjective du produit pour chaque partie prenante.
+                                <br>
+                                Le système d'achat évoluera au fur et à mesure du développement du site et des retours des utilisateurs. Nous nous efforçons de maintenir une transparence maximale, tout en gardant à l'esprit que l'ensemble de ces données contribuera à améliorer notre compréhension des plateformes de seconde main, que ce soit dans des marchés compétitifs ou davantage orientés vers une redistribution plus aléatoire et équitable.
                         </div>
                     </div>
                 </div>    
