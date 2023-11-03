@@ -6,7 +6,7 @@
 <style>
     header.masthead {
         position: relative;
-        background: url("../../media/img/ulb_2.jpg") no-repeat center center;
+        background: url("/media/img/ulb_2.jpg") no-repeat center center;
         background-size: cover;
         padding-top: 8rem;
         padding-bottom: 8rem;
@@ -23,9 +23,24 @@
     }
 
     h1 {
-        color: #FAFAFA;
-        font-size: 5rem;  
+        font-family: 'Open Sans', sans-serif;
+        color: #FFF;
+        font-size: 5.25rem;  
         text-shadow: 1.5px 1.5px 2.5px #004D95;
+    }
+
+    .subtitle{
+        font-family: 'Roboto', sans-serif;
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 700;
+        letter-spacing: 0.1rem;
+        text-transform: uppercase;
+        color: #004D95;
+        margin-top: 1rem;
+        margin-bottom: 3rem;
     }
 
     @media (min-width: 768px) {
@@ -67,8 +82,9 @@
         padding: 3rem;
     }
     .showcase .showcase-img {
-        min-height: 17.5rem;
-        max-height: 25rem;
+        min-height: 12.5rem;
+        max-height: 20rem;
+        margin-top: 4rem;
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
@@ -79,10 +95,32 @@
         }
     }
       
+    .infos {
+        background-color: #e2e2e2;
+    }
+
+    .infos-container-img {
+        display: flex;
+        justify-content: center;
+        padding-bottom: 2rem;
+        background-color: #f5f5f5;
+        border-radius: 150px;
+        width: 170px;
+        height: auto;
+        margin: auto;
+        margin-top: -80px;
+        margin-bottom: 2.5rem;
+    }
+
+    .infos-img {
+        height: 125px;
+        width: auto;
+    }
     
     .testimonials {
-        padding-top: 7rem;
-        padding-bottom: 7rem;
+        background-color: #e2e2e2;
+        padding-top: 3.5rem;
+        padding-bottom: 3.5rem;
     }
     .testimonials .testimonial-item {
         max-width: 18rem;
@@ -111,77 +149,78 @@
                 </div>
             </div>
         </header>
-        <!-- Icons Grid-->
+
         <section class="features-icons text-center">
-            <div class="container">
+            <div class="container" style="padding-bottom: 7rem">
                 <div class="row" style="margin-top: 30px; margin-bottom: 30px;">
+                    <span class="subtitle">Partagez et réutilisez vos syllabus</span>
                     <div class="col-lg-4">
                         <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                            <div class="top-icon" style="background-image: url('../../media/img/esay.png');"></div>
+                            <div class="top-icon" style="background-image: url('/media/img/esay.png');"></div>
                             <h3>Simple</h3>
-                            <p class="lead mb-0">Un site super simple pour revendre ces syllabus</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                            <div class="top-icon" style="background-image: url('../../media/img/no_cost.png');"></div>
-                            <h3>Sans frais</h3>
-                            <p class="lead mb-0">Le site est 100% gratuit, il n'y aucun frais qui est pris, tout est transparent</p>
+                            <p class="lead mb-0">Notre site se veut le plus simple d'utilisation, tout en restant à l'écoute de vos suggestions pour s'améliorer continuellement.</p>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-                            <div class="top-icon" style="background-image: url('../../media/img/renewable.png');"></div>
-                            <h3>Ecologique & Economique</h3>
-                            <p class="lead mb-0">Permet de donner une second vie à ces syllabus, ou d'en acheter pour moins cher</p>
+                            <div class="top-icon" style="background-image: url('/media/img/renewable.png');"></div>
+                            <h3>Écologique & Économique</h3>
+                            <p class="lead mb-0">Donnez une second vie à vos syllabus tout en préservant la planète et votre portefeuille.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                            <div class="top-icon" style="background-image: url('/media/img/no_cost.png');"></div>
+                            <h3>Sans frais</h3>
+                            <p class="lead mb-0">Notre plateforme d'échange de syllabus à l'ULB est 100 % gratuite, et tout est transparent.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- Image Showcases-->
-        <hr>
-        <div class="short-top">
-            <h2 style="color:#000;">Un projet de mémoire et fonctionnement du site</h2>
-            <p class="lead mb-0">Voici une courte section qui explique en quelques points l'interret de ce projet, qui est relié à un projet de mémoire.</p>    
-        </div>
-        <section class="showcase mt-4">
-            <div class="container-fluid p-0">
-                <div class="row g-0">
-                    <div class="col-lg-4 order-lg-2 text-white showcase-img" style="background-image: url('../../media/img/syllabus.png');"></div>
-                    <div class="col-lg-8 order-lg-1 my-auto showcase-text">
-                        <h2>Mémoire</h2>
-                        <p class="lead mb-0">When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!
-                            When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!
-                            When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!
-                        </p>
-                    </div>
-                </div>
-                <div class="row g-0">
-                    <div class="col-lg-4 text-white showcase-img" style="background-image: url('../../media/img/research.png');"></div>
-                    <div class="col-lg-8 my-auto showcase-text">
-                        <h2>Motivation</h2>
-                        <p class="lead mb-0">Newly improved, and full of great utility classes, Bootstrap 5 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 5!
-                            Newly improved, and full of great utility classes, Bootstrap 5 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 5!
-                            Newly improved, and full of great utility classes, Bootstrap 5 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 5!
-                        </p>
-                    </div>
-                </div>
-                <div class="row g-0">
-                    <div class="col-lg-4 order-lg-2 text-white showcase-img" style="background-image: url('../../media/img/price.png');"></div>
-                    <div class="col-lg-8 order-lg-1 my-auto showcase-text">
-                        <h2>Fonctionnement particulier</h2>
-                        <p class="lead mb-0">Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!
-                            Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!
-                            Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!
-                        </p>
-                    </div>
-                </div>
+        <div class="infos">
+            <div class="infos-container-img">
+                <img src="/media/img/logo.png" class="infos-img" alt="ShareHub Logo">
             </div>
-        </section>
-        
-        <hr>
-
+            <div class="short-top">
+                <h2 style="color:#000;">Un projet de mémoire et fonctionnement du site</h2>
+                <p class="lead mb-0">Voici une courte section qui explique en quelques points l'interret de ce projet, qui est relié à un projet de mémoire.</p>    
+            </div>
+            <section class="showcase mt-4">
+                <div class="container-fluid p-0">
+                    <div class="row g-0">
+                        <div class="col-lg-4 order-lg-2 text-white showcase-img" style="background-image: url('/media/img/syllabus.png');"></div>
+                        <div class="col-lg-8 order-lg-1 my-auto showcase-text">
+                            <h2>Projet de mémoire</h2>
+                            <p class="lead mb-0">When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!
+                                When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!
+                                When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row g-0">
+                        <div class="col-lg-4 text-white showcase-img" style="background-image: url('/media/img/research.png');"></div>
+                        <div class="col-lg-8 my-auto showcase-text">
+                            <h2>Motivation & Fonctionement</h2>
+                            <p class="lead mb-0">Newly improved, and full of great utility classes, Bootstrap 5 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 5!
+                                Newly improved, and full of great utility classes, Bootstrap 5 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 5!
+                                Newly improved, and full of great utility classes, Bootstrap 5 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 5!
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row g-0">
+                        <div class="col-lg-4 order-lg-2 text-white showcase-img" style="background-image: url('/media/img/price.png');"></div>
+                        <div class="col-lg-8 order-lg-1 my-auto showcase-text">
+                            <h2>Principe d'achat et de prix</h2>
+                            <p class="lead mb-0">Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!
+                                Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!
+                                Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!
+                            </p>
+                        </div>
+                    </div>
+                </div>    
+            </section>
+        </div>
         <section class="testimonials text-center">
             <div class="container">
                 <h2 class="mb-5">Si vous avez des suggestions ou demandes</h2>
