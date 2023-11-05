@@ -35,6 +35,6 @@ class CheckOut(View):
 
         send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
-        offer.delete()
+        offer.status = 2
         return redirect('homepage')
 

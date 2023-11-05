@@ -7,30 +7,31 @@ class Prices(models.Model):
     seller = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='seller')
     buyer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='buyer')
     price = models.IntegerField()
+    status = models.IntegerField()
 
     def __str__(self):
         return str(self.price / 100) + '€'
     
     @staticmethod
     def get_prices_by_product_id(product_id):
-        return Prices.objects.filter(product=product_id)
+        return Prices.objects.filter(product=product_id).filter(status=0)
     
     @staticmethod
     def get_prices_by_seller_id(seller_id):
-        return Prices.objects.filter(seller=seller_id)
+        return Prices.objects.filter(seller=seller_id).filter(status=0)
     
     @staticmethod
     def get_prices_by_buyer_id(buyer_id):
-        return Prices.objects.filter(buyer=buyer_id)
+        return Prices.objects.filter(buyer=buyer_id).filter(status=0)
     
     @staticmethod
     def get_price_by_buyer_product(buyer_id, product_id):
-        return Prices.get_prices_by_buyer_id(buyer_id).filter(product=product_id)
+        return Prices.get_prices_by_buyer_id(buyer_id).filter(product=product_id).filter(status=0)
     
     @staticmethod
     def get_price_by_id(id):
-        return Prices.objects.filter(id=id)[0]
+        return Prices.objects.filter(id=id)[0].filter(status=0)
     
     @staticmethod
     def get_all_prices():
-        return Prices.objects.all()
+        return Prices.objects.all().filter(status=0)

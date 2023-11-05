@@ -41,7 +41,8 @@ class Product(View):
         new_offer = Prices(product=product,
                            seller=Customer.get_customer_by_id(product.user_id),
                            buyer=Customer.get_customer_by_id(request.session.get('customer')),
-                           price=offer)
+                           price=offer,
+                           status=0)
         new_offer.save()
 
         return render(request , 'product.html' , {'product' : product, 'product_offer': new_offer, 'rating': rating, 'nb_offers': nb_offers} )

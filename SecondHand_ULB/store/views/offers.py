@@ -17,7 +17,7 @@ class Offers(View):
             return redirect('login')
         offer_id = int(request.POST.get('offer'))
         offer = Prices.get_price_by_id(offer_id)
-        offer.delete()
+        offer.status = 1
         
         products_offer = self.get_offers(request)
         return render(request , 'offers.html' , {'products' : products_offer} )
