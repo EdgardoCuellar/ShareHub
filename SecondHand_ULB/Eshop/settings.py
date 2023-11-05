@@ -26,7 +26,7 @@ SECRET_KEY = '-95t%=#4o3@l-(-%ok9*h%n3!0(sdchjn%+_$5#umaj-!3bg*7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['<Public IPv4 DNS>']
+ALLOWED_HOSTS = ['15.188.149.136', 'localhost']
 
 
 # Application definition
