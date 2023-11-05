@@ -81,7 +81,7 @@ class ModifyProduct (View):
             error_message = "La description doit au moins faire 10 caractères"
 
         # Add file upload validation
-        if not self.validate_image(product_validation.image):
+        if not Products.validate_image(product_validation.image):
             error_message = "L'image doit être au format .jpg ou .png, avoir une taille inférieure à 5 Mo et des dimensions minimales de 250x300 pixels."
 
         return error_message

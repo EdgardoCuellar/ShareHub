@@ -55,28 +55,7 @@ class Sell (View):
             error_message = "La description doit au moins faire 10 caractères"
 
         # Add file upload validation
-        if not self.validate_image(product_validation.image):
-            error_message = "L'image doit être au format .jpg ou .png, avoir une taille inférieure à 5 Mo et des dimensions minimales de 250x300 pixels."
+        if not Products.validate_image(product_validation.image):
+            error_message = "L'image doit être au format .jpg ou .png, avoir une taille inférieure à 5 Mo et des dimensions minimales de 200x250 pixels."
 
         return error_message
-
-    def validate_image(self, image):
-            # Check if the uploaded file is an image
-        if not image:
-            return False
-        ext = image.name.split('.')[-1].lower()
-        if ext not in ['jpg', 'jpeg', 'png']:
-            return False
-
-        # Check file size (less than 5MB)
-        if image.size > 5 * 1024 * 1024:  # 5MB
-            return False
-
-        # Check image dimensions (at least 250x300 pixels)
-        from PIL import Image
-        img = Image.open(image)
-        width, height = img.size
-        if width < 250 or height < 300:
-            return False
-
-        return True

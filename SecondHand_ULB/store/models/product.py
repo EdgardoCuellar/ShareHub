@@ -24,6 +24,28 @@ class Products(models.Model):
         self.delete()
 
     @staticmethod
+    def validate_image(image):
+            # Check if the uploaded file is an image
+        if not image:
+            return False
+        ext = image.name.split('.')[-1].lower()
+        if ext not in ['jpg', 'jpeg', 'png']:
+            return False
+
+        # Check file size (less than 5MB)
+        if image.size > 5 * 1024 * 1024:  # 5MB
+            return False
+
+        # Check image dimensions (at least 250x300 pixels)
+        from PIL import Image
+        img = Image.open(image)
+        width, height = img.size
+        if width < 200 or height < 250:
+            return False
+
+        return True
+
+    @staticmethod
     def product_exists(id):
         if Products.objects.filter(id=id):
             return True
