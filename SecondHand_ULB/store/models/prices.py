@@ -30,7 +30,7 @@ class Prices(models.Model):
     
     @staticmethod
     def get_price_by_id(id):
-        return Prices.objects.filter(id=id)[0].filter(status=0)
+        return Prices.objects.filter(id=id).filter(status=0)[0]
     
     @staticmethod
     def get_all_prices():
