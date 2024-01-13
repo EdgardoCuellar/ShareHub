@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="lg:flex half">
+    <div class="bg order-2 order-md-1" 
+        style="background-image: url('/media/img/login_test_1.png');">
+    </div>
+    <div class="contents order-1 order-md-2">
+        <div class="container">
+            <div class="row items-center justify-content-center">
+            <div class="md:col-7">
+                <h3 class="mb-3" style="font-weight: 300;">Créer un compte <strong>ShareHub ULB</strong></h3>
+                <form action="/signup" method="POST">
+                    {% csrf_token %}
+                    {% if error%}
+                    <div class="alert alert-danger" role="alert">
+                        {{error}}
+                    </div>
+                    {% endif %}
+                    <div class="form-group first mb-3">
+                        <label for="username">Nom</label>
+                        <input required type="text" name="lastname" class="form-control" placeholder="Dupont" id="username">
+                    </div>
+                    <div class="form-group first mb-3">
+                        <label for="username">Prenom</label>
+                        <input required type="text" name="firstname" class="form-control" placeholder="Pierre" id="username">
+                    </div>
+                    <div class="form-group first mb-3">
+                        <label for="">Categorie</label>
+                        <select id="cars" name="faculty" class="form-select" aria-label="Catégorie">
+                            {% for category in categories %}
+                                <option value="{{category.id}}">{{category.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group first mb-3">
+                        <label for="username">Email</label>
+                        <input required type="text" name="email" class="form-control" placeholder="abc@gmail.com" id="username">
+                    </div>
+                    <div class="form-group last mb-3">
+                        <label for="password">Mot de passe</label>
+                        <input required type="password" name="password" class="form-control" placeholder="MotDePasse" id="password">
+                    </div>
+
+                    <input type="submit" value="S'enregistrer" class="btn-login">
+
+                    <span class="d-block text-left my-4 text-muted"> Si vous avez déjà un compte 
+                        <a href="/login" style="color: #004D95 ;">se connecter</a>
+                    </span>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}

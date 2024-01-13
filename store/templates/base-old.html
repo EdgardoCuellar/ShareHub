@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&family=Roboto:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="shortcut icon" type="image/png" href="/media/img/favicon.png">
+
+    <title>ShareHub</title>
+</head>
+
+<body class="font-open-sans min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-gray-100">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <a href="/" class="flex items-center text-dark">
+                <img src="/media/img/logo.png" alt="Logo" class="w-12 h-12 mr-2">
+                <h2 class="text-xl font-bold text-dark">ShareHub</h2>
+            </a>
+
+            <ul class="flex">
+                {% if request.session.customer %}
+                <li class="nav-item {% if request.path == '/cart' %}active{% endif %} ml-4">
+                    <a href="/cart"
+                        class="nav-link flex items-center border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
+                        Propositions
+                        {% if request.session.cart %}<span
+                            class="badge badge-success ml-2">{{request.session.cart|length}}</span>{% endif %}
+                    </a>
+                </li>
+
+                <li class="nav-item {% if request.path == '/offers' %}ml-4 active{% endif %}">
+                    <a href="/offers"
+                        class="nav-link border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
+                        Offres
+                    </a>
+                </li>
+
+                <li class="nav-item {% if request.path == '/sell' %}ml-4 active{% endif %}">
+                    <a href="/sell"
+                        class="nav-link border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
+                        Vendre
+                    </a>
+                </li>
+
+                <li class="nav-item {% if request.path == '/message' %}ml-4 active{% endif %}">
+                    <a href="/message"
+                        class="nav-link border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
+                        Messages
+                    </a>
+                </li>
+
+                <li class="nav-item {% if request.path == '/profile' %}ml-4 active{% endif %}">
+                    <a href="/profile"
+                        class="nav-link border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
+                        Profil
+                    </a>
+                </li>
+
+                <li class="nav-item ml-4">
+                  <a href="/logout"
+                      class="nav-link border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
+                      Déconnexion
+                  </a>
+              </li>
+              {% else %}
+              <li class="nav-item {% if request.path == '/signup' %}ml-4 active{% endif %}">
+                  <a href="/signup"
+                      class="nav-link border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
+                      S'enregistrer
+                  </a>
+              </li>
+              <li class="nav-item {% if request.path == '/login' %}ml-4 active{% endif %}">
+                  <a href="/login"
+                      class="nav-link border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
+                      Connexion
+                  </a>
+              </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="container mx-auto flex-grow p-4">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-300 py-2 mt-auto">
+        <div class="container mx-auto text-center text-sm text-gray-600">
+            <ul class="list-inline mb-2">
+                <li class="list-inline-item"><a href="/#about">À propos</a></li>
+                <li class="list-inline-item">⋅</li>
+                <li class="list-inline-item"><a href="/#contact">Contact</a></li>
+                <li class="list-inline-item">⋅</li>
+                <li class="list-inline-item"><a href="#todo">Confidentialité</a></li>
+                <li class="list-inline-item">⋅</li>
+                <li class="list-inline-item"><a href="https://github.com/EdgardoCuellar">Github</a></li>
+            </ul>
+            <p class="text-muted small mb-4 mb-lg-0">&copy; 2023 ShareHub ULB. Projet de Edgardo Cuellar
+                Sanchez</p>
+        </div>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- Tailwind CSS and any additional scripts you may need -->
+    <!-- Bootstrap core JS is not needed with Tailwind CSS -->
+</body>
+
+</html>
