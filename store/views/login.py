@@ -26,7 +26,7 @@ class Login(View):
                     return HttpResponseRedirect (Login.return_url)
                 else:
                     Login.return_url = None
-                    return redirect ('store')
+                    return redirect ('index')
             else:
                 error_message = 'Mot de passe invalide !'
         else:

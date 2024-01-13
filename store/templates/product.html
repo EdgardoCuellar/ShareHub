@@ -3,33 +3,74 @@
 {% load custom_filter %}
 
 {% block content %}
-<style>
-    /* Custom CSS to set max-height of the image */
-    .max-height-image {
-        height: 70vh;
-        width: auto;
-        -webkit-box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.2);
-        box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.2)
+<style>    
+    .rating-color {
+        color: #fbc634 !important;
     }
-    
-    .rating-color{
-        color:#fbc634 !important;
-    }
-
 </style>
 
-<div class="container">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6 text-center">
-                <img class="max-height-image mx-auto" src="{{product.image.url}}" alt="..." />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+
+<div class="w-10/12 mx-auto">
+    <div class="container px-4 px-lg-5">
+        <div class="flex flex-col lg:flex-row items-center lg:justify-between">
+            <div class="mb-4 pr-8 pl-16 lg:mb-0 lg:w-1/2 text-center" style="height: 75vh;">  
+            {% if product.id|is_only_one_image %}
+                <div  style="height: inherit;">
+                    <img src="{{product.id|get_first_image_product}}" 
+                    class="w-full h-full object-contain"
+                    alt="{{product.name}}">
+                </div>
+            {% else %}    
+<div id="default-carousel" class="relative w-full" data-carousel="static" style="height: inherit;">
+    <!-- Carousel wrapper -->
+    <div class="relative h-full overflow-hidden rounded-lg">
+        {% for product_img in product.id|get_all_images_product %}
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="{{product_img.image.url}}" 
+                class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-full object-contain"
+                alt="{{product.name}}">
             </div>
-            <div class="col-md-6">
-                <div class="col-sm mb-1 d-flex" style="align-items: center;">
-                    <a href="/profile/{{product.user_id}}" style="text-decoration: none; color: black;font-size: large;">
-                        {{product.user_id|user_name}}
+        {% endfor %}
+    </div>
+    <!-- Slider indicators -->
+    <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+        {% for _ in product|get_len_images_product %}
+            {% if forloop.counter == 1 %}
+                <button type="button" style="background-color: #00000055;"
+                class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+            {% else %}
+                <button type="button" style="background-color: #00000055;"
+                class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide {{forloop.counter}}" data-carousel-slide-to="{{forloop.counter|add:"0"}}"></button>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <!-- Slider controls -->
+    <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
+            <svg class="w-4 h-4 text-black rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+            </svg>
+            <span class="sr-only">Previous</span>
+        </span>
+    </button>
+    <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
+            <svg class="w-4 h-4 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+            </svg>
+            <span class="sr-only">Next</span>
+        </span>
+    </button>
+</div>
+{% endif %}
+            </div>
+            <div class="lg:w-1/2">
+                <div class="mb-1 lg:flex items-center">
+                    <a href="/profile/{{product.customer.id}}" class="text-black font-medium text-lg lg:text-xl">
+                        {{product.customer.id|user_name}}
                     </a>
-                    <div class="d-flex justify-content-between align-items-center" style="margin-left: 0.75rem;">
+                    <div class="lg:ml-3">
                         <div class="ratings">
                             {% for _ in "12345" %}
                                 {% if forloop.counter <= rating.user_rating %}
@@ -39,77 +80,71 @@
                                 {% endif %}
                             {% endfor %}
                         </div>
-                        <span class="review-count" style="margin-left: 0.4rem;">{{rating.sell_count}} Ventes</span>
+                        <span class="review-count ml-1">{{rating.sell_count}} Ventes</span>
                     </div>
                 </div>
-                <h1 class="display-5 fw-bolder">{{product.name}}</h1>
-                <div class="mb-1" style="display: flex;">
-                    <div class="small">{{product.category}} </div>
-                    <div style="margin-left: 7px; margin-right: 7px;">-</div>
-                    <div class="small">{{product.date}}</div>
+                <h1 class="text-4xl font-bold mb-1">{{product.name}}</h1>
+                <div class="flex">
+                    <div class="text-sm">{{product.category}} </div>
+                    <div class="mx-1">-</div>
+                    <div class="text-sm">{{product.date}}</div>
                 </div>
-                
-                <div class="fs-5 mb-2" style="display: flex; align-items: end;">
-                    <span style="margin-right: 15px; font-size: larger;">Prix minimum: 
-                    {% if product.user_id == request.session.customer %}
-                        {{product.price|currency}}
-                    {% else %}
-                        {{product.price|min_price|currency}}
-                    {% endif %}    
+                <div class="flex items-end text-gray-600">
+                    <span class="mr-4 text-md"> 
+                        {% if nb_offers > 0 %}
+                            <div>
+                                <span>Il y a déjà <b>{{nb_offers}}</b> propositions</span>
+                            </div>
+                        {% else %}
+                            <span>Il n'y a pas encore eu de propositions</span>
+                        {% endif %}  
                     </span>
-                    <span style="font-size: medium;">{{product.condition}}</span>
+                    <span class="text-md">{{product.condition}}</span>
                 </div>
-                <div class="fs-5 mb-2" style="display: flex; align-items: end;">
-                    <span style="font-size: medium;">Lieu de préférence: {{product.place}}</span>
+                <div class="mb-4">
+                    <span class="text-md text-gray-600">{{product.place}}</span>
                 </div>
-                <p class="lead">{{product.description}}</p>
-                <div class="d-flex">
+                <p class="text-md mb-4" style="max-width: 35rem;">{{product.description}}</p>
+                <div class="flex">
                     {% if request.session.customer %}
-
-                    <form action="/product/{{product.id}}" method="POST" class="btn-block">
-                        {% csrf_token %}
-
-                        <!-- add an if statement, if product.id == request.session.get('customer') -->
-                        {% if product.sold == False %}
-                            {% if product.user_id == request.session.customer %}
-                                <a href="/modify_product/{{product.id}}" class="btn btn-outline-dark flex-shrink-0" type="submit">
-                                    <i class="bi-cart-fill me-1"></i>
-                                    Modifier
-                                </a>
-                                <a href="/product/remove/{{product.id}}" class="btn btn-outline-dark flex-shrink-0" type="submit">
-                                    <i class="bi-cart-fill me-1"></i>
-                                    Supprimer
-                                </a>
-                            {% else %}
-                                {% if nb_offers > 0 %}
-                                    <div class="mb-1">
-                                        <span>Il y a déjà <b>{{nb_offers}}</b> propositions</span>
-                                    </div>
-                                {% endif %}
-                                {% if product_offer %}
-                                    <div class="mb-2"  style="display: flex; align-items: center;">
-                                        <span>Votre offre actuelle {{product_offer}}</span>
-                                        <button class="btn btn-outline-dark flex-shrink-0" style="margin-left: 2rem;" type="submit">
-                                            <i class="bi-cart-fill me-1"></i>
-                                            Retirer votre offre
-                                        </button>
-                                    </div>
-                                {% else %}
-                                    <!-- Create an input text, to propose a price -->
-                                    <div class="mb-2"  style="display: flex; align-items: center;">
-                                        <span>Votre proposition de prix :</span>
-                                        <input type="text" name="offer" id="offer" class="form-control" style="width: 75px; margin-left: 0.5rem;"/>
-                                    </div>
-                                    <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                        <form action="/product/{{product.id}}" method="POST" class="flex flex-col lg:flex-row">
+                            {% csrf_token %}
+                            {% if product.sold == False %}
+                                {% if product.customer.id == request.session.customer %}
+                                    <a href="/modify_product/{{product.id}}" 
+                                        class="btn-purple w-32 text-center mr-4 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                         <i class="bi-cart-fill me-1"></i>
-                                        Proposer
-                                    </button>
-                                    <span style="color: red;">{{error}}</span>
+                                        Modifier
+                                    </a>
+                                    <a href="/product/remove/{{product.id}}" 
+                                        class="btn-red w-32 text-center font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                        <i class="bi-cart-fill me-1"></i>
+                                        Supprimer
+                                    </a>
+                                {% else %}
+                                    {% if product_offer %}
+                                        <div class="mb-2 flex items-center">
+                                            <span>Votre offre actuelle {{product_offer}}</span>
+                                            <button class="btn btn-outline-dark flex-shrink-0 ml-2" type="submit">
+                                                <i class="bi-cart-fill me-1"></i>
+                                                Retirer votre offre
+                                            </button>
+                                        </div>
+                                    {% else %}
+                                        <div class="mb-2 flex items-center">
+                                            <span>Votre proposition de prix :</span>
+                                            <input type="text" name="offer" id="offer" class="form-control w-16 ml-2"/>
+                                        </div>
+                                        <button class="btn btn-outline-dark flex-shrink-0 mb-2 lg:mr-2" type="submit">
+                                            <i class="bi-cart-fill me-1"></i>
+                                            Proposer
+                                        </button>
+                                        <span class="text-red-500">{{error}}</span>
+                                    {% endif %}
                                 {% endif %}
                             {% endif %}
-                        {% endif %}
-                    </form>
-                {% endif %}
+                        </form>
+                    {% endif %}
                 </div>
             </div>
         </div>

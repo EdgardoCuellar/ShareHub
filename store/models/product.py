@@ -4,14 +4,13 @@ from .customer import Customer
 import random
 
 class Products(models.Model):
-    user_id = models.ForeignKey(Customer, on_delete=models.CASCADE, default=None)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, default=None)
     name = models.CharField(max_length=60, default='')
     price= models.IntegerField(default=0)
     category= models.ForeignKey(Category,on_delete=models.CASCADE,default=1 )
     condition= models.ForeignKey(Condition,on_delete=models.CASCADE,default=1 )
     place= models.ForeignKey(Place,on_delete=models.CASCADE,default=1 )
     description= models.CharField(max_length=250, default='', blank=True, null= True)
-    image= models.ImageField(upload_to='products/')
     date = models.IntegerField(default=2000)
     sold = models.BooleanField(default=False)
 

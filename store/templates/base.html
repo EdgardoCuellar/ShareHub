@@ -16,14 +16,23 @@
 </head>
 
 <style>
-  .btn-blue {
+  .btn-ulb {
     background-color: #004D95;
     color: #fafafa;
   }
 
-  .btn-blue:hover {
+  .btn-ulb:hover {
     background-color: #00305d;
     color: #fafafa;
+  }
+
+  .btn-retour {
+    color: #FD8A8A;
+    text-decoration: underline;
+  }
+
+  .btn-retour:hover {
+    color: #e06b6b;
   }
 
   .text-blue {
@@ -32,6 +41,54 @@
 
   .bg-blue {
     background-color: #004D95;
+  }
+
+  .btn-red {
+      background-color: #FD8A8A;;
+      color: #fafafa;
+  }
+
+  .btn-red:hover {
+      background-color: #e06b6b;
+      color: #ffffff;
+  }
+
+  .btn-purple {
+      background-color: #c3c0e6;
+      color: #fafafa;
+  }
+
+  .btn-purple:hover {
+      background-color: #a8a5d4;
+      color: #ffffff;
+  }
+
+  .btn-green {
+      background-color: #C8FACD;
+      color: #fafafa;
+  }
+
+  .btn-green:hover {
+      background-color: #a8e6b8;
+      color: #ffffff;
+  }
+
+  .btn-pink {
+      background-color: #FFCBCB;
+  }
+
+  .btn-pink:hover {
+      background-color: #f5b1b1;
+  }
+
+  .btn-orange {
+      background-color: #f5c28e;
+      color: #fafafa;
+  }
+
+  .btn-orange:hover {
+      background-color: #e0a76b;
+      color: #ffffff;
   }
 
 </style>
@@ -62,7 +119,7 @@
               
               {% if request.session.customer %}
               <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
-                  class="text-white bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center hover:shadow-lg dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                  class="text-white bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center hover:shadow-lg" type="button">
                   <svg class="w-[32px] h-[32px] text-gray-800 dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 11 14H9a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 10 19Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                   </svg>

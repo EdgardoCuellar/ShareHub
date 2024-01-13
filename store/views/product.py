@@ -14,15 +14,15 @@ class Product(View):
             offer = Prices.get_price_by_buyer_product(request.session.get('customer') ,product_id)
             if offer:
                 offer = offer[0]
-            rating = Rating.get_rating(product.user_id)
+            rating = Rating.get_rating(product.customer.id)
             nb_offers = len(Prices.get_prices_by_product_id(product_id))
             return render(request , 'product.html' , {'product' : product, 'product_offer': offer, 'rating': rating, 'nb_offers': nb_offers} )
         else:
-            return redirect('store')
+            return redirect('index')
 
     def post(self , request, product_id=None):
         product = Products.get_product_by_id(product_id)
-        rating = Rating.get_rating(product.user_id)
+        rating = Rating.get_rating(product.customer.id)
         nb_offers = len(Prices.get_prices_by_product_id(product_id))
         if request.POST.get('offer'):
             offer = request.POST.get('offer')
@@ -39,7 +39,7 @@ class Product(View):
         
         # create an offer
         new_offer = Prices(product=product,
-                           seller=Customer.get_customer_by_id(product.user_id),
+                           seller=Customer.get_customer_by_id(product.customer.id),
                            buyer=Customer.get_customer_by_id(request.session.get('customer')),
                            price=offer,
                            status=0)
@@ -60,7 +60,7 @@ class Product(View):
         return True
 
 def remove(request, product_id):
-    if request.session.get('customer') != Products.get_product_by_id(product_id).user_id:
-        return redirect('store')
+    if request.session.get('customer') != Products.get_product_by_id(product_id).customer.id:
+        return redirect('index')
     Products.remove_product_by_id(product_id)
-    return redirect('store')
+    return redirect('index')

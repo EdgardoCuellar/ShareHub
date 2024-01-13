@@ -1,5 +1,7 @@
 from django import template
 from store.models.customer import Customer
+from store.models.product import Products
+from store.models.product_img import ProductImage
 
 register = template.Library()
 
@@ -20,3 +22,27 @@ def get_user_name(id):
 @register.filter(name='user_img')
 def get_user_img(id):
     return f"/media/img/user_{id % 11}.png"
+
+@register.filter(name='get_first_image_product')
+def get_first_image_product(product_id):
+    return ProductImage.get_images_by_product_id(product_id)[0].image.url
+
+@register.filter(name='get_all_images_product')
+def get_all_images_product(product_id):
+    return ProductImage.get_images_by_product_id(product_id)
+
+
+@register.filter(name='get_len_images_product')
+def get_all_images_product(product_id):
+    nb_img = len(ProductImage.get_images_by_product_id(product_id))
+    str_nb = ""
+    for i in range(0, nb_img):
+        str_nb += str(i)
+    return str_nb
+
+@register.filter(name='is_only_one_image')
+def is_only_one_image(product_id):
+    nb_img = len(ProductImage.get_images_by_product_id(product_id))
+    if nb_img == 1:
+        return True
+    return False

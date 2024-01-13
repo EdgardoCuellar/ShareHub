@@ -1,19 +1,26 @@
 from django.shortcuts import render, redirect
 from store.models.product import Products
+from store.models.product_img import ProductImage
+from store.models.customer import Customer
 from store.models.category import Category, Condition, Place
 from django.views import View
 from datetime import datetime
 
 
 class Sell (View):
+
+    html_link = 'sell.html'
+
     def get(self, request):
         categories = Category.get_all_categories()
         conditions = Condition.get_all_conditions()
         places = Place.get_all_places()
-        return render (request, 'sell.html', {'categories': categories, 'conditions': conditions, 'places': places})
+        return render (request, self.html_link, {'categories': categories, 'conditions': conditions, 'places': places})
 
     def post(self, request):
         price = Products.transformPrice(request.POST.get('price'))
+        customer_id = request.session.get('customer')
+        customer = Customer.get_customer_by_id(customer_id)
         product = Products(name=request.POST.get('name'),
                                 price=price,
                                 date=request.POST.get('date'),
@@ -21,19 +28,26 @@ class Sell (View):
                                 condition=Condition.get_condition_by_name(request.POST.get('condition')),
                                 place=Place.get_place_by_name(request.POST.get('place')),
                                 description=request.POST.get('description'),
-                                image=request.FILES.get('image'),
-                                user_id=request.session.get('customer'))
+                                customer=customer)
 
         error_message = self.validateProduct(product)
         
         if not error_message:
             product.register()
-            return redirect('store')  # Redirect to the homepage or any other appropriate page after successful upload
+
+            length = request.POST.get('length')
+            for file_num in range(0, int(length)):
+                ProductImage.objects.create(
+                    product=product,
+                    image=request.FILES.get(f'images{file_num}')
+                )
+
+            return redirect('index')  # Redirect to the homepage or any other appropriate page after successful upload
 
         categories = Category.get_all_categories()
         conditions = Condition.get_all_conditions()
         places = Place.get_all_places()
-        return render(request, 'sell.html', {'categories': categories, 'conditions': conditions, 'places':places, 'error': error_message})
+        return render(request, self.html_link, {'categories': categories, 'conditions': conditions, 'places':places, 'error': error_message})
 
     def validateProduct(self, product_validation):
         error_message = None
@@ -53,9 +67,5 @@ class Sell (View):
             error_message = "La description ne peut pas dépasser 300 caractères"
         elif len(product_validation.description) <= 10:
             error_message = "La description doit au moins faire 10 caractères"
-
-        # Add file upload validation
-        if not Products.validate_image(product_validation.image):
-            error_message = "L'image doit être au format .jpg ou .png, avoir une taille inférieure à 5 Mo et des dimensions minimales de 200x250 pixels."
 
         return error_message

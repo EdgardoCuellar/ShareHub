@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 
 from .views.homepage import Homepage
-from .views.home import Index , store
+from .views.index import IndexView
 from .views.signup import Signup
 from .views.login import Login , logout
 from .views.cart import Cart
@@ -27,7 +27,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', Homepage.as_view(), name='homepage'),
-    path('store', store , name='store'),
+    path('index', IndexView.as_view() , name='index'),
 
     path('signup', Signup.as_view(), name='signup'),
     path('login', Login.as_view(), name='login'),
@@ -41,12 +41,10 @@ urlpatterns = [
     path('sales', auth_middleware(Sales.as_view()), name='sales'),
     path('profile', Profile.as_view(), name='profile'),
     path('profile/<int:user_id>', Profile.as_view(), name='profile'),
-    path('product', store, name='product'),
     path('product/<int:product_id>', Product.as_view(), name='product'),
     path('product/remove/<int:product_id>', remove, name='product_remove'),
     path('modify_user', ModifyUser.as_view(), name='modify_user'),
     path('my_products', auth_middleware(MyProductsView.as_view()), name='my_products'),
-    path('modify_product', store, name='store'),
     path('modify_product/<int:product_id>', ModifyProduct.as_view(), name='modify_product'),
     path('message', MessagesView.as_view(), name='messages'),
     path('message/<int:receiver_id>', MessagesView.as_view(), name='messages'),
