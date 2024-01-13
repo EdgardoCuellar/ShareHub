@@ -2,47 +2,48 @@
 
 {% block content %}
 
-
-<div class="lg:flex half">
-    <div class="bg order-1 order-md-2" 
-        style="background-image: url('/media/img/login_test_1.png');"></div>
-    <div class="contents order-2 order-md-1">
-
-      <div class="container">
-        <div class="row items-center justify-content-center">
-          <div class="md:col-7">
-            <h3 class="mb-3" style="font-weight: 300;">Connexion à <strong>ShareHub ULB</strong></h3>
-            <form action="/login" method="POST">
-                {% csrf_token %}
-                {% if error%}
-                <div class="alert alert-danger" role="alert">
+<div class="w-10/12 md:flex mx-auto" style="height: 75vh;">
+	<div class="flex md:w-1/2 justify-center py-10 items-center bg-white">
+		<form action="{% url 'login' %}" method="POST" class="bg-white">
+            {% csrf_token %}
+                <h1 class="text-gray-800 font-bold text-2xl mb-1">Se connecter</h1>
+                <div class="mb-8">
+                    <a href="{% url 'signup' %}" class="text-sm text-blue">Vous n'avez pas encore de compte</a>
+                </div>
+            {% if error%}
+                <div class="text-red-500 mb-2" role="alert">
                     {{error}}
                 </div>
-                {% endif %}
-                <div class="form-group first mb-3">
-                    <label for="username">Email</label>
-                    <input required type="text" name="email" class="form-control" placeholder="abc@gmail.com" id="username">
+            {% endif %}
+                <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                    </svg>
+                    <input class="pl-2 outline-none border-none focus:border-transparent focus:ring-0" required type="email" name="email" id="email" placeholder="Email" />
                 </div>
-                <div class="form-group last mb-3">
-                    <label for="password">Mot de passe</label>
-                    <input required type="password" name="password" class="form-control" placeholder="MotDePasse" id="password">
+                    <div class="flex items-center border-2 py-2 px-3 rounded-2xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <input class="pl-2 outline-none border-none focus:border-transparent focus:ring-0" required type="password" name="password" id="password" placeholder="********" />
                 </div>
-                
-                <div class="d-flex mb-3 items-center">
-                    <div class="control__indicator"></div>
-                    <span class="ml-auto"><a href="forgot_password" class="forgot-pass">Mot de passe oublié</a></span> 
-                </div>
+            <button type="submit" class="btn-blue block w-full mt-4 py-2 rounded-2xl text-white font-semibold mb-2">Se connecter</button>
+            <a href="{% url 'forgot_password' %}" class="text-sm ml-2 hover:text-blue-500 cursor-pointer">Mot de passe oublié ?</a>
+		</form>
+	</div>
 
-                <input type="submit" value="Connexion" class="btn-login">
-
-                <span class="d-block text-left my-4 text-muted"> Si vous n'avez pas de compte,
-                    <a href="/signup" style="color: #004D95 ;">s'enregistrer</a>
-                </span>
-            </form>
-            </div>
-            </div>
-        </div>
-    </div>
+	<div
+		class="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-800 to-purple-700 i justify-around items-center hidden">
+		<div class="absolute -bottom-32 -left-40 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+		<div class="absolute -bottom-40 -left-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+		<div class="absolute -top-40 -right-0 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+		<div class="absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+	</div>
 </div>
 
 {% endblock %}

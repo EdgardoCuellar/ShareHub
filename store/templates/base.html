@@ -4,118 +4,106 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&family=Roboto:wght@100;300;400;500;700;900&display=swap"
-        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
 
     <link rel="shortcut icon" type="image/png" href="/media/img/favicon.png">
 
-    <title>ShareHub</title>
+    <title>{% block title %}ShareHub{% endblock %}</title>
 </head>
 
-<body class="font-open-sans min-h-screen flex flex-col">
-    <!-- Navbar -->
-    <nav class="bg-gray-100">
-        <div class="container mx-auto flex justify-between items-center p-4">
+<style>
+  .btn-blue {
+    background-color: #004D95;
+    color: #fafafa;
+  }
+
+  .btn-blue:hover {
+    background-color: #00305d;
+    color: #fafafa;
+  }
+
+  .text-blue {
+    color: #004D95;
+  }
+
+  .bg-blue {
+    background-color: #004D95;
+  }
+
+</style>
+
+<body class="font-open-sans min-h-screen flex flex-col" style="height: 100vh;">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+  <div class="bg-fafafa p-4 text-md">
+      <div class="w-9/12 mx-auto md:max-w-6xl flex flex-col md:flex-row items-center justify-between">
+          <div class="flex items-center space-x-4 mb-2 md:mb-0">
             <a href="/" class="flex items-center text-dark">
-                <img src="/media/img/logo.png" alt="Logo" class="w-12 h-12 mr-2">
-                <h2 class="text-xl font-bold text-dark">ShareHub</h2>
+              <img src="/media/img/logo.png" alt="Logo" class="w-12 h-12 mr-2">
+              <h2 class="text-xl font-bold text-dark">ShareHub</h2>
             </a>
+          </div>
 
-            <ul class="flex">
-                {% if request.session.customer %}
-                <li class="nav-item {% if request.path == '/cart' %}active{% endif %} ml-4">
-                    <a href="/cart"
-                        class="nav-link flex items-center border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
-                        Propositions
-                        {% if request.session.cart %}<span
-                            class="badge badge-success ml-2">{{request.session.cart|length}}</span>{% endif %}
-                    </a>
-                </li>
+          <div class="flex-grow flex items-center justify-center space-x-4 mb-2 md:mb-0">
+            <a href="{% url 'cart' %}" class="text-gray-800">Propositions</a>
+            <a href="{% url 'offers' %}" class="text-gray-800">Offres</a>
+            <a href="{% url 'sell' %}" class="text-gray-800">Vendre</a>
+          </div>
 
-                <li class="nav-item {% if request.path == '/offers' %}ml-4 active{% endif %}">
-                    <a href="/offers"
-                        class="nav-link border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
-                        Offres
-                    </a>
-                </li>
+          <div class="flex items-center space-x-4">
+              
+              {% if not request.session.customer %}
+                <a href="{% url 'login' %}" class="text-gray-800">Connexion</a>
+                <a href="{% url 'signup' %}" class="text-gray-800">S'enregistrer</a>
+              {% endif %}
+              
+              {% if request.session.customer %}
+              <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
+                  class="text-white bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center hover:shadow-lg dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                  <svg class="w-[32px] h-[32px] text-gray-800 dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 11 14H9a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 10 19Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                  </svg>
+                  <svg class="w-2.5 h-2.5 ms-3 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                  </svg>
+              </button>
+              <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-md shadow-outline w-44 dark:bg-gray-700">
+                  <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                    <li>
+                      <a href="{% url 'profile' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profil</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'messages' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Messages</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'logout' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Déconnexion</a>
+                  </li>
+                  </ul>
+              </div>
+              {% endif %}
+          </div>
+      </div>
+  </div>
 
-                <li class="nav-item {% if request.path == '/sell' %}ml-4 active{% endif %}">
-                    <a href="/sell"
-                        class="nav-link border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
-                        Vendre
-                    </a>
-                </li>
+  <div class="w-full mt-4">
+      {% block content %}{% endblock %}
+  </div>
 
-                <li class="nav-item {% if request.path == '/message' %}ml-4 active{% endif %}">
-                    <a href="/message"
-                        class="nav-link border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
-                        Messages
-                    </a>
-                </li>
+  <footer class="bottom-0 pb-4 bg-white rounded-lg shadow m-4 dark:bg-gray-800" style="width: 98%;margin-top: auto;">
+      <div class="w-full mx-auto max-w-screen-xl p-4 flex justify-center md:flex md:items-center md:justify-between">
+        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="https://rentizy.azurewebsites.net/" class="hover:underline">ShareHub ULB.</a> Projet de Edgardo Cuellar Sanchez</span>
+        <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+          <li><a href="#" class="hover:underline me-4 md:me-6">À propos</a></li>
+          <li><a href="#" class="hover:underline me-4 md:me-6">Contact</a></li>
+          <li><a href="#" class="hover:underline me-4 md:me-6">Confidentialité</a></li>
+          <li><a href="#" class="hover:underline">Github</a></li>
+        </ul>
+      </div>
+  </footer>
 
-                <li class="nav-item {% if request.path == '/profile' %}ml-4 active{% endif %}">
-                    <a href="/profile"
-                        class="nav-link border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
-                        Profil
-                    </a>
-                </li>
-
-                <li class="nav-item ml-4">
-                  <a href="/logout"
-                      class="nav-link border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
-                      Déconnexion
-                  </a>
-              </li>
-              {% else %}
-              <li class="nav-item {% if request.path == '/signup' %}ml-4 active{% endif %}">
-                  <a href="/signup"
-                      class="nav-link border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
-                      S'enregistrer
-                  </a>
-              </li>
-              <li class="nav-item {% if request.path == '/login' %}ml-4 active{% endif %}">
-                  <a href="/login"
-                      class="nav-link border-b-2 border-transparent hover:border-blue-500 focus:outline-none focus:border-blue-500">
-                      Connexion
-                  </a>
-              </li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Content -->
-    <div class="container mx-auto flex-grow p-4">
-        {% block content %}{% endblock %}
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-gray-300 py-2 mt-auto">
-        <div class="container mx-auto text-center text-sm text-gray-600">
-            <ul class="list-inline mb-2">
-                <li class="list-inline-item"><a href="/#about">À propos</a></li>
-                <li class="list-inline-item">⋅</li>
-                <li class="list-inline-item"><a href="/#contact">Contact</a></li>
-                <li class="list-inline-item">⋅</li>
-                <li class="list-inline-item"><a href="#todo">Confidentialité</a></li>
-                <li class="list-inline-item">⋅</li>
-                <li class="list-inline-item"><a href="https://github.com/EdgardoCuellar">Github</a></li>
-            </ul>
-            <p class="text-muted small mb-4 mb-lg-0">&copy; 2023 ShareHub ULB. Projet de Edgardo Cuellar
-                Sanchez</p>
-        </div>
-    </footer>
-
-    <!-- Optional JavaScript -->
-    <!-- Tailwind CSS and any additional scripts you may need -->
-    <!-- Bootstrap core JS is not needed with Tailwind CSS -->
 </body>
 
 </html>
