@@ -63,11 +63,11 @@ class Products(models.Model):
         return Products.objects.filter (id__in=ids)
 
     @staticmethod
-    def get_products_by_userid(user_id, sold=False):
-        if not sold:
-            return Products.objects.filter (user_id=user_id, sold=False)
+    def get_products_by_userid(customer_id, sold=False):
+        if sold:
+            return Products.objects.filter (customer=customer_id, sold=True)
         else:
-            return Products.objects.filter (user_id=user_id)
+            return Products.objects.filter (customer=customer_id, sold=False)
     
     @staticmethod
     def get_all_products():

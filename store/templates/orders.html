@@ -1,52 +1,43 @@
-{% extends 'base.html' %}
-
-
-{% block content %}
 {% load cart %}
 {% load custom_filter %}
 
 <style>
     a {
-        text-decoration: none !important;
-        color: #000000dd;
+        @apply no-underline text-black;
     }
 
     .disabled {
         color: #00000088;
     }
-    
-    .rating-color{
-        color:gold !important;
-        cursor: pointer;
+
+    .rating-color {
+        @apply text-gold cursor-pointer;
     }
 
     .main-container {
-        border-radius: 10px;
-        color: #000000dd;
-        -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1); 
+        @apply rounded-lg text-black overflow-hidden shadow-md;
+        @apply border border-solid border-gray-200 dark:border-gray-700;
     }
 </style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  $(document).ready(function() {
-    $('.fa-star:not(.disabled)').on('click', function() {
-      const selectedRating = $(this).data('rating');
-      $('#selectedRating').val(selectedRating);
+    $(document).ready(function () {
+        $('.fa-star:not(.disabled)').on('click', function () {
+            const selectedRating = $(this).data('rating');
+            $('#selectedRating').val(selectedRating);
 
-      // Change the color of stars based on the selected rating
-      $('.fa-star').removeClass('rating-color');
-      $(this).prevAll('.fa-star').addBack().addClass('rating-color');
+            // Change the color of stars based on the selected rating
+            $('.fa-star').removeClass('rating-color');
+            $(this).prevAll('.fa-star').addBack().addClass('rating-color');
+        });
     });
-  });
 </script>
 
-
-<div class="container">
-   <div class="main-container p-4 m-4">
-        <p class="display-4 pl-4 ml-4">Vos achats</p>
-        <table class="table">
+<div class="container mx-auto">
+    <div class="main-container p-4 m-4">
+        <p class="text-4xl pl-4 ml-4">Vos achats</p>
+        <table class="table w-full">
             <thead>
                 <tr>
                     <th>Image</th>
@@ -60,79 +51,65 @@
                 </tr>
             </thead>
             <tbody>
-                
                 {% for order in orders %}
-                <tr>
-                    <td><img style="height: 80px;" class="" src="{{order.product.image.url}}" alt=""></td>
-                    <td><a href="product/{{order.product.id}}">{{order.product.name}}</a></td>
-                    <td>{{order.date}}</td>
-                    <td>{{order.price|currency}}</td>
-                    <td>
-                        <div class="d-flex flex-column">
-                        <label>{{order.product.place}}</label>
-                        <span>{{order.place_description}}</span>
-                        </div>
-                    </td>
-                    <td><a href="profile/{{order.seller.id}}">{{order.seller.first_name}}</a></td>
-                    {% if order.status %}
-                        <td><small class="badge badge-success" style="color: green;">Completed</small></td>
-                    {%else%}
-                        <td><small class="badge badge-warning" style="color: orange;">En attente</small></td>
-                    {% endif %}
-
-                    <td>
-                        {% if order.status %}
-                            {% if order.rated %}
-                                <div class="ratings mt-2">
-                                    {% for _ in "12345" %}
-                                        {% if forloop.counter <= order.rated %}
-                                            <i class="fa fa-star rating-color"></i>
-                                        {% else %} 
-                                            <i class="fa fa-star"></i>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                <form action="/orders" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" id="selectedRating" name="rating" value="0">
-                                    <input type="hidden" name="order_id" value="{{ order.id }}">
-                                    <div class="ratings mt-2">
-                                    <i class="fa fa-star" data-rating="1"></i>
-                                    <i class="fa fa-star" data-rating="2"></i>
-                                    <i class="fa fa-star" data-rating="3"></i>
-                                    <i class="fa fa-star" data-rating="4"></i>
-                                    <i class="fa fa-star" data-rating="5"></i>
-                                    </div>
-                                    <button type="submit" class="btn btn-warning mt-2">Valider</button>
-                                </form>
-                            {% endif %}
-                        {% else %}
-                            <div class="ratings mt-2">
-                                <input type="hidden">
-                                    <i class="fa fa-star disabled"></i>
-                                    <i class="fa fa-star disabled"></i>
-                                    <i class="fa fa-star disabled"></i>
-                                    <i class="fa fa-star disabled"></i>
-                                    <i class="fa fa-star disabled"></i>
+                    <tr>
+                        <td><img class="h-20 w-auto object-cover" src="{{ order.product.image.url }}" alt=""></td>
+                        <td><a href="product/{{ order.product.id }}">{{ order.product.name }}</a></td>
+                        <td>{{ order.date }}</td>
+                        <td>{{ order.price|currency }}</td>
+                        <td>
+                            <div class="flex flex-col">
+                                <label>{{ order.product.place }}</label>
+                                <span>{{ order.place_description }}</span>
                             </div>
+                        </td>
+                        <td><a href="profile/{{ order.seller.id }}">{{ order.seller.first_name }}</a></td>
+                        {% if order.status %}
+                            <td><small class="badge badge-success text-green-500">Completed</small></td>
+                        {% else %}
+                            <td><small class="badge badge-warning text-orange-500">En attente</small></td>
                         {% endif %}
 
-                    </td>
-
-                </tr>
-
+                        <td>
+                            {% if order.status %}
+                                {% if order.rated %}
+                                    <div class="ratings mt-2">
+                                        {% for _ in "12345" %}
+                                            {% if forloop.counter <= order.rated %}
+                                                <i class="fa fa-star rating-color"></i>
+                                            {% else %} 
+                                                <i class="fa fa-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <form action="/orders" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" id="selectedRating" name="rating" value="0">
+                                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                                        <div class="ratings mt-2">
+                                            <i class="fa fa-star" data-rating="1"></i>
+                                            <i class="fa fa-star" data-rating="2"></i>
+                                            <i class="fa fa-star" data-rating="3"></i>
+                                            <i class="fa fa-star" data-rating="4"></i>
+                                            <i class="fa fa-star" data-rating="5"></i>
+                                        </div>
+                                        <button type="submit" class="btn btn-warning mt-2">Valider</button>
+                                    </form>
+                                {% endif %}
+                            {% else %}
+                                <div class="ratings mt-2">
+                                    <i class="fa fa-star disabled"></i>
+                                    <i class="fa fa-star disabled"></i>
+                                    <i class="fa fa-star disabled"></i>
+                                    <i class="fa fa-star disabled"></i>
+                                    <i class="fa fa-star disabled"></i>
+                                </div>
+                            {% endif %}
+                        </td>
+                    </tr>
                 {% endfor %}
-               
             </tbody>
-
         </table>
-       
-   </div>
+    </div>
 </div>
-
-
-
-
-
-{% endblock %}

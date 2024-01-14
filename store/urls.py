@@ -7,7 +7,6 @@ from .views.index import IndexView
 from .views.customer.signup import Signup
 from .views.customer.login import Login , logout
 from .views.customer.message import MessagesView
-from .views.customer.modify_user import ModifyUser
 from .views.customer.profile import Profile
 from .views.customer.dashboard import DashboardView
 from .views.customer.forgot_password import ForgoPasswordView
@@ -16,6 +15,7 @@ from .views.products.product import Product, remove
 from .views.products.modify_product import ModifyProduct
 from .views.products.my_products import MyProductsView
 from .views.products.sell import Sell
+from .views.products.user_products import UserProductsView
 
 from .views.cart import Cart
 from .views.offers import Offers
@@ -36,6 +36,7 @@ urlpatterns = [
     path('signup', Signup.as_view(), name='signup'),
     path('login', Login.as_view(), name='login'),
     path('logout', logout , name='logout'),
+    path('forgot_password/', ForgoPasswordView.as_view(), name='forgot_password'),
 
     path('cart', auth_middleware(Cart.as_view()) , name='cart'),
     path('offers', auth_middleware(Offers.as_view()) , name='offers'),
@@ -45,19 +46,17 @@ urlpatterns = [
     path('sales', auth_middleware(Sales.as_view()), name='sales'),
 
     path('profile/<int:user_id>', Profile.as_view(), name='profile'),
-
     path('profile', DashboardView.as_view(), name='profile'),
     path('dashboard', DashboardView.as_view(), name='dashboard'),
     path('dashboard/<str:page>', DashboardView.as_view(), name='dashboard'),
+    path('message', MessagesView.as_view(), name='messages'),
+    path('message/<int:receiver_id>', MessagesView.as_view(), name='messages'),
 
     path('product/<int:product_id>', Product.as_view(), name='product'),
     path('product/remove/<int:product_id>', remove, name='product_remove'),
-    path('modify_user', ModifyUser.as_view(), name='modify_user'),
     path('my_products', auth_middleware(MyProductsView.as_view()), name='my_products'),
     path('modify_product/<int:product_id>', ModifyProduct.as_view(), name='modify_product'),
-    path('message', MessagesView.as_view(), name='messages'),
-    path('message/<int:receiver_id>', MessagesView.as_view(), name='messages'),
-    path('forgot_password/', ForgoPasswordView.as_view(), name='forgot_password'),
+    path('user_products/<int:customer_id>', UserProductsView.as_view(), name='user_products'),
 ]
 
 if settings.DEBUG:
