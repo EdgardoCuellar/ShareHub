@@ -14,8 +14,10 @@ import string
 
 class ForgoPasswordView(View):
 
+    html_template = "customer/forgot_password.html"
+
     def get(self, request):
-        return render(request, "forgot_password.html")
+        return render(request, self.html_template)
 
     def post(self, request):
         email = request.POST.get('email')
@@ -40,7 +42,7 @@ class ForgoPasswordView(View):
             user.save()
 
             return redirect('login') 
-        return render(request, "forgot_password.html", {'error': 'L\'adresse email n\'est relié à aucun compte!'})
+        return render(request, self.html_template, {'error': 'L\'adresse email n\'est relié à aucun compte!'})
 
     def generate_key(self, user):
         random.seed(hash(user))

@@ -3,11 +3,16 @@ from store.models.product import Products
 from store.models.category import Category, Condition, Place
 from django.views import View
 from datetime import datetime
+from store.models.customer import Customer
+from store.models.product_img import ProductImage
 
 
 class ModifyProduct (View):
+
+    html_template = "products/modify_product.html"
+
     def get(self, request, product_id):
-        if request.session.get('customer') != Products.get_product_by_id(product_id).user_id or Products.get_product_by_id(product_id).sold:
+        if request.session.get('customer') != Products.get_product_by_id(product_id).customer.id or Products.get_product_by_id(product_id).sold:
             return redirect('homepage')
 
         categories = Category.get_all_categories()
@@ -15,10 +20,20 @@ class ModifyProduct (View):
         places = Place.get_all_places()
         product = Products.get_product_by_id(product_id)
         product.price = product.price / 100
-        return render (request, 'modify_product.html', {'product': product, 'categories': categories, 'conditions': conditions, 'places': places})
+
+        error = request.session.get('error')
+        if error:
+            del request.session['error']
+
+        return render (request, self.html_template, {
+            'product': product,
+            'error': error,
+            'categories': categories, 
+            'conditions': conditions, 
+            'places': places})
 
     def post(self, request, product_id):
-        if request.session.get('customer') != Products.get_product_by_id(product_id).user_id:
+        if request.session.get('customer') != Products.get_product_by_id(product_id).customer.id:
             return redirect('homepage')
         
         product = Products.get_product_by_id(product_id)
@@ -30,7 +45,7 @@ class ModifyProduct (View):
             condition = request.POST.get('condition')
             place = request.POST.get('place')
             description = request.POST.get('description')
-            image = request.FILES.get('image')
+            length = int(request.POST.get('length'))
 
             if name:
                 product.name = name
@@ -47,20 +62,28 @@ class ModifyProduct (View):
                 product.place = Place.get_place_by_name(place)
             if description:
                 product.description = description
-            if image:
-                product.image = image
+            if length > 0:
+                ProductImage.remove_images_by_product_id(product_id)
+
+                for file_num in range(0, int(length)):
+                    ProductImage.objects.create(
+                    product=product,
+                    image=request.FILES.get(f'images{file_num}')
+                )
 
             error_message = self.validateProduct(product)
             
             if not error_message:
                 product.save()
-                return redirect('/product/'+str(product.id))  # Redirect to the homepage or any other appropriate page after successful upload
+                return redirect('product', product.id)  # Redirect to the homepage or any other appropriate page after successful upload
 
         categories = Category.get_all_categories()
         condition = Condition.get_all_conditions()
         places = Place.get_all_places()
-        return render(request, 'modify_product.html', {'categories': categories,'condition': condition, 'error': error_message, 'places': places})
 
+        request.session['error'] = error_message
+        
+        return redirect("modify_product", product.id)
 
 
     def validateProduct(self, product_validation):
@@ -80,29 +103,4 @@ class ModifyProduct (View):
         elif len(product_validation.description) <= 10:
             error_message = "La description doit au moins faire 10 caractères"
 
-        # Add file upload validation
-        if not Products.validate_image(product_validation.image):
-            error_message = "L'image doit être au format .jpg ou .png, avoir une taille inférieure à 5 Mo et des dimensions minimales de 250x300 pixels."
-
         return error_message
-
-    def validate_image(self, image):
-            # Check if the uploaded file is an image
-        if not image:
-            return False
-        ext = image.name.split('.')[-1].lower()
-        if ext not in ['jpg', 'jpeg', 'png']:
-            return False
-
-        # Check file size (less than 5MB)
-        if image.size > 5 * 1024 * 1024:  # 5MB
-            return False
-
-        # Check image dimensions (at least 250x300 pixels)
-        from PIL import Image
-        img = Image.open(image)
-        width, height = img.size
-        if width < 250 or height < 300:
-            return False
-
-        return True

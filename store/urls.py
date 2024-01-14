@@ -3,21 +3,25 @@ from django.urls import path
 
 from .views.homepage import Homepage
 from .views.index import IndexView
-from .views.signup import Signup
-from .views.login import Login , logout
+
+from .views.customer.signup import Signup
+from .views.customer.login import Login , logout
+from .views.customer.message import MessagesView
+from .views.customer.modify_user import ModifyUser
+from .views.customer.profile import Profile
+from .views.customer.dashboard import DashboardView
+from .views.customer.forgot_password import ForgoPasswordView
+
+from .views.products.product import Product, remove
+from .views.products.modify_product import ModifyProduct
+from .views.products.my_products import MyProductsView
+from .views.products.sell import Sell
+
 from .views.cart import Cart
 from .views.offers import Offers
 from .views.checkout import CheckOut
 from .views.orders import OrderView
 from .views.sales import Sales
-from .views.sell import Sell
-from .views.profile import Profile
-from .views.product import Product, remove
-from .views.message import MessagesView
-from .views.modify_user import ModifyUser
-from .views.modify_product import ModifyProduct
-from .views.my_products import MyProductsView
-from .views.forgot_password import ForgoPasswordView
 
 from .middlewares.auth import  auth_middleware
 
@@ -39,8 +43,13 @@ urlpatterns = [
     path('sell', Sell.as_view(), name='sell'),
     path('orders', auth_middleware(OrderView.as_view()), name='orders'),
     path('sales', auth_middleware(Sales.as_view()), name='sales'),
-    path('profile', Profile.as_view(), name='profile'),
+
     path('profile/<int:user_id>', Profile.as_view(), name='profile'),
+
+    path('profile', DashboardView.as_view(), name='profile'),
+    path('dashboard', DashboardView.as_view(), name='dashboard'),
+    path('dashboard/<str:page>', DashboardView.as_view(), name='dashboard'),
+
     path('product/<int:product_id>', Product.as_view(), name='product'),
     path('product/remove/<int:product_id>', remove, name='product_remove'),
     path('modify_user', ModifyUser.as_view(), name='modify_user'),

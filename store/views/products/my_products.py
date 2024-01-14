@@ -7,6 +7,8 @@ from store.middlewares.auth import auth_middleware
 
 class MyProductsView(View):
 
+    html_template = "products/my_products.html"
+
     def get(self , request ):
         if not request.session.get('customer'):
             return redirect('login')
@@ -14,7 +16,7 @@ class MyProductsView(View):
         customer = request.session.get('customer')
         products = Products.get_products_by_userid(customer)
         
-        return render(request , 'my_products.html'  , {'products' : products})
+        return render(request , self.html_template  , {'products' : products})
 
 
 

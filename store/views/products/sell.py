@@ -9,7 +9,7 @@ from datetime import datetime
 
 class Sell (View):
 
-    html_link = 'sell.html'
+    html_link = 'products/sell.html'
 
     def get(self, request):
         categories = Category.get_all_categories()

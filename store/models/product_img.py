@@ -1,5 +1,6 @@
 from django.db import models
 from .product import Products
+import os
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
@@ -28,3 +29,14 @@ class ProductImage(models.Model):
     @staticmethod
     def get_images_by_product_id(product_id):
         return ProductImage.objects.filter(product_id=product_id)
+
+    @staticmethod
+    def remove_images_by_product_id(product_id):
+        old_images = ProductImage.objects.filter(product_id=product_id)
+
+        for image in old_images:
+            print(image.image)
+            os.remove("media/" + str(image.image))
+
+        ProductImage.objects.filter(product_id=product_id).delete()
+       

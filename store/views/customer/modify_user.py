@@ -7,13 +7,16 @@ from django.contrib.auth.hashers import make_password
 from django.views import View
 
 class ModifyUser(View):
+
+    html_template = "customer/modify_user.html"
+
     def get(self, request):
         # Get the customer to be modified
         if not request.session.get('customer'):
             return redirect('login')
         user = Customer.get_customer_by_id(request.session.get('customer'))
         categories = Category.get_all_categories()
-        return render(request, 'modify_user.html', {'user': user, 'categories': categories})
+        return render(request, self.html_template, {'user': user, 'categories': categories})
 
     def post(self, request):
         # Get the customer to be modified
@@ -50,4 +53,4 @@ class ModifyUser(View):
                 return redirect('profile')
 
         categories = Category.get_all_categories()
-        return render(request, 'modify_user.html', {'user': user, 'categories': categories, 'error': error_message})
+        return render(request, self.html_template, {'user': user, 'categories': categories, 'error': error_message})

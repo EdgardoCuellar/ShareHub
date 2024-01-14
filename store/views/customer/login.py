@@ -7,9 +7,11 @@ from django.views import View
 class Login(View):
     return_url = None
 
+    html_template = "customer/login.html"
+
     def get(self, request):
         Login.return_url = request.GET.get ('return_url')
-        return render (request, 'login.html')
+        return render (request, self.html_template)
 
     def post(self, request):
         email = request.POST.get ('email')
@@ -32,7 +34,7 @@ class Login(View):
         else:
             error_message = 'Votre email n\'est pas enregistré !'
 
-        return render (request, 'login.html', {'error': error_message})
+        return render (request, self.html_template, {'error': error_message})
 
 def logout(request):
     request.session.clear()

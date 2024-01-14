@@ -5,6 +5,9 @@ from store.models.customer import Customer
 from store.models.message import Message
 
 class MessagesView(View):
+
+    html_template = "customer/message.html"
+
     def get(self, request, receiver_id=None):
         if not request.session.get('customer'):
             return redirect('login')
@@ -26,7 +29,7 @@ class MessagesView(View):
             'users_with_messages': users_with_messages,
         }
 
-        return render(request, 'message.html', context)
+        return render(request, self.html_template, context)
 
     def get_users_with_messages(self, user):
         # Get a list of all users who have messages with the sender
@@ -55,4 +58,4 @@ class MessagesView(View):
             'users_with_messages': users_with_messages,
         }
 
-        return render(request, 'message.html', context)
+        return render(request, self.html_template, context)

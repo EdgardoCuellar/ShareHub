@@ -6,6 +6,9 @@ from store.models.category import Category
 from django.views import  View
 
 class Profile(View):
+
+    html_template = "customer/profile.html"
+
     def get(self , request, user_id=None):
         same_user = True
         if user_id is not None and Customer.user_exists(user_id):
@@ -22,4 +25,4 @@ class Profile(View):
 
         rating = Rating.get_rating(user.id)
 
-        return render(request , 'profile.html' , {'user' : user, "same_user": same_user, "rating": rating} )
+        return render(request , self.html_template , {'user' : user, "rating": rating} )

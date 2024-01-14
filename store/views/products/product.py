@@ -8,6 +8,9 @@ from store.models.rating import Rating
 from django.views import  View
 
 class Product(View):
+
+    html_template = "products/product.html"
+
     def get(self , request, product_id=None):
         if product_id is not None and Products.product_exists(product_id):
             product = Products.get_product_by_id(product_id)
@@ -16,7 +19,7 @@ class Product(View):
                 offer = offer[0]
             rating = Rating.get_rating(product.customer.id)
             nb_offers = len(Prices.get_prices_by_product_id(product_id))
-            return render(request , 'product.html' , {'product' : product, 'product_offer': offer, 'rating': rating, 'nb_offers': nb_offers} )
+            return render(request , self.html_template , {'product' : product, 'product_offer': offer, 'rating': rating, 'nb_offers': nb_offers} )
         else:
             return redirect('index')
 
@@ -29,12 +32,10 @@ class Product(View):
         else:
             offer = Prices.get_price_by_buyer_product(request.session.get('customer') ,product_id)
             offer.delete()
-            return render(request , 'product.html' , {'product' : product, 'product_offer': None, 'rating': rating, 'nb_offers': nb_offers} )
+            return render(request , self.html_template , {'product' : product, 'product_offer': None, 'rating': rating, 'nb_offers': nb_offers} )
 
         offer = offer.replace(',', '.')        
-        if not self.is_offer_valid(offer):
-            return render(request , 'product.html' , {'product' : product, 'product_offer': None, 'rating': rating, 'error': 'Veuillez entrer un prix valide.', 'nb_offers': nb_offers} )
-
+        
         offer = int(float(offer) * 100)
         
         # create an offer
@@ -45,22 +46,14 @@ class Product(View):
                            status=0)
         new_offer.save()
 
-        return render(request , 'product.html' , {'product' : product, 'product_offer': new_offer, 'rating': rating, 'nb_offers': nb_offers} )
+        return render(request , self.html_template , {'product' : product, 'product_offer': new_offer, 'rating': rating, 'nb_offers': nb_offers} )
 
-    def is_offer_valid(self, offer):
-        #Check if the offer price is valid, it should be higher than the product price and should be a number
-        if not offer:
-            return False
-        try: 
-            offer = float(offer)
-        except:
-            return False
-        if offer <= 0:
-            return False
-        return True
 
 def remove(request, product_id):
     if request.session.get('customer') != Products.get_product_by_id(product_id).customer.id:
         return redirect('index')
+
+    ProductImage.remove_images_by_product_id(product_id)
+
     Products.remove_product_by_id(product_id)
     return redirect('index')

@@ -5,9 +5,12 @@ from store.models.category import Category
 from django.views import View
 
 class Signup(View):
+
+    html_template = "customer/signup.html"
+
     def get(self, request):
         categories = Category.get_all_categories()
-        return render(request, 'signup.html', {'categories': categories})
+        return render(request, self.html_template, {'categories': categories})
 
     def post(self, request):
         postData = request.POST
@@ -48,4 +51,4 @@ class Signup(View):
                 'values': value,
                 'categories': Category.get_all_categories()
             }
-            return render(request, 'signup.html', data)
+            return render(request, self.html_template, data)
