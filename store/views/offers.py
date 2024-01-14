@@ -5,16 +5,20 @@ from django.views import  View
 from store.models.product import Products
 import random
 
+from django.utils.decorators import method_decorator
+from store.utils.decorators import user_login_required
+
 class Offers(View):
+
+    @method_decorator(user_login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
     def get(self , request):
-        if not request.session.get('customer'):
-            return redirect('login')            
         products_offer = self.get_offers(request)
         return render(request , 'offers.html' , {'products': products_offer} )
 
     def post(self , request):
-        if not request.session.get('customer'):
-            return redirect('login')
         offer_id = int(request.POST.get('offer'))
         offer = Prices.get_price_by_id(offer_id)
         offer.status = 1

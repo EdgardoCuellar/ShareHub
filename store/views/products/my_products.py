@@ -5,14 +5,18 @@ from django.views import View
 from store.models.product import Products
 from store.middlewares.auth import auth_middleware
 
+from django.utils.decorators import method_decorator
+from store.utils.decorators import user_login_required
+
 class MyProductsView(View):
 
     html_template = "products/my_products.html"
 
-    def get(self , request ):
-        if not request.session.get('customer'):
-            return redirect('login')
+    @method_decorator(user_login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
+    def get(self , request ):
         customer = request.session.get('customer')
         products = Products.get_products_by_userid(customer)
         

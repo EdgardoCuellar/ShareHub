@@ -8,13 +8,18 @@ from store.models.product import Products
 from store.models.orders import Order
 from django.views import  View
 
+from django.utils.decorators import method_decorator
+from store.utils.decorators import user_login_required
+
 class DashboardView(View):
 
     html_template = "customer/dashboard.html"
 
+    @method_decorator(user_login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
     def get(self , request, page=None):
-        if not request.session.get('customer'):
-            return redirect('login')
         if not page:
             page = 'profile'
 
@@ -50,8 +55,6 @@ class DashboardView(View):
         } )
 
     def post(self, request, page=None):
-        if not request.session.get('customer'):
-            return redirect('login')
         if not page:
             redirect('dashboard')
 

@@ -6,10 +6,16 @@ from store.models.category import Category, Condition, Place
 from django.views import View
 from datetime import datetime
 
+from django.utils.decorators import method_decorator
+from store.utils.decorators import user_login_required
 
 class Sell (View):
 
     html_link = 'products/sell.html'
+
+    @method_decorator(user_login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get(self, request):
         categories = Category.get_all_categories()

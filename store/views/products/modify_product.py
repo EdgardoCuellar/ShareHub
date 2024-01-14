@@ -6,10 +6,16 @@ from datetime import datetime
 from store.models.customer import Customer
 from store.models.product_img import ProductImage
 
+from django.utils.decorators import method_decorator
+from store.utils.decorators import user_login_required
 
 class ModifyProduct (View):
 
     html_template = "products/modify_product.html"
+
+    @method_decorator(user_login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, product_id):
         if request.session.get('customer') != Products.get_product_by_id(product_id).customer.id or Products.get_product_by_id(product_id).sold:

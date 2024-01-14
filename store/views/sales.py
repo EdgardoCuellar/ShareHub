@@ -6,8 +6,14 @@ from store.models.product import Products
 from store.models.orders import Order
 from store.middlewares.auth import auth_middleware
 
+from django.utils.decorators import method_decorator
+from store.utils.decorators import user_login_required
+
 class Sales(View):
 
+    @method_decorator(user_login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get(self , request ):
         if not request.session.get('customer'):

@@ -4,13 +4,18 @@ from django.views import View
 from store.models.customer import Customer
 from store.models.message import Message
 
+from django.utils.decorators import method_decorator
+from store.utils.decorators import user_login_required
+
 class MessagesView(View):
 
     html_template = "customer/message.html"
 
+    @method_decorator(user_login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
     def get(self, request, receiver_id=None):
-        if not request.session.get('customer'):
-            return redirect('login')
 
         sender = Customer.get_customer_by_id(request.session.get('customer'))
         receiver = None

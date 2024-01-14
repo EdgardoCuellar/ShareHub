@@ -7,8 +7,14 @@ from store.models.orders import Order
 from store.models.rating import Rating
 from store.middlewares.auth import auth_middleware
 
+from django.utils.decorators import method_decorator
+from store.utils.decorators import user_login_required
+
 class OrderView(View):
 
+    @method_decorator(user_login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get(self , request ):
         if not request.session.get('customer'):
