@@ -19,6 +19,9 @@ class MessagesView(View):
         if receiver_id is not None:
             receiver = Customer.get_customer_by_id(receiver_id)
             messages = Message.objects.filter(sender=sender, receiver=receiver) | Message.objects.filter(sender=receiver, receiver=sender)
+            # order the messages by message_id
+            messages = messages.order_by('id')
+
 
         users_with_messages = self.get_users_with_messages(sender)
 

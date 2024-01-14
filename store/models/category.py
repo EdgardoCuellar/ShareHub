@@ -4,6 +4,9 @@ from django.core.exceptions import ObjectDoesNotExist
 class Category(models.Model):
     name= models.CharField(max_length=50, default="")
 
+    def __str__(self):
+        return self.name
+
     @staticmethod
     def get_category_by_id(id):
         try:

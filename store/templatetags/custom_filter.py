@@ -1,6 +1,7 @@
 from django import template
 from store.models.customer import Customer
 from store.models.product import Products
+from store.models.category import Category
 from store.models.product_img import ProductImage
 
 register = template.Library()
@@ -46,3 +47,11 @@ def is_only_one_image(product_id):
     if nb_img == 1:
         return True
     return False
+
+@register.filter(name='get_category_name')
+def get_category_name(category_id):
+    return Category.get_category_by_id(category_id).name
+
+@register.simple_tag
+def define(val=None):
+    return val

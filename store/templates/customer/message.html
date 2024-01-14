@@ -5,288 +5,110 @@
 
 {% load custom_filter %}
 
-<style>
-    .app {
-        position: relative;
-        top: 19px;
-        margin: auto;
-        border: solid 1px darkgray;
-        border-radius: 15px;
-        min-width: 40%;
-        max-width: 60%;
-        padding: 0;
-        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-        overflow: hidden;
-        margin-bottom: 3rem;
-    }
-
-    .main-row {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        width: 100%;
-        margin: 0 auto;
-        flex-grow: 1;
-        overflow: hidden;
-        height: 80vh;
-    }
-
-    a {
-        text-decoration: none !important;
-    }
-
-    img {
-        width: 100%;
-        height: 100%;
-    }
-
-    .side {
-        height: 100%;
-        width: 20%;
-    }
-
-    .sideBar {
-        padding: 0.5rem;
-        border-bottom: solid 1px #9EA1D4;
-    }
-
-    .avatar-icon {
-        width: 50px;
-        height: 50px;
-        overflow: hidden;
-    }
-
-    .name-user {
-        font-family: 'Roboto', sans-serif;
-        font-size: 18px;        
-        font-weight: 300;
-        color: #000000;
-        margin-left: 5px;
-
-    }
-    /*Conversation*/
-
-    .conversation {
-        width: 80%;
-        padding: 0 !important;
-        margin: 0 !important;
-        height: 100%;
-        /*width: 100%;*/
-        border-left: 1px solid rgba(0, 0, 0, .08);
-        overflow-y: hidden;
-        overflow: hidden;
-    }
-
-    .message {
-    padding: 0 !important;
-    margin-left: 0;
-    margin-top: 0.3rem;
-    margin-bottom: 0;
-    margin-right: 0;
-    
-    background-size: cover;
-    overflow-y: auto;
-    border: 1px solid #f7f7f7;
-    height: calc(100% - 120px);
-    display: list-item;
-    }
-
-    .message-body {
-    margin-bottom: 0.3rem !important;
-    padding: 0 !important;
-    width: auto;
-    height: auto;
-    }
-
-    .message-text {
-    margin: 0 !important;
-    padding: 5px !important;
-    word-wrap:break-word;
-    font-weight: 400;
-    font-size: 14px;
-    padding-bottom: 0 !important;
-    }
-
-    .message-time {
-        margin: 0 !important;
-        margin-left: 50px !important;
-        font-size: 12px;
-        text-align: right;
-        color: #EEE;
-        font-weight: 300;
-    }
-
-    .receiver {
-        color: #FAFAFA;
-        width: auto !important;
-        max-width: 90% !important;
-        padding: 4px 10px 7px !important;
-        border-radius: 10px 10px 10px 0;
-        background: #9EA1D4;
-        text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-        word-wrap: break-word;
-        display: inline-block;
-    }
-
-    .sender {
-        color: #FAFAFA;
-        float: right;
-        width: auto !important;
-        max-width: 90% !important;
-        background: #82A0D8;
-        border-radius: 10px 10px 0 10px;
-        padding: 4px 10px 7px !important;
-        text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-        display: inline-block;
-        word-wrap: break-word;
-    }
-
-
-    /*Reply*/
-
-    .reply {
-        height: 60px;
-        width: 100%;
-        padding: 0px 5px 10px 5px !important;
-        margin: 0 !important;
-        z-index: 1000;
-    }
-
-    .reply-main textarea {
-        width: 100%;
-        resize: none;
-        overflow: hidden;
-        padding: 5px !important;
-        text-indent: 5px;
-        height: 100%;
-        font-size: 16px;
-    }
-
-    .reply-input{
-        width: 98%;
-        resize: none;
-        overflow: hidden;
-        padding: 5px !important;
-        padding-right: 40px !important;
-        margin: 0.2rem !important ;
-        text-indent: 5px;
-        font-size: 16px;
-        border: #82A0D8 solid 2px;
-        border-radius: 10px;
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-        color: #000000aa;
-    }
-
-    .reply-input:focus{
-        outline: none;
-        border: #004D95 solid 2px;
-        color: #000000dd;
-    }
-</style>
-
-<script>
-    // Function to scroll the messages container to the bottom
-    function scrollToBottom() {
-        var conversation = document.getElementById("conversation");
-        conversation.scrollTop = conversation.scrollHeight;
-    }
-
-    // Call the function when the page loads
-    window.onload = scrollToBottom;
-</script>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<div class="container app">
-  <div class="main-row">
-    <div style="width: 20%; padding-left: 0.5rem; overflow: hidden;">
-        {% for user in users_with_messages %}
-            {% if user.id == receiver.id %}
-            <div class="row sideBar" style="background-color: #9EA1D433;">
-            {% else %}
-            <div class="row sideBar">
-            {% endif %}
-                <a href="/message/{{user.id}}">
-                <div class="row sideBar-body">
-                    <div class="col-sm-3 col-xs-3 sideBar-avatar">
-                        <div class="avatar-icon">
-                            <img src="{{user.id|user_img}}">
+<div class="sm:w-full sm:mx-4 md:w-8/12 md:mx-auto shadow-lg" 
+    style="min-height: 70vh; border: lightgray solid 1px;">
+    <!-- Chatting -->
+    <div class="flex flex-row justify-between bg-white min-h-full" style="min-height: 70vh;">
+        <!-- chat list -->
+        <div class="flex flex-col w-64 border-r-2 overflow-y-auto min-h-full">
+            <!-- user list -->
+            {% for user in users_with_messages %}
+                {% if user.id == receiver.id %}
+                <div class="h-16 flex flex-row py-4 pr-2 items-left border-b-1" style="border-left: #a8a5d4 solid 2px;">
+                {% else %}
+                <div class="h-16 flex flex-row py-4 pr-2 items-left border-b-1"> 
+                {% endif %}
+                <a href="/message/{{user.id}}"
+                    class="flex flex-row items-center">
+                    <div class="h-14 w-10 text-center pt-2 mx-2">
+                        <img
+                        src="{{user.id|user_img}}"
+                        class="object-cover"
+                        alt=""
+                        />
+                    </div>
+                    <div class="w-full">
+                        <div class="text-lg font-semibold">
+                            {{user.first_name}} {{user.last_name}}
+                        </div>
+                            <span class="text-gray-500 text-sm">
+                                {{user.faculty|get_category_name}}
+                            </span>
                         </div>
                     </div>
-                    <div class="col-sm-9 col-xs-9" style="margin: auto;">
-                        <span class="name-user">{{user.first_name}}</span>
-                    </div>
-                </div>
                 </a>
-            </div>
-        {% endfor %}
-    </div>
-
-    <div class="col-sm-8 conversation mt-2">
-        {% if receiver %}
-        <div class="row heading mt-2" style="padding-left: 0.5rem; padding-bottom: 0.5rem; border-bottom: darkgray solid 1px;">
-            <div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
-            <div class="avatar-icon ">
-                <img src="{{receiver.id|user_img}}">
-            </div>
-            </div>
-            <div class="col-sm-10 col-xs-7" style="margin: auto;">
-            <a href="/profile/{{receiver.id}}" class="name-user" style="font-weight: 500;font-size: 20px;">
-                {{receiver.first_name}} {{receiver.last_name}}
-            </a>
-            </div>
+            {% endfor %}
+            <!-- end user list -->
         </div>
-
-      <div class="row message" id="conversation">
-        {% for message in messages %}
-            {% if message.sender.id != sender.id %}
-            <div class="row message-body">
-                <div class="message-main-receiver" style="padding-left: 1.2rem;">
-                    <div class="receiver">
-                        <div class="message-text">
-                            {{ message.content }}
+        <!-- end chat list -->
+        <!-- message -->
+        <div class="w-full px-2 flex flex-col justify-between">
+            {% if receiver %}
+            <div class="flex flex-col pt-4 overflow-y-auto" style="height: 68vh;">
+                {% define -1 as last_id %}
+                {% for message in messages %}
+                    {% if message.sender.id == sender.id %}
+                        <div class="flex justify-end mb-1">
+                            {% if last_id != message.sender.id %}
+                                <div class="mr-2 py-3 px-4 rounded-bl-3xl rounded-tl-3xl rounded-br-xl text-white"
+                                    style="background-color: #a8a5d4;">
+                                    {{ message.content }}
+                                </div>
+                                <img
+                                    src="{{sender.id|user_img}}"
+                                    class="object-cover h-8 w-6"
+                                    alt=""
+                                />
+                            {% else %}
+                                <div class="mr-8 py-3 px-4 rounded-bl-3xl rounded-tl-3xl rounded-br-xl text-white"
+                                    style="background-color: #a8a5d4;">
+                                    {{ message.content }}
+                                </div>
+                            {% endif %}
                         </div>
-                        <span class="message-time pull-right">
-                            {{ message.timestamp }}
-                        </span>
-                    </div>
-                </div>
+                    {% else %}
+                        <div class="flex justify-start mb-1">
+                            {% if last_id != message.sender.id %}
+                                <img
+                                    src="{{receiver.id|user_img}}"
+                                    class="object-cover h-8 w-6"
+                                    alt=""
+                                />
+                                <div class="ml-2 py-3 px-4 rounded-br-3xl rounded-tr-3xl rounded-bl-xl text-white"
+                                    style="background-color: #FFCBCB;">
+                                    {{ message.content }}
+                                </div>
+                            {% else %}
+                                <div class="ml-8 py-3 px-4 rounded-br-3xl rounded-tr-3xl rounded-bl-xl text-white"
+                                    style="background-color: #FFCBCB;">
+                                    {{ message.content }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {% define message.sender.id as last_id %}
+                {% endfor %}
             </div>
-            {% else %}
-            <div class="row message-body">
-                <div class="message-main-sender" style="padding-right: 0;">
-                    <div class="sender">
-                        <div class="message-text">
-                            {{ message.content }}
+            <div class="py-2">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <div class="position-relative">
+                        <input type="text" class="py-3 px-3 rounded-xl" style="width: calc(100%);"
+                            name="content" placeholder="Votre message" />
+                        <div style="position:relative;margin-left: calc(100% - 3rem);margin-top: -2.5rem;">
+                            <button type="submit" >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" stroke-width="1.5" stroke="#82A0D8" 
+                                class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                            </svg>
+                        </button>
                         </div>
-                        <span class="message-time pull-right">
-                            {{ message.timestamp }}
-                        </span>
                     </div>
-                </div>
+                </form>
             </div>
             {% endif %}
-        {% endfor %}
-      </div>
-
-      <div class="row reply">
-        <form method="post" action="">
-            {% csrf_token %}
-            <div class="position-relative">
-                <input type="text" class="reply-input" name="content" placeholder="Votre message" />
-                <button type="submit" class="reply-send position-absolute" style="margin-top: 8.5px; margin-left: -42px;border: none;">
-                    <i class="fa fa-send" style="color: #82A0D8; font-size: large;"></i>
-                </button>
-            </div>
-        </form>
-        
-        
-            
-      </div>
-      {% endif %}
+        </div>
     </div>
-  </div>
 </div>
-
-
 
 {% endblock %}
