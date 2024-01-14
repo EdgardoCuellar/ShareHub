@@ -100,12 +100,14 @@
           <div class="flex items-center space-x-4 mb-2 md:mb-0">
             <a href="/" class="flex items-center text-dark">
               <img src="/media/img/logo.png" alt="Logo" class="w-12 h-12 mr-2">
+            </a>
+            <a href="index">
               <h2 class="text-xl font-bold text-dark">ShareHub</h2>
             </a>
           </div>
 
           <div class="flex-grow flex items-center justify-center space-x-4 mb-2 md:mb-0">
-            <a href="{% url 'cart' %}" class="text-gray-800">Propositions</a>
+            <a href="{% url 'proposition' %}" class="text-gray-800">Propositions</a>
             <a href="{% url 'offers' %}" class="text-gray-800">Offres</a>
             <a href="{% url 'sell' %}" class="text-gray-800">Vendre</a>
           </div>
@@ -114,7 +116,10 @@
               
               {% if not request.session.customer %}
                 <a href="{% url 'login' %}" class="text-gray-800">Connexion</a>
-                <a href="{% url 'signup' %}" class="text-gray-800">S'enregistrer</a>
+                <a href="{% url 'signup' %}" 
+                  class="btn-ulb rounded-full antialiased font-bold px-4 py-2">
+                    S'enregistrer
+                </a>
               {% endif %}
               
               {% if request.session.customer %}
@@ -145,7 +150,7 @@
       </div>
   </div>
 
-  <div class="w-full mt-4">
+  <div class="w-full">
       {% block content %}{% endblock %}
   </div>
 

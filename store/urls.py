@@ -17,7 +17,7 @@ from .views.products.my_products import MyProductsView
 from .views.products.sell import Sell
 from .views.products.user_products import UserProductsView
 
-from .views.cart import Cart
+from .views.proposition import PropositionView
 from .views.offers import Offers
 from .views.checkout import CheckOut
 from .views.orders import OrderView
@@ -38,7 +38,7 @@ urlpatterns = [
     path('logout', logout , name='logout'),
     path('forgot_password/', ForgoPasswordView.as_view(), name='forgot_password'),
 
-    path('cart', auth_middleware(Cart.as_view()) , name='cart'),
+    path('proposition', auth_middleware(PropositionView.as_view()) , name='proposition'),
     path('offers', auth_middleware(Offers.as_view()) , name='offers'),
     path('check-out', CheckOut.as_view() , name='checkout'),
     path('sell', Sell.as_view(), name='sell'),

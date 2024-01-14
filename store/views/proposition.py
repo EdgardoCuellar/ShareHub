@@ -4,13 +4,15 @@ from store.models.prices import Prices
 from django.views import  View
 from store.models.product import Products
 
-class Cart(View):
+class PropositionView(View):
+    html_template = "proposition.html"
+
     def get(self , request):
         if not request.session.get('customer'):
             return redirect('login')
         offers = Prices.get_prices_by_buyer_id(request.session.get('customer'))
         print("offres: ", offers)
-        return render(request , 'cart.html' , {'offers' : offers} )
+        return render(request , self.html_template , {'offers' : offers} )
 
     def post(self , request):
         if not request.session.get('customer'):
@@ -21,4 +23,4 @@ class Cart(View):
         offer.save()
         
         offers = Prices.get_prices_by_buyer_id(request.session.get('customer'))
-        return render(request , 'cart.html' , {'offers' : offers} )
+        return render(request , self.html_template , {'offers' : offers} )

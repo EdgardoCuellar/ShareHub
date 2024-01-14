@@ -44,7 +44,7 @@ class Signup(View):
             customer.register()
 
             request.session['customer'] = customer.id
-            return redirect('product')
+            return redirect('index')
         else:
             data = {
                 'error': error_message,

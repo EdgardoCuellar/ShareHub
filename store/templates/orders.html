@@ -2,10 +2,6 @@
 {% load custom_filter %}
 
 <style>
-    a {
-        @apply no-underline text-black;
-    }
-
     .disabled {
         color: #00000088;
     }
@@ -34,22 +30,10 @@
     });
 </script>
 
-<div class="container mx-auto">
-    <div class="main-container p-4 m-4">
-        <p class="text-4xl pl-4 ml-4">Vos achats</p>
-        <table class="table w-full">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Nom</th>
-                    <th>Date</th>
-                    <th>Prix</th>
-                    <th>Lieu d'échange</th>
-                    <th>Vendeur</th>
-                    <th>Status</th>
-                    <th>Noter</th>
-                </tr>
-            </thead>
+<div class="w-full">
+    <div class="bg-white rounded-lg overflow-hidden px-6">
+        <h2 class="text-2xl mb-2">Vos achats</h2>
+        <table class="table w-full border-collapse">
             <tbody>
                 {% for order in orders %}
                     <tr>
@@ -83,27 +67,48 @@
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    <form action="/orders" method="post">
+                                    <form action="{% url 'dashboard' 'orders' %}" method="post">
                                         {% csrf_token %}
                                         <input type="hidden" id="selectedRating" name="rating" value="0">
                                         <input type="hidden" name="order_id" value="{{ order.id }}">
-                                        <div class="ratings mt-2">
-                                            <i class="fa fa-star" data-rating="1"></i>
-                                            <i class="fa fa-star" data-rating="2"></i>
-                                            <i class="fa fa-star" data-rating="3"></i>
-                                            <i class="fa fa-star" data-rating="4"></i>
-                                            <i class="fa fa-star" data-rating="5"></i>
+                                        <div class="ratings flex flex-row space-x-1">
+                                            <svg data-rating="1" class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
+                                            <svg data-rating="2" class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
+                                            <svg data-rating="3" class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
+                                            <svg data-rating="4" class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
+                                            <svg data-rating="5" class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
                                         </div>
+
                                         <button type="submit" class="btn btn-warning mt-2">Valider</button>
                                     </form>
                                 {% endif %}
                             {% else %}
-                                <div class="ratings mt-2">
-                                    <i class="fa fa-star disabled"></i>
-                                    <i class="fa fa-star disabled"></i>
-                                    <i class="fa fa-star disabled"></i>
-                                    <i class="fa fa-star disabled"></i>
-                                    <i class="fa fa-star disabled"></i>
+                                <div class="ratings flex flex-row space-x-1">
+                                    <svg disabled class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                    <svg disabled class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                    <svg disabled class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                    <svg disabled class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                    <svg disabled class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
                                 </div>
                             {% endif %}
                         </td>

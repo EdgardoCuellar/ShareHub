@@ -6,112 +6,70 @@
 {% load custom_filter %}
 
 <style>
-  a {
-    text-decoration: none !important;
-    color: #000000dd;
-  }
 
-  .btn {
-    width: 150px;
-    font-size: large;
-    padding: 5px 20px;
-    border-radius: 10px;
-    margin: auto;
-    text-decoration: none;
-  }
-
-  .accept {
-    color: #000000dd;
-    border: #004D95 solid 2px;
-  }
-
-  .accept:hover {
-      background-color: #004D95;
-      color: white;
-  }
-
-  .refuse {
-    color: red;
-    border: #004D95 solid 2px;
-  }
-
-  .refuse:hover {
-      background-color: red;
-      color: white;
-  }
 </style>
 
-<section class="h-100" style="background-color: #F5F5F5;">
-  <div class="container h-100 py-3">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-10">
+<link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 class="fw-normal mb-0 text-black">Vos offres</h3>
-        </div>
-        <table class="table">
-          <thead>
-              <tr>
-                  <th>Vos articles</th>
-                  <th>Les offres
-                    <i class="fas fa-info-circle" style="color: #004D95; margin-left: 10px;" data-bs-toggle="tooltip" data-bs-html="true" 
-                    title="Veillez préciser la manière dont vous souhaitez remettre le produit, ou envoyez un message à votre acheteur.">
-                    </i>
-                  </th>
-              </tr>
-          </thead>
-          <tbody>
-            {% for product in products %}
-            <tr style="height: 25vh;">
-              <td>
-                <div class="card rounded-3 mb-2">
-                  <div class="card-body p-2">
-                    <div class="row d-flex justify-content-between align-items-center" style="height: 100%; padding-left: 0.5rem;">
-                      <div class="col-md-2 col-lg-2 col-xl-2">
-                        <img src="{{ product.0.image.url }}" style="height: 23vh; width: auto;">
-                      </div>
-                      <div class="col-md-3 col-lg-3 col-xl-5">
-                        <p class="lead fw-normal mb-2"><a href="/product/{{ product.0.id }}">{{ product.0.name }}</a></p>
-                        <p><span class="text-muted"><a href="/product/{{ product.0.id }}">{{ product.0.category }}</a></span></p>
-                      </div>
-                      <div class="col-md-3 col-lg-2 col-xl-2">
-                        <h5 class="mb-0">{{ product.0.price|currency }}</h5>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                {% if product.2 > 0 %}
-                  <div>
-                    <h5 class="mb-0">Nombre d'offres: {{ product.2 }}</h5>
-                    <div style="margin-top:0.5rem; align-items:center;text-align: center;">
-                      <h5>{{product.1.price|currency}}</h5>
-                      <form action="/check-out" method="POST">
-                        {% csrf_token %}
-                        <input hidden type="text" name='offer' value='{{product.1.id}}'>
-                        <input type="submit" value="Accepter" class="btn accept">
-                      </form>
-                      <form action="/offers" method="POST" class="mt-2">
-                        {% csrf_token %}
-                        <input hidden type="text" name='offer' value='{{product.1.id}}'>
-                        <input type="submit" value="Refuser"  class="btn refuse">
-                      </form>
-                    </div>
-                  </div>
-                {% else %}
-                  <span class="no_offer">Vous n'avez pas d'offre pour ce produit</span>
-                {% endif %}
-              </td>
-            </tr>
-            {% endfor %}
-            
-          </tbody>         
-        </table>
-      </div>
-    </div>
+<div class="w-full sm:mx-4 md:w-6/12 md:mx-auto">
+      <div class="flex justify-center">
+          <div class="w-full">
+
+            <h2 class="text-2xl mb-2">Vos offres</h2>
+            <table class="table w-full border-collapse">
+                <tbody>
+                      {% for product in products %}
+                      <tr class="border-t border-gray-200">
+                          <td>
+                              <div class="card rounded-3 mb-2">
+                                <a href="{% url 'product' product.0.id %}">
+                                  <div class="card-body p-2">
+                                      <div class="flex justify-between items-center h-full" style="padding-left: 0.5rem;">
+                                          <div class="h-48 w-32">
+                                              <img src="{{ product.0.id|get_first_image_product }}" class="object-cover" alt="">
+                                          </div>
+                                          <div class="flex-shrink-0 w-4/12">
+                                              <p class="text-lg font-normal mb-2"><a href="/product/{{ product.0.id }}">{{ product.0.name }}</a></p>
+                                              <p><span class="text-muted"><a href="/product/{{ product.0.id }}">{{ product.0.category }}</a></span></p>
+                                          </div>
+                                          <div class="flex-shrink-0 w-3/12">
+                                              <h5 class="mb-0">{{ product.0.price|currency }}</h5>
+                                          </div>
+                                      </div>
+                                  </div>
+                                </a>
+                              </div>
+                          </td>
+                          <td>
+                              {% if product.2 > 0 %}
+                              <div>
+                                  <h5 class="mb-0">Nombre d'offres: {{ product.2 }}</h5>
+                                  <div class="mt-2 text-center">
+                                      <h5>{{product.1.price|currency}}</h5>
+                                      <form action="/check-out" method="POST">
+                                          {% csrf_token %}
+                                          <input hidden type="text" name='offer' value='{{product.1.id}}'>
+                                          <input type="submit" value="Accepter" class="btn accept">
+                                      </form>
+                                      <form action="/offers" method="POST" class="mt-2">
+                                          {% csrf_token %}
+                                          <input hidden type="text" name='offer' value='{{product.1.id}}'>
+                                          <input type="submit" value="Refuser" class="btn refuse">
+                                      </form>
+                                  </div>
+                              </div>
+                              {% else %}
+                              <span class="no_offer">Vous n'avez pas d'offre pour ce produit</span>
+                              {% endif %}
+                          </td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
   </div>
-</section>
+</div>
+
 
 {% comment %} 
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
