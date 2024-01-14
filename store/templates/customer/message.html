@@ -44,14 +44,16 @@
         <!-- message -->
         <div class="w-full px-2 flex flex-col justify-between">
             {% if receiver %}
-            <div class="flex flex-col pt-4 overflow-y-auto" style="height: 68vh;">
+            <div id="messageContainer" class="flex flex-col pt-4 overflow-y-auto" style="height: 68vh;">
                 {% define -1 as last_id %}
                 {% for message in messages %}
                     {% if message.sender.id == sender.id %}
                         <div class="flex justify-end mb-1">
+                            <div class="flex justify-end w-8/12">
                             {% if last_id != message.sender.id %}
                                 <div class="mr-2 py-3 px-4 rounded-bl-3xl rounded-tl-3xl rounded-br-xl text-white"
-                                    style="background-color: #a8a5d4;">
+                                    style="background-color: #a8a5d4;"
+                                    title="{{ message.timestamp }}">
                                     {{ message.content }}
                                 </div>
                                 <img
@@ -61,13 +63,15 @@
                                 />
                             {% else %}
                                 <div class="mr-8 py-3 px-4 rounded-bl-3xl rounded-tl-3xl rounded-br-xl text-white"
-                                    style="background-color: #a8a5d4;">
+                                    style="background-color: #a8a5d4;"
+                                    title="{{ message.timestamp }}">
                                     {{ message.content }}
                                 </div>
                             {% endif %}
+                            </div>
                         </div>
                     {% else %}
-                        <div class="flex justify-start mb-1">
+                        <div class="flex justify-start mb-1 w-8/12">
                             {% if last_id != message.sender.id %}
                                 <img
                                     src="{{receiver.id|user_img}}"
@@ -75,12 +79,14 @@
                                     alt=""
                                 />
                                 <div class="ml-2 py-3 px-4 rounded-br-3xl rounded-tr-3xl rounded-bl-xl text-white"
-                                    style="background-color: #FFCBCB;">
+                                    style="background-color: #FFCBCB;"
+                                    title="{{ message.timestamp }}">
                                     {{ message.content }}
                                 </div>
                             {% else %}
                                 <div class="ml-8 py-3 px-4 rounded-br-3xl rounded-tr-3xl rounded-bl-xl text-white"
-                                    style="background-color: #FFCBCB;">
+                                    style="background-color: #FFCBCB;"
+                                    title="{{ message.timestamp }}">
                                     {{ message.content }}
                                 </div>
                             {% endif %}
@@ -110,5 +116,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Scroll to the bottom of the container
+    var messageContainer = document.getElementById('messageContainer');
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+</script>
 
 {% endblock %}

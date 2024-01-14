@@ -9,7 +9,8 @@
 
 <div class="flex flex-col lg:flex-row w-full lg:w-8/12 lg:p-0 px-2 mx-auto">
 
-    <aside class="w-64 min-w-64 mx-auto rounded flex flex-col w-64 px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700">
+    <aside class="w-64 min-w-64 mx-auto rounded flex flex-col w-64 px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700"
+        style="height: 25rem;">
         <a href="#" class="mx-auto">
             <img class="w-auto h-12 sm:h-7" src="/media/img/logo.png" alt="">
         </a>
@@ -50,8 +51,8 @@
                 <a class="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-400
                     {% if page == 'orders' %}selected{% endif %}" 
                     href="{% url 'dashboard' 'orders' %}">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15 5V7M15 11V13M15 17V19M5 5C3.89543 5 3 5.89543 3 7V10C4.10457 10 5 10.8954 5 12C5 13.1046 4.10457 14 3 14V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V14C19.8954 14 19 13.1046 19 12C19 10.8954 19.8954 10 21 10V7C21 5.89543 20.1046 5 19 5H5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <svg class="svg-icon" style="width: 1.25em;height: 1.25em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M866.24 291.2a32 32 0 0 0-32-30.4H704v-7.36a207.36 207.36 0 0 0-54.72-136 189.44 189.44 0 0 0-139.2-51.84 185.92 185.92 0 0 0-139.84 52.48A197.76 197.76 0 0 0 320 249.28v11.52H189.44a32 32 0 0 0-32 30.4L128 924.8a32 32 0 0 0 8.96 23.68A32 32 0 0 0 160 960h704a32 32 0 0 0 23.04-9.92 32 32 0 0 0 8.96-25.28zM384 248.32a131.52 131.52 0 0 1 32-86.08 124.8 124.8 0 0 1 93.44-32A120.64 120.64 0 0 1 640 253.44v7.36h-256zM193.6 896l26.56-569.6H320v92.8h64v-92.8h256v92.8h64v-92.8h99.84L832 896z"  />
                     </svg>
 
                     <span class="mx-4 font-medium">Vos achats</span>

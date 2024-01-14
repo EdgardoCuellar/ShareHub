@@ -107,9 +107,18 @@
           </div>
 
           <div class="flex-grow flex items-center justify-center space-x-4 mb-2 md:mb-0">
-            <a href="{% url 'proposition' %}" class="text-gray-800">Propositions</a>
-            <a href="{% url 'offers' %}" class="text-gray-800">Offres</a>
-            <a href="{% url 'sell' %}" class="text-gray-800">Vendre</a>
+            <a href="{% url 'proposition' %}" class="text-gray-800"
+              {% if request.path == '/proposition' %}style="border-bottom: #004D95 solid 2px;"{% endif %}>
+              Propositions
+            </a>
+            <a href="{% url 'offers' %}" class="text-gray-800"
+              {% if request.path == '/offers' %}style="border-bottom: #004D95 solid 2px;"{% endif %}>
+              Offres
+            </a>
+            <a href="{% url 'sell' %}" class="text-gray-800"
+              {% if request.path == '/sell' %}style="border-bottom: #004D95 solid 2px;"{% endif %}>
+              Vendre
+            </a>
           </div>
 
           <div class="flex items-center space-x-4">
@@ -154,7 +163,8 @@
       {% block content %}{% endblock %}
   </div>
 
-  <footer class="bottom-0 pb-4 bg-white rounded-lg shadow m-4 dark:bg-gray-800" style="width: 98%;margin-top: auto;">
+  <footer class="bottom-0 pb-4 bg-white rounded-lg m-4 dark:bg-gray-800" style="width: 98%;margin-top: auto;">
+    <hr>
       <div class="w-full mx-auto max-w-screen-xl p-4 flex justify-center md:flex md:items-center md:justify-between">
         <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="https://rentizy.azurewebsites.net/" class="hover:underline">ShareHub ULB.</a> Projet de Edgardo Cuellar Sanchez</span>
         <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">

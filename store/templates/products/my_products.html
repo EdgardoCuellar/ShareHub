@@ -23,7 +23,7 @@
                     </td>
                     <td class="py-4 text-gray-600">{{product.description}}</td>
                     <td class="py-4">
-                        <a href="modify_product/{{product.id}}" class="btn-retour hover:underline">Modifier</a>
+                        <a href="{% url 'modify_product' product.id %}" class="btn-retour hover:underline">Modifier</a>
                     </td>
                 </tr>
                 {% endfor %}
