@@ -10,6 +10,7 @@ from .views.customer.message import MessagesView
 from .views.customer.profile import Profile
 from .views.customer.dashboard import DashboardView
 from .views.customer.forgot_password import ForgoPasswordView
+from .views.customer.reset_password import ResetPasswordView
 
 from .views.products.product import Product, remove
 from .views.products.modify_product import ModifyProduct
@@ -37,6 +38,7 @@ urlpatterns = [
     path('login', Login.as_view(), name='login'),
     path('logout', logout , name='logout'),
     path('forgot_password/', ForgoPasswordView.as_view(), name='forgot_password'),
+    path('reset_password/<str:token>', ResetPasswordView.as_view(), name='reset_password'),
 
     path('proposition', auth_middleware(PropositionView.as_view()) , name='proposition'),
     path('offers', auth_middleware(Offers.as_view()) , name='offers'),
