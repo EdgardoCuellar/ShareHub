@@ -5,82 +5,97 @@
 {% load cart %}
 {% load custom_filter %}
 
-<style>
-    a {
-        text-decoration: none !important;
-        color: #000000dd;
-    }
+<div class="w-full flex flex-col justify-center items-center">
 
-    .main-container {
-        border-radius: 10px;
-        color: #000000dd;
-        -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1); 
-    }
-</style>
-
-<div class="container">
-   <div class="main-container p-4 m-4">
-        <p class="display-4 pl-4 ml-4">Vos ventes</p>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Nom</th>
-                    <th>Date</th>
-                    <th>Prix</th>
-                    <th>Lieu d'échange 
-                        <i class="fas fa-info-circle" style="color: #004D95; margin-left: 10px;" data-bs-toggle="tooltip" data-bs-html="true" 
-                            title="Veillez préciser la manière dont vous souhaitez remettre le produit, ou envoyez un message à votre acheteur.">
-                        </i>
-                    </th>
-                    <th>Acheteur</th>
-                    <th>Status
-                    <i class="fas fa-exclamation-circle" style="color: #004D95; margin-left: 10px;" data-bs-toggle="tooltip" data-bs-html="true" 
-                        title="Lorsque vous indiquez le produit comme remis vous ne pouvez plus revenir en arrière.">
-                    </i>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
+    <div class="sm:w-full mx-4 md:w-6/12">
+       <div class="flex justify-center">
+              <div class="w-full">
                 
-                {% for order in orders %}
-                <form action="/sales" method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <tr>
-                        <td><img style="height: 80px;" class="" src="{{order.product.image.url}}" alt=""></td>
-                        <td><a href="product/{{order.product.id}}">{{order.product.name}}</a></td>
-                        <td>{{order.date}}</td>
-                        <td>{{order.price|currency}}</td>
-                        <td>
-                            <label>{{order.product.place}}</label>
-                            <div class="form-group">
-                                <textarea type="text" name="place_description" id=""
-                                value="{{values.description}}" 
-                                class=" form-control-sm form-control input-block"
-                                placeholder="{{product.description}}">{{order.place_description}}</textarea>
-                            </div>
-                            <input hidden type="text" name='order' value='{{order.id}}'>
-                            <input type="submit" class="btn btn-outline-dark flex-shrink-0" value="Mettre à jour">
-                        </td>
-                        <td><a href="profile/{{order.buyer.id}}">{{order.buyer.first_name}}</a></td>
-                        <td>
-                            <div class="form-check">
-                                <label class="form-check-label" for="statusCheckbox">
-                                    Remis
-                                </label>
-                                <input class="form-check-input" type="checkbox" name="status" id="statusCheckbox"
-                                {% if order.status %}checked disabled{% endif %}>
-                            </div>
-                        </td>
-                    </tr>
-                </form>
-                {% endfor %}
-               
-            </tbody>
+                <h2 class="text-2xl mb-2">Vos ventes</h2>
 
-        </table>
-       
+                {% if orders|length == 0 %}
+                  <div class="alert alert-info" role="alert">
+                        Vous n'avez pas encore vendu d'articles.
+                  </div>
+                {% endif %}
+
+                <table class="table w-full border-collapse">
+                    <tbody>
+                        {% for order in orders %}
+                        <form action="/sales" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <tr class="border-t border-gray-200">
+                                <td>
+                                    <div class="h-32 w-20">
+                                        <img src="{{ order.product.id|get_first_image_product }}" class="object-cover" alt="">
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="product/{{order.product.id}}" class="flex flex-col space-y-2">
+                                        <p class="font-semibold">{{order.product.name}}</p>
+                                        <div class="flex flex-row space-x-2">
+                                            <p class="font-bold">{{order.price|currency}}</p>
+                                            <p>{{order.date}}</p>
+                                        </div>
+                                    </a>
+                                </td>
+                                <td title="Cliquez pour voir le profil de l'acheteur, et n'hésitez pas à lui envoyer un message."
+                                ><a href="profile/{{order.buyer.id}}"
+                                       class="flex flex-col space-y-2">
+                                        <p>{{order.buyer.first_name}}</p>
+                                        <p>{{order.buyer.last_name}}</p>
+                                    </a>
+                                <td>
+                                    <label class="text-sm py-2">{{order.product.place}}</label>
+                                    <div class="form-group" 
+                                        title="Veillez préciser la manière dont vous souhaitez remettre le produit, ou envoyez un message à votre acheteur.">
+                                        <textarea type="text" name="place_description" id=""
+                                        value="{{values.description}}" 
+                                        class="w-full"
+                                        {% if not order.place_description %}
+                                        placeholder="Indiquez ici la manière dont vous souhaitez remettre le produit."
+                                        {% else %}
+                                        placeholder="{{product.description}}"
+                                        {% endif %}
+                                        >{{order.place_description}}</textarea>
+                                    </div>
+                                    <input hidden type="text" name='order' value='{{order.id}}'>
+                                    <input type="submit" value="Mettre à jour" class="btn-orange rounded-full antialiased font-bold px-4 py-2">
+                                </td>
+                                <td>
+                                    <div class="flex flex-col justify-center items-center"
+                                    title="Lorsque vous indiquez le produit comme remis vous ne pouvez plus revenir en arrière.">
+                                        <label class="" for="statusCheckbox">
+                                            Remis
+                                        </label>
+                                        <div class="inline-flex items-center">
+                                            <label class="relative flex items-center p-3 rounded-full cursor-pointer" htmlFor="checkbox">
+                                              <input type="checkbox" name="status" id="statusCheckbox"
+                                                class="before:content[''] peer relative h-6 w-6 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-gray-900 checked:bg-gray-900 checked:before:bg-gray-900 hover:before:opacity-10"
+                                                {% if order.status %}checked disabled{% endif %}/>
+                                              <span
+                                                class="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"
+                                                  stroke="currentColor" stroke-width="1">
+                                                  <path fill-rule="evenodd"
+                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                    clip-rule="evenodd"></path>
+                                                </svg>
+                                              </span>
+                                            </label>
+                                          </div> 
+                                    </div>
+                                </td>
+                            </tr>
+                        </form>
+                        {% endfor %}
+                    
+                    </tbody>
+
+                </table>
+    
+            </div>
+        </div>
    </div>
 </div>
 

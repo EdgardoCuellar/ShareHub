@@ -11,9 +11,7 @@ from store.models.prices import Prices
 
 import datetime
 
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
+from store.utils.send_email import send_mail_sell, send_mail_buy
 
 class CheckOut(View):
     def post(self, request):
@@ -30,12 +28,14 @@ class CheckOut(View):
         offer.product.save()
 
         # Send an email to the buyer
-        subject = "Confirmation d'offre ShareHub ULB"
-        message = f"Bonjour, votre commande pour le produit {offer.product.name} a été acceptée. Vous pouvez maintenant verifier la suite du processus d'achat sur notre site."
-        from_email = "sharehub.ulb@gmail.com"
-        recipient_list = [offer.buyer.email]  # Assuming you have an email field in your Customer model
+        send_mail_buy(request, offer.product, offer.buyer)
+        send_mail_sell(request, offer.product, offer.seller)
 
-        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+        # Send a message to the buyer
+        message = Message(sender=offer.seller,
+                            receiver=offer.buyer,
+                            product=offer.product,
+                            content="Votre offre a été acceptée. Vous pouvez contacter le vendeur pour plus d'informations.")
 
         offer.status = 2
         offer.date_status = datetime.datetime.today()

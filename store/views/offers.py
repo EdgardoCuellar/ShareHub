@@ -25,9 +25,10 @@ class Offers(View):
         offer.status = 1
         
         offer.date_status = datetime.datetime.today()
+        
+        offer.save()
 
-        products_offer = self.get_offers(request)
-        return render(request , 'offers.html' , {'products' : products_offer} )
+        return redirect('offers')
     
     def get_offers(self, request):
         products = Products.get_products_by_userid(request.session.get('customer'))

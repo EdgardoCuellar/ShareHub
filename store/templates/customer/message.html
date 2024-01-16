@@ -10,7 +10,7 @@
     <!-- Chatting -->
     <div class="flex flex-row justify-between bg-white min-h-full" style="min-height: 70vh;max-height: 70vh;">
         <!-- chat list -->
-        <div class="flex flex-col w-64 border-r-2 overflow-y-auto min-h-full py-2">
+        <div class="flex flex-col w-64 border-r-2 overflow-y-auto min-h-full py-2" style="overflow-x: hidden;">
             <!-- user list -->
             {% for user in users_with_messages %}
             {% if user.id == receiver.id %}
