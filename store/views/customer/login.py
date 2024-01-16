@@ -20,6 +20,9 @@ class Login(View):
         error_message = None
 
         if customer:
+            if customer.is_banned:
+                error_message = 'Votre compte est banni ! Veuillez contacter l\'administrateur.'
+                return render (request, self.html_template, {'error': error_message})
             flag = check_password (password, customer.password)
             if flag:
                 request.session['customer'] = customer.id

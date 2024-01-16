@@ -26,7 +26,9 @@ class Sell (View):
         if error_message:
             del request.session['error_message']
         if request.session.get('success'):
-            return redirect('product', request.session.get('success'))
+            product_id = request.session.get('success')
+            del request.session['success']
+            return redirect('product', product_id)
 
         return render (request, self.html_link, {'categories': categories, 'conditions': conditions, 'places': places, 'error_message': error_message})
 

@@ -8,6 +8,7 @@ class Customer(models.Model):
     email=models.EmailField(default="", unique=True)
     password = models.CharField(max_length=100, default="")
     register_date = models.DateField(default=None, null=True, blank=True)
+    is_banned = models.BooleanField(default=False)
 
     def isExists(self):
         if Customer.objects.filter(email = self.email):

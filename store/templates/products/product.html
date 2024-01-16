@@ -11,7 +11,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 
-<div class="w-10/12 mx-auto">
+<div class="w-10/12 mx-auto mb-4">
     <div class="container px-4 px-lg-5">
         <div class="flex flex-col lg:flex-row items-center lg:justify-between">
             <div class="mb-4 pr-8 pl-16 lg:mb-0 lg:w-1/2 text-center" style="height: 75vh;">  
@@ -22,7 +22,7 @@
                     alt="{{product.name}}">
                 </div>
             {% else %}    
-<div id="default-carousel" class="relative w-full" data-carousel="static" style="height: inherit;">
+<div id="default-carousel" class="relative w-full" data-carousel="static" style="height: inherit; min-width: 30rem;">
     <!-- Carousel wrapper -->
     <div class="relative h-full overflow-hidden rounded-lg">
         {% for product_img in product.id|get_all_images_product %}
@@ -46,7 +46,7 @@
         {% endfor %}
     </div>
     <!-- Slider controls -->
-    <button type="button" class="bg-white absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+    <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
         <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
             <svg class="w-4 h-4 text-black rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
@@ -54,7 +54,7 @@
             <span class="sr-only">Previous</span>
         </span>
     </button>
-    <button type="button" class="bg-white absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+    <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
         <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
             <svg class="w-4 h-4 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
@@ -108,23 +108,24 @@
                     <span class="text-md mr-4">{{product.condition}}</span>
                     <span class="text-md text-gray-600">{{product.place}}</span>
                 </div>
-                <p class="text-md mb-4" style="max-width: 35rem;">{{product.description}}</p>
+                <p class="text-md mb-2" style="max-width: 35rem;">{{product.description}}</p>
                 <div class="flex">
                     {% if request.session.customer %}
-                        <form action="/product/{{product.id}}" method="POST" class="flex flex-col lg:flex-row">
+                        <form action="/product/{{product.id}}" method="POST" class="flex flex-col lg:flex-row space-x-4 space-y-2">
                             {% csrf_token %}
                             {% if product.sold == False %}
                                 {% if product.customer.id == request.session.customer %}
                                     <a href="/modify_product/{{product.id}}" 
-                                        class="btn-purple w-32 text-center mr-4 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                        class="btn-purple w-32 text-center font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                         <i class="bi-cart-fill me-1"></i>
                                         Modifier
                                     </a>
-                                    <a href="/product/remove/{{product.id}}" 
+                                    <a href="javascript:void(0);" 
+                                        onclick="confirmDelete();" 
                                         class="btn-red w-32 text-center font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                        <i class="bi-cart-fill me-1"></i>
-                                        Supprimer
-                                    </a>
+                                            <i class="bi-cart-fill me-1"></i>
+                                            Supprimer
+                                        </a>
                                 {% else %}
                                     {% if product_offer %}
                                         <div class="mb-2 flex items-center">
@@ -154,4 +155,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    function confirmDelete() {
+        var result = window.confirm("Êtes-vous sûr de vouloir supprimer cet article ?");
+        if (result) {
+            window.location.href = "/product/remove/{{product.id}}";
+        }
+    }
+</script>
+
+
 {% endblock %}

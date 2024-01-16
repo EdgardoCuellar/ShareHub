@@ -20,7 +20,7 @@ class DashboardView(View):
         return super().dispatch(request, *args, **kwargs)
 
     def get(self , request, page=None):
-        if not page:
+        if not page or page not in ['account', 'modify_user', 'my_products', 'orders']:
             page = 'profile'
 
         user_id = request.session.get('customer')
