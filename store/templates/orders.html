@@ -38,28 +38,47 @@
                 Vous n'avez fait aucune commande pour le moment.
             </div>
         {% endif %}
-        <table class="table w-full border-collapse">
+        <table class="table w-full border-collapse mb-4">
             <tbody>
                 {% for order in orders %}
-                    <tr>
-                        <td><img class="h-20 w-auto object-cover" src="{{ order.product.image.url }}" alt=""></td>
-                        <td><a href="product/{{ order.product.id }}">{{ order.product.name }}</a></td>
-                        <td>{{ order.date }}</td>
-                        <td>{{ order.price|currency }}</td>
+                <tr class="border-t border-gray-200">
                         <td>
-                            <div class="flex flex-col">
+                            <div class="h-32 w-20">
+                                <img src="{{ order.product.id|get_first_image_product }}" class="object-cover" alt="">
+                            </div>
+                        </td>
+                        <td>
+                            <a href="product/{{order.product.id}}" class="flex flex-col space-y-2">
+                                <p class="font-semibold">{{order.product.name}}</p>
+                                <div class="flex flex-row space-x-2">
+                                    <p class="font-bold">{{order.price|currency}}</p>
+                                    <p>{{order.date}}</p>
+                                </div>
+                            </a>
+                        </td>
+                        <td title="Cliquez pour voir le profil de l'acheteur, et n'hésitez pas à lui envoyer un message."
+                        ><a href="profile/{{order.buyer.id}}"
+                               class="flex flex-col space-y-2">
+                                <p>{{order.buyer.first_name}}</p>
+                                <p>{{order.buyer.last_name}}</p>
+                            </a>
+                        <td>
+                        <td>
+                            <div class="flex flex-col"
+                                title="Lieu de rendez vous indiquer par le vendeur, n'hesiter pas en parler par message.">
                                 <label>{{ order.product.place }}</label>
                                 <span>{{ order.place_description }}</span>
                             </div>
                         </td>
-                        <td><a href="profile/{{ order.seller.id }}">{{ order.seller.first_name }}</a></td>
-                        {% if order.status %}
-                            <td><small class="badge badge-success text-green-500">Completed</small></td>
-                        {% else %}
-                            <td><small class="badge badge-warning text-orange-500">En attente</small></td>
-                        {% endif %}
-
                         <td>
+                            <div class="h-full flex flex-col justify-center items-center">
+                            <div class="mb-2">
+                                {% if order.status %}
+                                    <small class="text-lg text-green-500">Remis</small>
+                                {% else %}
+                                    <small class="text-lg text-orange-500">En attente</small>
+                                {% endif %}
+                            </div>
                             {% if order.status %}
                                 {% if order.rated %}
                                 <div class="ratings mt-2 flex flex-row space-x-1">
@@ -76,7 +95,7 @@
                                     {% endfor %}
                                 </div>
                                 {% else %}
-                                    <form action="{% url 'dashboard' 'orders' %}" method="post">
+                                    <form action="{% url 'dashboard' 'orders' %}" method="post" class="flex flex-col justify-center items-center">
                                         {% csrf_token %}
                                         <input type="hidden" id="selectedRating" name="rating" value="0">
                                         <input type="hidden" name="order_id" value="{{ order.id }}">
@@ -98,7 +117,9 @@
                                             </svg>
                                         </div>
 
-                                        <button type="submit" class="btn btn-warning mt-2">Valider</button>
+                                        <button type="submit" class="mt-2 btn-orange rounded-full antialiased font-bold px-4 py-1">
+                                            Noter
+                                        </button>
                                     </form>
                                 {% endif %}
                             {% else %}
@@ -120,6 +141,7 @@
                                     </svg>
                                 </div>
                             {% endif %}
+                        </div>
                         </td>
                     </tr>
                 {% endfor %}

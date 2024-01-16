@@ -16,7 +16,6 @@ class PropositionView(View):
 
     def get(self , request):
         offers = Prices.get_prices_by_buyer_id(request.session.get('customer'))
-        print("offres: ", offers)
         return render(request , self.html_template , {'offers' : offers} )
 
     def post(self , request):

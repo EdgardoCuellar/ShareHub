@@ -59,8 +59,10 @@
                                         {% endif %}
                                         >{{order.place_description}}</textarea>
                                     </div>
-                                    <input hidden type="text" name='order' value='{{order.id}}'>
-                                    <input type="submit" value="Mettre à jour" class="btn-orange rounded-full antialiased font-bold px-4 py-2">
+                                    <div class="w-full flex flex-row justify-end items-right">
+                                        <input hidden type="text" name='order' value='{{order.id}}'>
+                                        <input type="submit" value="Mettre à jour" class="btn-orange rounded-full antialiased font-bold px-4 py-2">
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="flex flex-col justify-center items-center"
@@ -98,9 +100,6 @@
         </div>
    </div>
 </div>
-
-
-
 
 
 {% endblock %}
