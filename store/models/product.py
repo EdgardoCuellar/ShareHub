@@ -96,3 +96,15 @@ class Products(models.Model):
         price = price + random.randint(-int(price * 0.2), int(price * 0.2))
 
         return price
+
+    @staticmethod
+    def price_good_format(price):
+        if not price:
+            return 0
+        if not price.isdigit():
+            return 0
+        price = price.replace(',', '.')
+        price = float(price)
+        price = int(price * 100)
+
+        return price

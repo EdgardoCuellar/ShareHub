@@ -21,10 +21,17 @@ class Sell (View):
         categories = Category.get_all_categories()
         conditions = Condition.get_all_conditions()
         places = Place.get_all_places()
-        return render (request, self.html_link, {'categories': categories, 'conditions': conditions, 'places': places})
+        
+        error_message = request.session.get('error_message')
+        if error_message:
+            del request.session['error_message']
+        if request.session.get('success'):
+            return redirect('product', request.session.get('success'))
+
+        return render (request, self.html_link, {'categories': categories, 'conditions': conditions, 'places': places, 'error_message': error_message})
 
     def post(self, request):
-        price = Products.transformPrice(request.POST.get('price'))
+        price = Products.price_good_format(request.POST.get('price'))
         customer_id = request.session.get('customer')
         customer = Customer.get_customer_by_id(customer_id)
         product = Products(name=request.POST.get('name'),
@@ -47,13 +54,12 @@ class Sell (View):
                     product=product,
                     image=request.FILES.get(f'images{file_num}')
                 )
-
+            request.session['success'] = product.id
             return redirect('index')  # Redirect to the homepage or any other appropriate page after successful upload
 
-        categories = Category.get_all_categories()
-        conditions = Condition.get_all_conditions()
-        places = Place.get_all_places()
-        return render(request, self.html_link, {'categories': categories, 'conditions': conditions, 'places':places, 'error': error_message})
+        request.session['error_message'] = error_message
+
+        return redirect('index')
 
     def validateProduct(self, product_validation):
         error_message = None

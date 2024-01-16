@@ -106,6 +106,7 @@
             </a>
           </div>
 
+          {% if request.session.customer %}
           <div class="flex-grow flex items-center justify-center space-x-4 mb-2 md:mb-0">
             <a href="{% url 'proposition' %}" class="text-gray-800"
               {% if request.path == '/proposition' %}style="border-bottom: #004D95 solid 2px;"{% endif %}>
@@ -120,6 +121,7 @@
               Vendre
             </a>
           </div>
+          {% endif %}
 
           <div class="flex items-center space-x-4">
               

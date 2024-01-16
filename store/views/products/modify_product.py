@@ -56,7 +56,7 @@ class ModifyProduct (View):
             if name:
                 product.name = name
             if price:
-                price = Products.transformPrice(request.POST.get('price'))
+                price = Products.price_good_format(request.POST.get('price'))
                 product.price = price
             if date:
                 product.date = date

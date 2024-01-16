@@ -2,6 +2,7 @@ from django import template
 from store.models.customer import Customer
 from store.models.product import Products
 from store.models.category import Category
+from store.models.prices import Prices
 from store.models.product_img import ProductImage
 
 register = template.Library()
@@ -55,3 +56,7 @@ def get_category_name(category_id):
 @register.simple_tag
 def define(val=None):
     return val
+
+@register.filter(name='get_nb_offers')
+def get_nb_offers(product_id):
+    return len(Prices.get_prices_by_product_id(product_id))

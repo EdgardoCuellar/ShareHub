@@ -26,9 +26,9 @@
     <!-- Carousel wrapper -->
     <div class="relative h-full overflow-hidden rounded-lg">
         {% for product_img in product.id|get_all_images_product %}
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+            <div class="hidden duration-700 ease-in-out bg-white" data-carousel-item>
                 <img src="{{product_img.image.url}}" 
-                class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-full object-contain"
+                class="absolute bg-white block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-full object-contain"
                 alt="{{product.name}}">
             </div>
         {% endfor %}
@@ -46,7 +46,7 @@
         {% endfor %}
     </div>
     <!-- Slider controls -->
-    <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+    <button type="button" class="bg-white absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
         <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
             <svg class="w-4 h-4 text-black rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
@@ -54,7 +54,7 @@
             <span class="sr-only">Previous</span>
         </span>
     </button>
-    <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+    <button type="button" class="bg-white absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
         <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
             <svg class="w-4 h-4 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
@@ -70,17 +70,21 @@
                     <a href="/profile/{{product.customer.id}}" class="text-black font-medium text-lg lg:text-xl">
                         {{product.customer.id|user_name}}
                     </a>
-                    <div class="lg:ml-3">
-                        <div class="ratings">
+                    <div class="ml-3 flex flex-row items-center">
+                        <div class="ratings flex flex-row space-x-1">
                             {% for _ in "12345" %}
                                 {% if forloop.counter <= rating.user_rating %}
-                                    <i class="fa fa-star rating-color"></i>
+                                    <svg class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="#ffd700" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
                                 {% else %} 
-                                    <i class="fa fa-star"></i>
+                                    <svg class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="#555555" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
                                 {% endif %}
                             {% endfor %}
                         </div>
-                        <span class="review-count ml-1">{{rating.sell_count}} Ventes</span>
+                        <span class="review-count ml-3">{{rating.sell_count}} Ventes</span>
                     </div>
                 </div>
                 <h1 class="text-4xl font-bold mb-1">{{product.name}}</h1>
@@ -90,7 +94,7 @@
                     <div class="text-sm">{{product.date}}</div>
                 </div>
                 <div class="flex items-end text-gray-600">
-                    <span class="mr-4 text-md"> 
+                    <span class="text-md"> 
                         {% if nb_offers > 0 %}
                             <div>
                                 <span>Il y a déjà <b>{{nb_offers}}</b> propositions</span>
@@ -99,9 +103,9 @@
                             <span>Il n'y a pas encore eu de propositions</span>
                         {% endif %}  
                     </span>
-                    <span class="text-md">{{product.condition}}</span>
                 </div>
-                <div class="mb-4">
+                <div class="flex items-end mb-4">
+                    <span class="text-md mr-4">{{product.condition}}</span>
                     <span class="text-md text-gray-600">{{product.place}}</span>
                 </div>
                 <p class="text-md mb-4" style="max-width: 35rem;">{{product.description}}</p>
@@ -125,7 +129,7 @@
                                     {% if product_offer %}
                                         <div class="mb-2 flex items-center">
                                             <span>Votre offre actuelle {{product_offer}}</span>
-                                            <button class="btn btn-outline-dark flex-shrink-0 ml-2" type="submit">
+                                            <button class="btn-retour btn-outline-dark flex-shrink-0 ml-2" type="submit">
                                                 <i class="bi-cart-fill me-1"></i>
                                                 Retirer votre offre
                                             </button>
@@ -133,7 +137,7 @@
                                     {% else %}
                                         <div class="mb-2 flex items-center">
                                             <span>Votre proposition de prix :</span>
-                                            <input type="text" name="offer" id="offer" class="border-0 border-b border-gray-700 hover:bg-gray-200 w-16 mx-2"/>
+                                            <input type="text" name="offer" id="offer" placeholder="--€" class="border-0 border-b border-gray-700 hover:bg-gray-200 w-16 mx-2"/>
                                         </div>
                                         <button class="btn-ulb rounded-full antialiased font-bold px-4 py-2" type="submit">
                                             <i class="bi-cart-fill me-1"></i>

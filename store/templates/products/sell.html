@@ -12,9 +12,9 @@
         <h3 class="text-2xl color-grey-200 mb-4">Mettre un syllabus en vente</h3>
         <form action="{% url 'sell' %}" id="mainForm" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {% if error %}
-                <div class="color-red-500" role="alert">
-                    {{error}}
+            {% if error_message %}
+                <div class="text-red-500" role="alert">
+                    {{error_message}}
                 </div>
             {% endif %}
 
@@ -84,7 +84,7 @@
             <!-- Image -->
             <div class="mb-4">
                 <label for="images" class="block text-sm font-medium text-gray-700">Déposez vos images ici</label>
-                {% include "utils/upload-image.html" with dest="sell" return_dest="index" %} 
+                {% include "utils/upload-image.html" with dest="sell" return_dest="sell" %} 
             </div>
 
             <div class="mt-6 mb-6 w-full flex flex-row justify-center items-center">

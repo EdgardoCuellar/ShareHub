@@ -74,9 +74,9 @@
     {% if products %}
         {% for product in products %}
             <a href="{% url 'product' product.id %}" 
-                class="w-64 h-96 group rounded-md p-4 relative overflow-hidden max-h-96 transition-transform transform hover:scale-100">
-                <div class="">
-                    <img src="{{ product.id|get_first_image_product }}" class="object-cover w-full h-full rounded">
+                class="w-64 h-96 group rounded-md p-2 relative overflow-hidden max-h-96 transition-transform transform hover:scale-100">
+                <div class="flex flex-col h-80 justify-center items-center">
+                    <img src="{{ product.id|get_first_image_product }}" class="object-cover w-full max-h-80 rounded">
                 </div>
                 <h2 class="text-md font-semibold">{{ product.name }}</h2>
                 <div class="flex flex-row justify-between">
