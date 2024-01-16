@@ -20,6 +20,10 @@ class Category(models.Model):
         return Category.objects.all()
 
     @staticmethod
+    def get_all_categories_except_last():
+        return Category.objects.all()[:-1]
+
+    @staticmethod
     def get_category_by_name(name):
         try:
             category = Category.objects.get(name=name)

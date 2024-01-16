@@ -6,8 +6,10 @@ class Prices(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='product')
     seller = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='seller')
     buyer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='buyer')
-    price = models.IntegerField()
-    status = models.IntegerField()
+    price = models.IntegerField(default=0)
+    status = models.IntegerField(default=0)
+    date_offer = models.DateField(default=None, null=True, blank=True)
+    date_status = models.DateField(default=None, null=True, blank=True)
 
     def __str__(self):
         return str(self.price / 100) + '€'

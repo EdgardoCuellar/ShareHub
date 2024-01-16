@@ -3,13 +3,14 @@ from django.shortcuts import render, redirect
 from store.models.customer import Customer
 from store.models.category import Category
 from django.views import View
+import datetime
 
 class Signup(View):
 
     html_template = "customer/signup.html"
 
     def get(self, request):
-        categories = Category.get_all_categories()
+        categories = Category.get_all_categories_except_last()
         return render(request, self.html_template, {'categories': categories})
 
     def post(self, request):
@@ -32,7 +33,8 @@ class Signup(View):
                             last_name=last_name,
                             faculty=faculty,
                             email=email,
-                            password=password)
+                            password=password,
+                            register_date=datetime.datetime.today())
 
         error_message = Customer.validateCustomer(customer)
 

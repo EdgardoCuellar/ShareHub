@@ -34,7 +34,7 @@ class DashboardView(View):
         products = None
         orders = None
         if page == 'modify_user':
-            categories = Category.get_all_categories()
+            categories = Category.get_all_categories_except_last()
         elif page == 'my_products':
             products = Products.get_products_by_userid(user.id)
         elif page == 'orders':

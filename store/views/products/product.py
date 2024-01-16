@@ -7,6 +7,8 @@ from store.models.category import Category
 from store.models.rating import Rating
 from django.views import  View
 
+import datetime
+
 class Product(View):
 
     html_template = "products/product.html"
@@ -43,7 +45,8 @@ class Product(View):
                            seller=Customer.get_customer_by_id(product.customer.id),
                            buyer=Customer.get_customer_by_id(request.session.get('customer')),
                            price=offer,
-                           status=0)
+                           status=0,
+                           date_offer=datetime.datetime.today())
         new_offer.save()
 
         return render(request , self.html_template , {'product' : product, 'product_offer': new_offer, 'rating': rating, 'nb_offers': nb_offers} )

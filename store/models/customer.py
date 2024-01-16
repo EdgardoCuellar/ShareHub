@@ -7,6 +7,7 @@ class Customer(models.Model):
     faculty = models.CharField(max_length=50, default="")
     email=models.EmailField(default="", unique=True)
     password = models.CharField(max_length=100, default="")
+    register_date = models.DateField(default=None, null=True, blank=True)
 
     def isExists(self):
         if Customer.objects.filter(email = self.email):

@@ -9,6 +9,8 @@ from store.models.orders import Order
 from store.models.message import Message
 from store.models.prices import Prices
 
+import datetime
+
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -36,6 +38,7 @@ class CheckOut(View):
         send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
         offer.status = 2
+        offer.date_status = datetime.datetime.today()
         offer.save()
         return redirect('sales')
 
