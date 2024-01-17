@@ -21,7 +21,7 @@ class Category(models.Model):
 
     @staticmethod
     def get_all_categories_except_last():
-        return Category.objects.all()[:-1]
+        return Category.objects.all().exclude(id=Category.objects.all().last().id)
 
     @staticmethod
     def get_category_by_name(name):

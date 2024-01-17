@@ -2,6 +2,7 @@ from django.shortcuts import render , redirect , HttpResponseRedirect
 from django.contrib.auth.hashers import  check_password
 from store.models.customer import Customer
 from django.views import View
+from django.contrib.auth import logout as auth_logout
 
 
 class Login(View):
@@ -40,5 +41,5 @@ class Login(View):
         return render (request, self.html_template, {'error': error_message})
 
 def logout(request):
-    request.session.clear()
+    auth_logout(request)
     return redirect('login')

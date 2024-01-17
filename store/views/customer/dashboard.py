@@ -28,7 +28,7 @@ class DashboardView(View):
 
         user.faculty = Category.get_category_by_id(user.faculty).name
 
-        rating = Rating.get_rating(user.id)
+        rating = Rating.get_rating(user)
 
         categories = None
         products = None
@@ -113,9 +113,11 @@ class DashboardView(View):
         order = Order.get_order_by_id(order_id)
 
         # Update the order's user_rating with the submitted rating_score
-        rating = Rating(user_id=order.seller.id, user_rated_id=order.buyer.id, rating=rating_score)
+        rating = Rating.create_rating(
+            order.seller,
+            order.buyer, 
+            rating_score)
         order.rated = rating_score
-        rating.save()
         order.save()
 
         return redirect('dashboard', page='orders')
