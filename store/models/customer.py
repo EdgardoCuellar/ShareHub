@@ -43,18 +43,33 @@ class Customer(models.Model):
     def validateCustomer(customer, is_update=False):
         error_message = None
         if (not customer.first_name):
-            error_message = "Please Enter your First Name !!"
+            error_message = "Veillez entrer votre prénom"
         elif len (customer.first_name) < 3:
-            error_message = 'First Name must be 3 char long or more'
+            error_message = 'Votre prénom doit contenir au moins 3 caractères'
         elif not customer.last_name:
-            error_message = 'Please Enter your Last Name'
+            error_message = 'Veillez entrer votre prénom'
         elif len (customer.last_name) < 3:
-            error_message = 'Last Name must be 3 char long or more'
-        elif len (customer.password) < 5:
-            error_message = 'Password must be 5 char long'
-        elif len (customer.email) < 5:
-            error_message = 'Email must be 5 char long'
+            error_message = 'Votre nom doit contenir au moins 3 caractères'
+        elif len (customer.password) < 8:
+            error_message = 'Votre mot de passe doit contenir au moins 8 caractères'
+        elif not any (char.isdigit () for char in customer.password):
+            error_message = 'Votre mot de passe doit contenir au moins un chiffre'
+        elif not any (char.isalpha () for char in customer.password):
+            error_message = 'Votre mot de passe doit contenir au moins une lettre'
+        elif not customer.email:
+            error_message = 'Veillez entrer votre email'
+        elif len (customer.email) < 6:
+            error_message = 'Votre email doit contenir au moins 6 caractères'
+        # verify if email is valid
+        elif not customer.email.__contains__ ('@'):
+            error_message = 'Votre email doit contenir un @'
+        elif not customer.faculty:
+            error_message = 'Veillez entrer votre faculté'
+        
         elif not is_update and customer.isExists ():
-            error_message = 'Email Address Already Registered..'
+            error_message = 'Vous avez déjà un compte avec cet email !'
+
+        elif customer.is_banned:
+            error_message = 'Votre compte est banni !'
 
         return error_message

@@ -23,27 +23,33 @@ class Products(models.Model):
     def remove(self):
         self.delete()
 
-    @staticmethod
-    def validate_image(image):
-            # Check if the uploaded file is an image
-        if not image:
-            return False
-        ext = image.name.split('.')[-1].lower()
-        if ext not in ['jpg', 'jpeg', 'png']:
-            return False
-
-        # Check file size (less than 5MB)
-        if image.size > 5 * 1024 * 1024:  # 5MB
-            return False
-
-        # Check image dimensions (at least 250x300 pixels)
-        from PIL import Image
-        img = Image.open(image)
-        width, height = img.size
-        if width < 200 or height < 250:
-            return False
-
-        return True
+    def validate_product(self):
+        error_message = None
+        if not self.name:
+            error_message = "Veillez entrer le nom de l'article"
+        elif len(self.name) < 3:
+            error_message = "Le nom de l'article doit contenir au moins 3 caractères"
+        elif not self.price:
+            error_message = "Veillez entrer le prix de l'article"
+        elif not self.description:
+            error_message = "Veillez entrer la description de l'article"
+        elif len(self.description) < 10:
+            error_message = "La description de l'article doit contenir au moins 10 caractères"
+        elif not self.date:
+            error_message = "Veillez entrer l'année de l'article"
+        elif len (product_validation.name) > 80:
+            error_message = 'Le nom ne peut pas contenir plus de 80 caractères'
+        elif int(product_validation.price) < 100 or int(product_validation.price) > 10000:
+            error_message = "Le prix doit se trouver entre 1 et 100 €" 
+        elif int(product_validation.date) < 1900:
+            error_message = "L'année d'achat doit etre possible" 
+        elif int(product_validation.date) > datetime.now().year:
+            error_message = "L'année d'achat ne peut pas être dans le futur"
+        elif product_validation.description and len(product_validation.description) >= 300:
+            error_message = "La description ne peut pas dépasser 300 caractères"
+        elif len(product_validation.description) <= 10:
+            error_message = "La description doit au moins faire 10 caractères"
+        return error_message
 
     @staticmethod
     def product_exists(id):

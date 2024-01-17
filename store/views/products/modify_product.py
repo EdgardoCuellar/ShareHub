@@ -77,7 +77,7 @@ class ModifyProduct (View):
                     image=request.FILES.get(f'images{file_num}')
                 )
 
-            error_message = self.validateProduct(product)
+            error_message = product.validate_product()
             
             if not error_message:
                 product.save()
@@ -90,23 +90,3 @@ class ModifyProduct (View):
         request.session['error'] = error_message
         
         return redirect("modify_product", product.id)
-
-
-    def validateProduct(self, product_validation):
-        error_message = None
-        if len (product_validation.name) < 3:
-            error_message = 'Le nom doit contenir au moins 3 caractères'
-        elif len (product_validation.name) > 80:
-            error_message = 'Le nom ne peut pas contenir plus de 80 caractères'
-        elif int(product_validation.price) < 100 or int(product_validation.price) > 10000:
-            error_message = "Le prix doit se trouver entre 1 et 100 euro" 
-        elif int(product_validation.date) < 2000:
-            error_message = "L'année d'achat doit etre au minimum 2000" 
-        elif int(product_validation.date) > datetime.now().year:
-            error_message = "L'année d'achat ne peut pas être dans le futur"
-        elif product_validation.description and len(product_validation.description) >= 300:
-            error_message = "La description ne peut pas dépasser 300 caractères"
-        elif len(product_validation.description) <= 10:
-            error_message = "La description doit au moins faire 10 caractères"
-
-        return error_message
