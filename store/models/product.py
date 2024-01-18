@@ -1,6 +1,7 @@
 from django.db import models
 from .category import Category, Condition, Place
 from .customer import Customer
+from datetime import datetime
 import random
 
 class Products(models.Model):
@@ -33,8 +34,6 @@ class Products(models.Model):
             error_message = "Veillez entrer le prix de l'article"
         elif not self.description:
             error_message = "Veillez entrer la description de l'article"
-        elif len(self.description) < 10:
-            error_message = "La description de l'article doit contenir au moins 10 caractères"
         elif not self.date:
             error_message = "Veillez entrer l'année de l'article"
         elif len (self.name) > 80:
@@ -47,8 +46,6 @@ class Products(models.Model):
             error_message = "L'année d'achat ne peut pas être dans le futur"
         elif self.description and len(self.description) >= 300:
             error_message = "La description ne peut pas dépasser 300 caractères"
-        elif len(self.description) <= 10:
-            error_message = "La description doit au moins faire 10 caractères"
         return error_message
 
     @staticmethod
