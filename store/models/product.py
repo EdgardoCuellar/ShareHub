@@ -111,3 +111,7 @@ class Products(models.Model):
         price = int(price * 100)
 
         return price
+
+    @staticmethod
+    def remove_product_by_id(id):
+        Products.objects.filter(id=id).delete()
