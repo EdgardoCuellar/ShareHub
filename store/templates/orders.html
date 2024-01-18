@@ -1,0 +1,153 @@
+{% load cart %}
+{% load custom_filter %}
+
+<style>
+    .disabled {
+        color: #00000088;
+    }
+
+    .rating-color {
+        color: #ffd700;
+        cursor: pointer;
+    }
+
+    .main-container {
+        @apply rounded-lg text-black overflow-hidden shadow-md;
+        @apply border border-solid border-gray-200 dark:border-gray-700;
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.fa-star:not(.disabled)').on('click', function () {
+            console.log('clicked');
+            const selectedRating = $(this).data('rating');
+            $('#selectedRating').val(selectedRating);
+
+            // Change the color of stars based on the selected rating
+            $('.fa-star').removeClass('rating-color');
+            $(this).prevAll('.fa-star').addBack().addClass('rating-color');
+        });
+    });
+</script>
+
+<div class="w-full">
+    <div class="bg-white rounded-lg overflow-hidden px-6">
+        <h2 class="text-2xl mb-2">Vos achats</h2>
+        {% if orders|length == 0 %}
+            <div class="alert alert-info mb-8 mt-2" role="alert">
+                Vous n'avez fait aucune commande pour le moment.
+            </div>
+        {% endif %}
+        <table class="table w-full border-collapse mb-4">
+            <tbody>
+                {% for order in orders %}
+                <tr class="border-t border-gray-200">
+                        <td>
+                            <div class="h-32 w-20">
+                                <img src="{{ order.product.id|get_first_image_product }}" class="object-cover" alt="">
+                            </div>
+                        </td>
+                        <td>
+                            <a href="product/{{order.product.id}}" class="flex flex-col space-y-2">
+                                <p class="font-semibold">{{order.product.name}}</p>
+                                <div class="flex flex-row space-x-2">
+                                    <p class="font-bold">{{order.price|currency}}</p>
+                                    <p>{{order.date}}</p>
+                                </div>
+                            </a>
+                        </td>
+                        <td title="Cliquez pour voir le profil de l'acheteur, et n'hésitez pas à lui envoyer un message."
+                        ><a href="profile/{{order.buyer.id}}"
+                               class="flex flex-col space-y-2">
+                                <p>{{order.buyer.first_name}}</p>
+                                <p>{{order.buyer.last_name}}</p>
+                            </a>
+                        <td>
+                        <td>
+                            <div class="flex flex-col"
+                                title="Lieu de rendez vous indiquer par le vendeur, n'hesiter pas en parler par message.">
+                                <label>{{ order.product.place }}</label>
+                                <span>{{ order.place_description }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="h-full flex flex-col justify-center items-center">
+                            <div class="mb-2">
+                                {% if order.status %}
+                                    <small class="text-lg text-green-500">Remis</small>
+                                {% else %}
+                                    <small class="text-lg text-orange-500">En attente</small>
+                                {% endif %}
+                            </div>
+                            {% if order.status %}
+                                {% if order.rated %}
+                                <div class="ratings mt-2 flex flex-row space-x-1">
+                                    {% for _ in "12345" %}
+                                        {% if forloop.counter <= rating.user_rating %}
+                                            <svg disabled class="rating-color w-4 h-4 ms-1" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="#ffd700" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
+                                        {% else %} 
+                                            <svg disabled class="w-4 h-4 ms-1" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="#555555" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                    <form action="{% url 'dashboard' 'orders' %}" method="post" class="flex flex-col justify-center items-center">
+                                        {% csrf_token %}
+                                        <input type="hidden" id="selectedRating" name="rating" value="0">
+                                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                                        <div class="ratings flex flex-row space-x-1">
+                                            <svg data-rating="1" class="rating-color fa-star w-4 h-4 ms-1" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
+                                            <svg data-rating="2" class="fa-star w-4 h-4 ms-1" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
+                                            <svg data-rating="3" class="fa-star w-4 h-4 ms-1" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
+                                            <svg data-rating="4" class="fa-star w-4 h-4 ms-1" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
+                                            <svg data-rating="5" class="fa-star w-4 h-4 ms-1" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
+                                        </div>
+
+                                        <button type="submit" class="mt-2 btn-orange rounded-full antialiased font-bold px-4 py-1">
+                                            Noter
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            {% else %}
+                                <div class="ratings flex flex-row space-x-1">
+                                    <svg disabled class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                    <svg disabled class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                    <svg disabled class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                    <svg disabled class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                    <svg disabled class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                </div>
+                            {% endif %}
+                        </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Produits{% endblock %}
+
+{% block content %}
+
+{% load cart %}
+{% load custom_filter %}
+
+<div class="w-8/12 mx-auto">
+    <div class="bg-white rounded-lg overflow-hidden px-6">
+        <h2 class="text-2xl mb-2">Les articles de {{user.first_name}} {{user.last_name}}</h2>
+        <table class="table w-full border-collapse">
+            <tbody>
+                {% for product in products %}
+                <tr class="border-t">
+                    <td class="py-4 w-20">
+                        <a href="{% url 'product' product.id %}">
+                            <img class="h-16 w-auto object-cover" src="{{product.id|get_first_image_product}}" alt="{{product.name}}">
+                        </a>
+                    </td>
+                    <td class="flex flex-col text-left pt-4">
+                        <a href="{% url 'product' product.id %}">
+                        <p class="font-bold">{{product.name}}</p>
+                        <div class="flex flex-row justify-between mt-2 pr-4">
+                            <p>{{product.date}}</p>
+                            <p>{{product.condition}}</p>
+                        </div>
+                        </a>
+                    </td>
+                    <td class="py-4">
+                        <label class="">{{product.place}}</label>
+                    </td>
+                    <td class="py-4 text-gray-600">{{product.description}}</td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
