@@ -34,6 +34,7 @@ class Sell (View):
 
     def post(self, request):
         price = Products.price_good_format(request.POST.get('price'))
+        print(price)
         customer_id = request.session.get('customer')
         customer = Customer.get_customer_by_id(customer_id)
         product = Products(name=request.POST.get('name'),

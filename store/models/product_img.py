@@ -35,7 +35,7 @@ class ProductImage(models.Model):
         old_images = ProductImage.objects.filter(product_id=product_id)
 
         for image in old_images:
-            os.remove("media/" + str(image.image))
+            image.image.delete()
 
         ProductImage.objects.filter(product_id=product_id).delete()
        

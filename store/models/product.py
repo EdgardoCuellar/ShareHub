@@ -89,9 +89,9 @@ class Products(models.Model):
             # check if the number convertable to float
         if not price:
             return 0
+        price = price.replace(',', '.')
         if not price.isdigit():
             return 0
-        price = price.replace(',', '.')
         price = float(price)
         price = int(price * 100)
 
@@ -104,9 +104,9 @@ class Products(models.Model):
     def price_good_format(price):
         if not price:
             return 0
+        price = price.replace(',', '.')
         if not price.isdigit():
             return 0
-        price = price.replace(',', '.')
         price = float(price)
         price = int(price * 100)
 
