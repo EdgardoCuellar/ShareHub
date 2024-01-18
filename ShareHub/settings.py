@@ -27,7 +27,7 @@ SECRET_KEY = '-95t%=#4o3@l-(-%ok9*h%n3!0(sdchjn%+_$5#umaj-!3bg*7'
 DEBUG = True
 DATABASE_SQLITE = True
 
-ALLOWED_HOSTS = ['15.188.149.136', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['15.188.149.136', 'localhost', '127.0.0.1', "nedgardo.pythonanywhere.com"]
 
 # Application definition
 
