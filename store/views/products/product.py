@@ -5,6 +5,7 @@ from store.models.prices import Prices
 from store.models.customer import Customer
 from store.models.category import Category
 from store.models.rating import Rating
+from store.models.product_img import ProductImage
 from django.views import  View
 
 import datetime
