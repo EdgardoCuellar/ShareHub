@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 
 from .views.homepage import Homepage
-from .views.index import IndexView
+from .views.index import IndexView, display_404
 
 from .views.customer.signup import Signup
 from .views.customer.login import Login , logout
@@ -59,6 +59,8 @@ urlpatterns = [
     path('my_products', auth_middleware(MyProductsView.as_view()), name='my_products'),
     path('modify_product/<int:product_id>', ModifyProduct.as_view(), name='modify_product'),
     path('user_products/<int:customer_id>', UserProductsView.as_view(), name='user_products'),
+
+    path('display_404', display_404, name='display_404'), # just a test
 ]
 
 if settings.DEBUG:

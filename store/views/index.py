@@ -52,3 +52,5 @@ class IndexView(View):
         return products, values
 
 
+def display_404(request):
+    return render(request, 'others/404_not_found.html')
