@@ -37,17 +37,17 @@ class Products(models.Model):
             error_message = "La description de l'article doit contenir au moins 10 caractères"
         elif not self.date:
             error_message = "Veillez entrer l'année de l'article"
-        elif len (product_validation.name) > 80:
+        elif len (self.name) > 80:
             error_message = 'Le nom ne peut pas contenir plus de 80 caractères'
-        elif int(product_validation.price) < 100 or int(product_validation.price) > 10000:
+        elif int(self.price) < 100 or int(self.price) > 10000:
             error_message = "Le prix doit se trouver entre 1 et 100 €" 
-        elif int(product_validation.date) < 1900:
+        elif int(self.date) < 1900:
             error_message = "L'année d'achat doit etre possible" 
-        elif int(product_validation.date) > datetime.now().year:
+        elif int(self.date) > datetime.now().year:
             error_message = "L'année d'achat ne peut pas être dans le futur"
-        elif product_validation.description and len(product_validation.description) >= 300:
+        elif self.description and len(self.description) >= 300:
             error_message = "La description ne peut pas dépasser 300 caractères"
-        elif len(product_validation.description) <= 10:
+        elif len(self.description) <= 10:
             error_message = "La description doit au moins faire 10 caractères"
         return error_message
 
