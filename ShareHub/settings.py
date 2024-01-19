@@ -141,7 +141,7 @@ if DEBUG:
 else:
     STATIC_URL = 'http://127.0.0.1:5500/server/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    (os.path.join(BASE_DIR, 'static'), 'static'),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
