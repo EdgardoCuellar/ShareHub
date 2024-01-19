@@ -9,6 +9,8 @@ urlpatterns = [
     path('' , include('store.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
 
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 urlpatterns += staticfiles_urlpatterns()
 
 handler404 = 'store.views.others.custom_404'
