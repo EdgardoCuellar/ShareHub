@@ -1,0 +1,69 @@
+{% load custom_filter %}
+
+{% load static %}
+
+<style>
+    .rating-color{
+            color:#ffd700 !important;
+            cursor: pointer;
+        }
+    </style>
+    
+    
+        <div class="max-w-sm mx-auto border border-gray-200 dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+            <div class="border-b px-4 pb-6">
+                <div class="text-center my-4">
+                    <div class="mx-auto h-40 w-32 text-center">
+                        <img class="dark:border-gray-800 mx-auto"
+                        src="{% static user.id|user_img %}" alt="">
+                    </div>
+                    <div class="mt-2">
+                        <h3 class="font-bold text-2xl text-gray-800 dark:text-white mb-1">
+                            {{user.first_name}} {{user.last_name}}
+                        </h3>
+                        <div class="inline-flex text-gray-700 dark:text-gray-300 items-center">
+                            <svg class="svg-icon" style="width: 1.2041015625em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1233 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M 1156.55 219.744 L 666.789 10.1811 a 127.623 127.623 0 0 0 -99.8836 0 L 77.1077 219.744 A 125.275 125.275 0 0 0 0.004521 336.45 a 128.657 128.657 0 0 0 8.76172 47.0504 v 277.799 a 26.2852 26.2852 0 0 0 52.5703 0 V 445.288 a 134.931 134.931 0 0 0 15.7711 8.00821 l 489.763 209.563 a 127.676 127.676 0 0 0 99.8836 0 L 1156.55 453.296 a 127.01 127.01 0 0 0 0 -233.552 Z m -27.5819 169.101 L 639.225 598.408 a 57.2666 57.2666 0 0 1 -44.7899 0 L 104.637 388.845 a 56.8986 56.8986 0 0 1 0 -104.65 L 594.435 74.6323 a 57.1089 57.1089 0 0 1 44.7899 0 l 489.798 209.563 a 56.8986 56.8986 0 0 1 0 104.65 Z" fill="#231815" /><path d="M 1042.81 554.179 a 35.0469 35.0469 0 0 0 -35.0469 35.0469 V 841.125 a 43.9663 43.9663 0 0 1 -27.3366 40.7245 c -234.464 96.7469 -492.724 96.7469 -727.223 0 A 43.9663 43.9663 0 0 1 225.899 841.125 V 589.226 a 35.0469 35.0469 0 0 0 -70.0938 0 V 841.125 a 113.902 113.902 0 0 0 70.6896 105.509 a 1023.58 1023.58 0 0 0 780.669 0 A 113.902 113.902 0 0 0 1077.85 841.125 V 589.226 a 35.0469 35.0469 0 0 0 -35.0469 -35.0469 Z" fill="#231815" /></svg>
+                            <p class="ml-2">{{user.faculty}}</p>
+                        </div>
+                    </div>
+                    <div class="w-full px-4 mb-2 mt-1 flex flex-row justify-between">
+                        <span class="color-gray-700" >
+                            {{rating.sell_count}} Ventes
+                        </span>
+                        <div class="ratings flex flex-row space-x-1">
+                            {% for _ in "12345" %}
+                                {% if forloop.counter <= rating.user_rating %}
+                                    <svg class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="#ffd700" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                {% else %} 
+                                    <svg class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="#555555" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+    
+                <div>
+                    <h5 class="font-weight-normal f-w-600" style="font-size: 2vh;color: #000000dd;">{{ user.description }}</h6>
+                </div>
+    
+                <div class="mt-4 flex gap-2 px-2">
+                    {% if not same_user %}
+                    <a
+                        href="/user_products/{{user.id}}"
+                        class="flex-1 text-center rounded-full btn-ulb antialiased font-bold px-4 py-2">
+                        Produits
+                    </a>
+                    <a
+                        href="/message/{{user.id}}"
+                        class="flex-1 text-center rounded-full border-2 border-gray-400 dark:border-gray-700 font-semibold text-black dark:text-white px-4 py-2">
+                        Message
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% load static %}
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}">
+
+    <title>{% block title %}ShareHub{% endblock %}</title>
+</head>
+
+<style>
+  body {
+    background-color: #fafafa;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .btn-ulb {
+    background-color: #004D95;
+    color: #fafafa;
+  }
+
+  .btn-ulb:hover {
+    background-color: #00305d;
+    color: #fafafa;
+  }
+
+  .btn-login {
+    color: #004D95;
+    text-decoration: underline;
+  }
+
+  .btn-login:hover {
+    color: #00305d;
+  }
+
+  .btn-retour {
+    color: #FD8A8A;
+    text-decoration: underline;
+  }
+
+  .btn-retour:hover {
+    color: #e06b6b;
+  }
+
+  .text-blue {
+    color: #004D95;
+  }
+
+  .bg-blue {
+    background-color: #004D95;
+  }
+
+  .btn-red {
+      background-color: #FD8A8A;;
+      color: #fafafa;
+  }
+
+  .btn-red:hover {
+      background-color: #e06b6b;
+      color: #ffffff;
+  }
+
+  .btn-purple {
+      background-color: #c3c0e6;
+      color: #fafafa;
+  }
+
+  .btn-purple:hover {
+      background-color: #a8a5d4;
+      color: #ffffff;
+  }
+
+  .btn-green {
+      background-color: #a8e6b8;
+      color: #fafafa;
+  }
+
+  .btn-green:hover {
+      background-color: #8fd9a8;
+      color: #ffffff;
+  }
+
+  .btn-pink {
+      background-color: #FFCBCB;
+  }
+
+  .btn-pink:hover {
+      background-color: #f5b1b1;
+  }
+
+  .btn-orange {
+      background-color: #f5c28e;
+      color: #fafafa;
+  }
+
+  .btn-orange:hover {
+      background-color: #e0a76b;
+      color: #ffffff;
+  }
+
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap" rel="stylesheet">
+
+<body class="font-open-sans min-h-screen flex flex-col" style="height: 100vh;">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+  <div class="bg-fafafa p-4 text-md">
+      <div class="w-9/12 mx-auto md:max-w-6xl flex flex-col md:flex-row items-center justify-between">
+          <div class="flex items-center space-x-4 mb-2 md:mb-0">
+            <a href="/" class="flex items-center text-dark">
+              <img src="{% static 'img/logo.png' %}" alt="Logo" class="w-12 h-12 mr-2">
+            </a>
+            <a href="/index">
+              <h2 class="z-2 text-2xl font-bold text-blue" style="font-family:'Rubik', sans-serif;">ShareHub</h2>
+            </a>
+          </div>
+
+          {% if request.session.customer %}
+          <div class="flex-grow flex items-center justify-center space-x-4 mb-2 md:mb-0">
+            <a href="{% url 'proposition' %}" class="text-gray-800"
+              {% if request.path == '/proposition' %}style="border-bottom: #004D95 solid 2px;"{% endif %}>
+              Propositions
+            </a>
+            <a href="{% url 'offers' %}" class="text-gray-800"
+              {% if request.path == '/offers' %}style="border-bottom: #004D95 solid 2px;"{% endif %}>
+              Offres
+            </a>
+            <a href="{% url 'sell' %}" class="text-gray-800"
+              {% if request.path == '/sell' %}style="border-bottom: #004D95 solid 2px;"{% endif %}>
+              Vendre
+            </a>
+          </div>
+          {% endif %}
+
+          <div class="flex items-center space-x-4">
+              
+              {% if not request.session.customer %}
+                <a href="{% url 'login' %}" class="text-gray-800">Connexion</a>
+                <a href="{% url 'signup' %}" 
+                  class="btn-ulb rounded-full antialiased font-bold px-4 py-2">
+                    S'enregistrer
+                </a>
+              {% endif %}
+              
+              {% if request.session.customer %}
+              <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
+                  class="text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center hover:shadow-lg" type="button">
+                  <svg class="w-[32px] h-[32px] dark:text-gray-800" style="color: #004D95;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 11 14H9a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 10 19Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                  </svg>
+                  <svg class="w-2.5 h-2.5 ms-3 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                  </svg>
+              </button>
+              <div id="dropdown" class="z-10 hidden divide-y divide-gray-100 rounded-lg shadow-md shadow-outline w-44 dark:bg-gray-700" style="background-color: #fafafa;">
+                  <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                    <li>
+                      <a href="{% url 'dashboard' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Compte</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'messages' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Messages</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'sales' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Vos ventes</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'logout' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Déconnexion</a>
+                  </li>
+                  </ul>
+              </div>
+              {% endif %}
+          </div>
+      </div>
+  </div>
+
+  <div class="w-full">
+      {% block content %}{% endblock %}
+  </div>
+
+  <footer class="bottom-0 pb-4 rounded-lg m-4 dark:bg-gray-800" style="width: 98%;margin-top: auto;">
+    <hr>
+      <div class="w-full mx-auto max-w-screen-xl p-4 flex justify-center md:flex md:items-center md:justify-between">
+        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="/" class="hover:underline">ShareHub ULB.</a> Projet de Edgardo Cuellar Sanchez</span>
+        <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+          <li><a href="/#about" class="hover:underline me-4 md:me-6">À propos</a></li>
+          <li><a href="/#contact" class="hover:underline me-4 md:me-6">Contact</a></li>
+          <li><a href="#" class="hover:underline me-4 md:me-6">Confidentialité</a></li>
+          <li><a href="https://github.com/EdgardoCuellar/ShareHub" class="hover:underline">Github</a></li>
+        </ul>
+      </div>
+  </footer>
+
+</body>
+
+</html>
