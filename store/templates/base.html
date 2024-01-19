@@ -6,10 +6,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    {% load static %}
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
-    <link rel="shortcut icon" type="image/png" href="/media/img/favicon.png">
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}">
 
     <title>{% block title %}ShareHub{% endblock %}</title>
 </head>
@@ -111,7 +113,7 @@
       <div class="w-9/12 mx-auto md:max-w-6xl flex flex-col md:flex-row items-center justify-between">
           <div class="flex items-center space-x-4 mb-2 md:mb-0">
             <a href="/" class="flex items-center text-dark">
-              <img src="/media/img/logo.png" alt="Logo" class="w-12 h-12 mr-2">
+              <img src="{% static 'img/logo.png' %}" alt="Logo" class="w-12 h-12 mr-2">
             </a>
             <a href="/index">
               <h2 class="text-2xl font-bold text-blue" style="font-family:'Rubik', sans-serif;">ShareHub</h2>

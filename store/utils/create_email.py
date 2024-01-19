@@ -7,7 +7,7 @@ from django.conf import settings
 
 
 def create_email_buy(request, product: Products):
-    html_file_path = os.path.join(settings.BASE_DIR, 'media', 'mails', 'buy.html')
+    html_file_path = os.path.join(settings.BASE_DIR, 'static', 'mails', 'buy.html')
     with open(html_file_path, 'r', encoding='utf-8') as file:
         html_content = file.read()
 
@@ -18,7 +18,7 @@ def create_email_buy(request, product: Products):
 
 
 def create_email_sell(request, product: Products):
-    html_file_path = os.path.join(settings.BASE_DIR, 'media', 'mails', 'buy.html')
+    html_file_path = os.path.join(settings.BASE_DIR, 'static', 'mails', 'buy.html')
     with open(html_file_path, 'r', encoding='utf-8') as file:
         html_content = file.read()
 
@@ -28,7 +28,7 @@ def create_email_sell(request, product: Products):
     return html_content
     
 def create_forgot_password(request, forgot_password: ForgotPassword):
-    html_file_path = os.path.join(settings.BASE_DIR, 'media', 'mails', 'forgot_password.html')
+    html_file_path = os.path.join(settings.BASE_DIR, 'static', 'mails', 'forgot_password.html')
     with open(html_file_path, 'r', encoding='utf-8') as file:
         html_content = file.read()
 

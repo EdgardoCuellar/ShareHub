@@ -1,6 +1,7 @@
 ShareHub/private
 aws/*
 design/*
+server/*
 
 tempo/*
 # Byte-compiled / optimized / DLL files

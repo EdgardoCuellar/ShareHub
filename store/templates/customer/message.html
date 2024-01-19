@@ -4,6 +4,7 @@
 {% block content %}
 
 {% load custom_filter %}
+{% load static %}
 
 <div class="sm:w-full sm:mx-4 md:w-8/12 md:mx-auto shadow-lg" 
     style="min-height: 70vh; border: lightgray solid 1px;">
@@ -22,7 +23,7 @@
                 class="flex flex-row items-center">
                 <div class="h-14 w-10 text-center pt-2 mx-2">
                     <img
-                    src="{{user.id|user_img}}"
+                    src="{% static user.id|user_img %}"
                     class="object-cover"
                     alt=""
                     />
@@ -57,7 +58,7 @@
                                     {{ message.content }}
                                 </div>
                                 <img
-                                    src="{{sender.id|user_img}}"
+                                    src="{% static sender.id|user_img %}"
                                     class="object-cover h-8 w-6"
                                     alt=""
                                 />
@@ -74,7 +75,7 @@
                         <div class="flex justify-start mb-1 w-8/12">
                             {% if last_id != message.sender.id %}
                                 <img
-                                    src="{{receiver.id|user_img}}"
+                                    src="{% static receiver.id|user_img %}"
                                     class="object-cover h-8 w-6"
                                     alt=""
                                 />

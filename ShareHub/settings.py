@@ -133,10 +133,27 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = "/media/"
+# STATIC USED IN PRODUCTION AND IN DEVELOPMENT
 
+if DEBUG:
+    STATIC_URL = '/static/'
+else:
+    STATIC_URL = 'http://127.0.0.1:5500/server/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+if DEBUG:
+    MEDIA_URL = '/media/'
+else:
+    MEDIA_URL = 'http://127.0.0.1:5500/server/static/'
+    
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
+
+# Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-relay.sendinblue.com'
 EMAIL_HOST_USER = 'edgardo-cuellar@hotmail.com'

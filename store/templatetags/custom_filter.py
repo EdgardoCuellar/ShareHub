@@ -23,7 +23,7 @@ def get_user_name(id):
 
 @register.filter(name='user_img')
 def get_user_img(id):
-    return f"/media/img/user_{id % 11}.png"
+    return f"img/user_{id % 11}.png"
 
 @register.filter(name='get_first_image_product')
 def get_first_image_product(product_id):

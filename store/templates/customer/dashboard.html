@@ -7,12 +7,14 @@
 
 {% load custom_filter %}
 
+{% load static %}
+
 <div class="flex flex-col lg:flex-row w-full lg:w-8/12 lg:p-0 px-2 mx-auto">
 
     <aside class="w-64 min-w-64 mx-auto rounded flex flex-col w-64 px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700"
         style="height: 25rem;">
         <a href="#" class="mx-auto">
-            <img class="w-auto h-12 sm:h-7" src="/media/img/logo.png" alt="">
+            <img class="w-auto h-12 sm:h-7" src="{% static 'img/logo.png' %}" alt="">
         </a>
 
         <div class="flex flex-col justify-between flex-1 mt-6">

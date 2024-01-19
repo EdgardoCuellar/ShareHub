@@ -1,12 +1,14 @@
 
 {% load custom_filter %}
 
+{% load static %}
+
 <div class="w-full mx-auto">
     <div class="mx-auto bg-white overflow-hidden shadow-lg rounded-lg border" style="width: 30rem;">
         <div class="flex flex-row items-center">
             <div class="h-20 w-16 text-left items-center ml-4">
                 <img class="dark:border-gray-800 mx-auto"
-                src="{{user.id|user_img}}" alt="">
+                src="{% static user.id|user_img %}" alt="">
             </div>
             <div class="px-4 py-5 sm:px-6">
                 <h3 class="text-lg leading-6 font-medium text-gray-900">

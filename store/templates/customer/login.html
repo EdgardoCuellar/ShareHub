@@ -2,6 +2,8 @@
 
 {% block content %}
 
+{% load static %}
+
 <div class="w-10/12 md:flex mx-auto" style="height: 75vh;">
 	<div class="flex md:w-1/2 justify-center py-10 items-center bg-white">
 		<form action="{% url 'login' %}" method="POST" class="bg-white w-96">
@@ -39,7 +41,7 @@
 
 	<div
 		class="relative overflow-hidden md:flex w-1/2 justify-around items-center hidden">
-		<img src="/media/img/login.png" alt="Login img" class="">
+		<img src="{% static 'img/login.png' %}" alt="Login img" class="">
 	</div>
 </div>
 

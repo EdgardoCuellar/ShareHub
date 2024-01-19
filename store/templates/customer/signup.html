@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+{% load static %}
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 <div class="w-10/12 md:flex mx-auto" style="height: 75vh;">
     
     <div class="relative overflow-hidden md:flex w-1/2 justify-around items-center hidden md:block">
-        <img src="/media/img/signup.png" alt="Login img" class="object-cover max-w-full max-h-full">
+        <img src="{% static 'img/signup.png' %}" alt="Login img" class="object-cover max-w-full max-h-full">
     </div>    
     
 	<div class="flex md:w-1/2 justify-center py-10 items-center bg-white">
