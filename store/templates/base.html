@@ -17,6 +17,11 @@
 </head>
 
 <style>
+  body {
+    background-color: #fafafa;
+    font-family: 'Open Sans', sans-serif;
+  }
+
   .btn-ulb {
     background-color: #004D95;
     color: #fafafa;
@@ -116,7 +121,7 @@
               <img src="{% static 'img/logo.png' %}" alt="Logo" class="w-12 h-12 mr-2">
             </a>
             <a href="/index">
-              <h2 class="text-2xl font-bold text-blue" style="font-family:'Rubik', sans-serif;">ShareHub</h2>
+              <h2 class="z-2 text-2xl font-bold text-blue" style="font-family:'Rubik', sans-serif;">ShareHub</h2>
             </a>
           </div>
 
@@ -149,7 +154,7 @@
               
               {% if request.session.customer %}
               <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
-                  class="text-white bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center hover:shadow-lg" type="button">
+                  class="text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center hover:shadow-lg" type="button">
                   <svg class="w-[32px] h-[32px] dark:text-gray-800" style="color: #004D95;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 11 14H9a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 10 19Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                   </svg>
@@ -157,7 +162,7 @@
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                   </svg>
               </button>
-              <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-md shadow-outline w-44 dark:bg-gray-700">
+              <div id="dropdown" class="z-10 hidden divide-y divide-gray-100 rounded-lg shadow-md shadow-outline w-44 dark:bg-gray-700" style="background-color: #fafafa;">
                   <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                     <li>
                       <a href="{% url 'dashboard' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Compte</a>
@@ -182,7 +187,7 @@
       {% block content %}{% endblock %}
   </div>
 
-  <footer class="bottom-0 pb-4 bg-white rounded-lg m-4 dark:bg-gray-800" style="width: 98%;margin-top: auto;">
+  <footer class="bottom-0 pb-4 rounded-lg m-4 dark:bg-gray-800" style="width: 98%;margin-top: auto;">
     <hr>
       <div class="w-full mx-auto max-w-screen-xl p-4 flex justify-center md:flex md:items-center md:justify-between">
         <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="/" class="hover:underline">ShareHub ULB.</a> Projet de Edgardo Cuellar Sanchez</span>

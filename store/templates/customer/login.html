@@ -5,8 +5,8 @@
 {% load static %}
 
 <div class="w-10/12 md:flex mx-auto" style="height: 75vh;">
-	<div class="flex md:w-1/2 justify-center py-10 items-center bg-white">
-		<form action="{% url 'login' %}" method="POST" class="bg-white w-96">
+	<div class="flex md:w-1/2 justify-center py-10 items-center">
+		<form action="{% url 'login' %}" method="POST" class="w-96">
             {% csrf_token %}
                 <h1 class="text-gray-800 font-bold text-2xl mb-1">Se connecter</h1>
                 <div class="mb-8">

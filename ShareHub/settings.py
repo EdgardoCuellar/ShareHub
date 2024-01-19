@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import datetime
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,11 +21,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-95t%=#4o3@l-(-%ok9*h%n3!0(sdchjn%+_$5#umaj-!3bg*7'
+# KEY CHANGED FOR THE PRODUCTION VERSION ON THE SERVER THIS ONE IS FOR TESTING PURPOSES
+SECRET_KEY = 'hha^#di@8x)p8!+yfy#(v4=8n2)e+ere+z)wk2kp-a$h@)roh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 DATABASE_SQLITE = True
 
 ALLOWED_HOSTS = ['15.188.149.136', 'localhost', '127.0.0.1', "nedgardo.pythonanywhere.com"]
@@ -119,9 +120,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-BE'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Brussels'
 
 USE_I18N = True
 
@@ -146,11 +147,9 @@ STATICFILES_DIRS = [
 if DEBUG:
     MEDIA_URL = '/media/'
 else:
-    MEDIA_URL = 'http://127.0.0.1:5500/server/static/'
+    MEDIA_URL = 'http://127.0.0.1:5500/server/media/'
     
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
 
 
 # Email settings
@@ -162,3 +161,57 @@ EMAIL_HOST_PASSWORD = 'SHW8ypOZbUxnV91Q'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+
+# CACHE PERFORMANCES TO DO IT TIME
+# if DEBUG:
+#     CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+#         "LOCATION": "127.0.0.1:11211",
+#         }
+#     }
+
+# else:
+#     CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+#         "LOCATION": [
+#             "172.19.26.240:11211",
+#             "172.19.26.242:11211",
+#         ],
+#         }
+#     }
+
+
+# settings.py
+
+# Set the logging configuration
+LOGGING_DIR = os.path.join(BASE_DIR, 'logs')
+
+if not os.path.exists(LOGGING_DIR):
+    os.makedirs(LOGGING_DIR)
+
+log_file_name = datetime.now().strftime('%d%m%Y_%H%M%S') + '_error.log'
+log_file_path = os.path.join(LOGGING_DIR, log_file_name)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': log_file_path,
+        },
+        # Add other handlers if needed
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
+

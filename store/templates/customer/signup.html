@@ -11,8 +11,8 @@
         <img src="{% static 'img/signup.png' %}" alt="Login img" class="object-cover max-w-full max-h-full">
     </div>    
     
-	<div class="flex md:w-1/2 justify-center py-10 items-center bg-white">
-		<form action="{% url 'signup' %}" method="POST" class="bg-white">
+	<div class="flex md:w-1/2 justify-center py-10 items-center">
+		<form action="{% url 'signup' %}" method="POST" class="">
             {% csrf_token %}
 			<h1 class="text-gray-800 font-bold text-2xl mb-1">S'enregistrer</h1>
             <div class="mb-8">

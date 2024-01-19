@@ -12,7 +12,7 @@
         retour
     </a>
 
-    <div class="lg:w-1/2 bg-white rounded shadow-md">
+    <div class="lg:w-1/2 rounded shadow-md">
         <h3 class="text-2xl color-grey-200 mb-4">Modifier votre produit</h3>
         <form action="{% url 'modify_product' product.id %}" id="mainForm" method="POST" enctype="multipart/form-data">
             {% csrf_token %}

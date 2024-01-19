@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="w-10/12 md:flex mx-auto justify-center items-center">
+
+    <div class="flex flex-col justify-center text-center mb-8">
+
+        <img src="{% static 'img/404_error.png' %}" alt="500 error img" class="w-96">
+
+        <h1 class="text-5xl font-bold text-center">500</h1>
+        <h2 class="text-2xl font-bold text-center">Erreur interne</h2>
+        <p class="text-center">Mmmmh il semble qu'il y a eu un problemo amigo</p>
+        <a href="/" class="btn-ulb w-64 mx-auto text-center block mt-4 py-2 rounded-2xl text-white font-semibold">Retour à l'accueil</a>
+
+    </div>
+
+</div>
+
+{% endblock %}

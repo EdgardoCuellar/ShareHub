@@ -12,3 +12,4 @@ urlpatterns = [
 urlpatterns += staticfiles_urlpatterns()
 
 handler404 = 'store.views.others.custom_404'
+handler500 = 'store.views.others.custom_500'
