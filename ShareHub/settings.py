@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'hha^#di@8x)p8!+yfy#(v4=8n2)e+ere+z)wk2kp-a$h@)roh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 DATABASE_SQLITE = True
 
 ALLOWED_HOSTS = ['15.188.149.136', 'localhost', '127.0.0.1', "nedgardo.pythonanywhere.com"]
