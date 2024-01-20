@@ -11,6 +11,8 @@ class MessagesView(View):
 
     html_template = "customer/message.html"
 
+    key = b'0jneb-P_LUtlb_kEk3-Bx5hojBgnnidBLXOgBC_BgvE=' # Temporary secret key
+
     @method_decorator(user_login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -23,10 +25,12 @@ class MessagesView(View):
 
         if receiver_id is not None:
             receiver = Customer.get_customer_by_id(receiver_id)
-            messages = Message.objects.filter(sender=sender, receiver=receiver) | Message.objects.filter(sender=receiver, receiver=sender)
-            # order the messages by message_id
-            messages = messages.order_by('id')
-
+            messages = Message.get_messages_between(sender, receiver)
+            if messages.count() > 0:
+                for message in messages:
+                    message.content = message.decrypt_content(self.key)
+            else:
+                decrypted_messages = None
 
         users_with_messages = self.get_users_with_messages(sender)
 
@@ -53,17 +57,9 @@ class MessagesView(View):
 
         content = request.POST.get('content')
         if content:
-            message = Message(sender=sender, receiver=receiver, content=content)
+            message = Message(sender=sender)
+            message.encrypt_content(content, self.key)
+            message.receiver = receiver
             message.save()
 
-        messages = Message.objects.filter(sender=sender, receiver=receiver) | Message.objects.filter(sender=receiver, receiver=sender)
-        users_with_messages = self.get_users_with_messages(sender)
-
-        context = {
-            'sender': sender,
-            'receiver': receiver,
-            'messages': messages,
-            'users_with_messages': users_with_messages,
-        }
-
-        return render(request, self.html_template, context)
+        return redirect('messages', receiver_id=receiver_id)

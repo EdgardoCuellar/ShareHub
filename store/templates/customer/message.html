@@ -46,6 +46,7 @@
         <div class="w-full px-2 flex flex-col justify-between">
             {% if receiver %}
             <div id="messageContainer" class="flex flex-col pt-4 overflow-y-auto" style="height: 68vh;">
+            {% if messages|length != 0 %}
                 {% define -1 as last_id %}
                 {% for message in messages %}
                     {% if message.sender.id == sender.id %}
@@ -95,6 +96,19 @@
                     {% endif %}
                     {% define message.sender.id as last_id %}
                 {% endfor %}
+            {% else %}
+            <div class="flex flex-col justify-center items-center h-full">
+                <div class="h-28 w-20 text-center pt-2 mx-2">
+                    <img
+                    src="{% static receiver.id|user_img %}"
+                    class="object-cover"
+                    alt=""
+                    />
+                </div>
+                <p class="text-2xl font-bold text-gray-500">{{receiver.first_name}} {{receiver.last_name}}</p>
+                <p class="text-gray-500">Vous pouvez envoyer le premier message</p>
+            </div>
+            {% endif %}
             </div>
             <div class="py-2">
                 <form method="post" action="">
@@ -112,6 +126,11 @@
                         </div>
                     </div>
                 </form>
+            </div>
+            {% else %}
+            <div class="flex flex-col justify-center items-center h-full">
+                <p class="text-2xl font-bold text-gray-500">Aucun message</p>
+                <p class="text-gray-500">Sélectionnez un utilisateur pour commencer à discuter</p>
             </div>
             {% endif %}
         </div>
