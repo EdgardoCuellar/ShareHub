@@ -54,3 +54,6 @@ class IndexView(View):
 
 def display_404(request):
     return render(request, 'others/404_not_found.html')
+
+def about(request):
+    return render(request, 'others/about.html')

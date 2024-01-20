@@ -77,7 +77,7 @@
           <div class="flex-grow">
             <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Sans frais</h2>
             <p class="leading-relaxed text-base">Notre plateforme d'échange de syllabus à l'ULB est 100% gratuite, et tout en toute transparence.</p>
-            <a href="#price" class="mt-3 text-indigo-500 inline-flex items-center">En savoir plus
+            <a href="{% url 'about' %}" class="mt-3 text-indigo-500 inline-flex items-center">En savoir plus
               <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                 <path d="M5 12h14M12 5l7 7-7 7"></path>
               </svg>
@@ -175,13 +175,15 @@
   </div>
   
   <section class="text-center" id="contact">
-    <div class="flex flex-col justify-center>
-      <a id="contact"></a>
-      <h2 class="mb-5">Si vous avez des suggestions ou demandes</h2>
+    <div class="flex flex-col justify-center items-center">
+      <h2 class="mb-2 font-bold text-lg">Contact</h2>
+      <p class="mb-6 sm:w-full md:w-1/2 text-gray-800">
+        Pour tout problème, suggestion, demande ou autre, veuillez passer par ce lien pour me contacter. N'hésitez pas à faire un retour si vous pensez que cela serait pertinent ou si vous avez rencontré tout type de problème sur la plateforme, que ce soit un problème technique ou avec un autre utilisateur.
+      </p>
       <div class="row">
         <div class="mx-auto mb-5 mb-lg-0 space-y-4">
-            <a href="#" class="btn-ulb border-0 py-2 px-6 rounded text-lg">
-              GOOGLE FORM TO DO
+            <a href="https://forms.gle/r647HHEyZihTQVxC7" class="btn-ulb border-0 py-2 px-6 rounded text-lg">
+              Formulaire de contact
             </a>
             <p class="font-weight-light mb-0">Merci d'avance !</p>
         </div>
