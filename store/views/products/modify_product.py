@@ -9,6 +9,9 @@ from store.models.product_img import ProductImage
 from django.utils.decorators import method_decorator
 from store.utils.decorators import user_login_required
 
+from django.http import JsonResponse
+from django.urls import reverse
+
 class ModifyProduct (View):
 
     html_template = "products/modify_product.html"
@@ -81,12 +84,13 @@ class ModifyProduct (View):
             
             if not error_message:
                 product.save()
-                return redirect('product', product.id)  # Redirect to the homepage or any other appropriate page after successful upload
+                json = JsonResponse({'redirect_url': reverse('product', args=[product.id])})
+                return json  # Redirect to the homepage or any other appropriate page after successful upload
 
         categories = Category.get_all_categories()
         condition = Condition.get_all_conditions()
         places = Place.get_all_places()
 
         request.session['error'] = error_message
-        
-        return redirect("modify_product", product.id)
+        json = JsonResponse({'redirect_url': reverse('modify_product', args=[product.id])})
+        return json

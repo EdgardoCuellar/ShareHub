@@ -27,6 +27,7 @@
         FilePond.registerPlugin(FilePondPluginImagePreview);
         FilePond.setOptions({
             allowMultiple:true,
+            labelMaxFileSizeExceeded: "Le fichier est trop volumineux",
             maxFiles:3,
             maxFileSize: '5MB'
         })
@@ -48,50 +49,52 @@
             }
         } );
 
-        $(document).on('click', '#saveBtn', function(e) {
-            var formData = new FormData(document.getElementById('mainForm'));
-            formData.append('length', files.length)
+        document.getElementById('mainForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            e.preventDefault();
+
+            // Add data to the form
+            var length = document.createElement('input');
+            length.type = 'hidden';
+            length.name = 'length'; // Name of the new data
+            length.value = files.length; // Value of the new data
+            // Append the input to the form
+            this.appendChild(length);
+
+            // Add data to the form
+            var formData = new FormData(this);
             for (var i = 0; i < files.length; i++) {
-                formData.append('images' + i, files[i])
+                formData.append('images' + i, files[i]);
             }
             formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
 
-            e.preventDefault();
-            submitFormData(formData);
-        })
-
-        function submitFormData(formData) {
-            $.ajax({
-                type: 'POST',
-                {% if arg1 and arg2 %}
-                url: '{% url dest arg1 arg2 %}',
-                {% elif arg1 %}
-                url: '{% url dest arg1 %}',
-                {% else %}
-                url: '{% url dest %}',
-                {% endif %}
-                data: formData,
-                cache: false,
-                processData: false,
-                contentType: false,
-                enctype: 'multipart/form-data',
-                success: function (){
-                    console.log('success')
-                    {% if return_arg1 and return_arg2 %}
-                    window.location.href = '{% url return_dest return_arg1 return_arg2 %}';
-                    {% elif return_arg1 %}
-                    window.location.href = '{% url return_dest return_arg1 %}';
-                    {% else %}
-                    window.location.href = '{% url return_dest %}';
-                    {% endif %}
-                },
-                error: function(xhr, errmsg, err) {
-                    alert('Error')
-                    console.log(xhr.status + ":" + xhr.responseText)
+            // Submit the form data using fetch (or another method)
+            {% if arg1 and arg2 %}
+            fetch('{% url dest arg1 arg2 %}', {
+            {% elif arg1 %}
+            fetch('{% url dest arg1 %}', {
+            {% else %}
+            fetch('{% url dest %}', {
+            {% endif %}
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                if (!response.ok) {
+                    console.log('Response status:', response.status);
+                    console.log('Response status text:', response.statusText);
+                    throw new Error('Erreur lors de l\'envoi des données au serveur');
                 }
-            })
-        }
-    })
+                return response.json();
+            }).then(data => {
+                // Redirect to the URL returned from the server
+                window.location.href = data.redirect_url;
+            }).catch(error => {
+                console.error('Error:', error);
+                alert(error.message);
+            });
+        });
+    });
 </script>
 
 {% endblock image_upload %}

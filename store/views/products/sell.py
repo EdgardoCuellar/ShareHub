@@ -9,6 +9,9 @@ from datetime import datetime
 from django.utils.decorators import method_decorator
 from store.utils.decorators import user_login_required
 
+from django.http import JsonResponse
+from django.urls import reverse
+
 class Sell (View):
 
     html_link = 'products/sell.html'
@@ -25,10 +28,6 @@ class Sell (View):
         error_message = request.session.get('error_message')
         if error_message:
             del request.session['error_message']
-        if request.session.get('success'):
-            product_id = request.session.get('success')
-            del request.session['success']
-            return redirect('product', product_id)
 
         return render (request, self.html_link, {'categories': categories, 'conditions': conditions, 'places': places, 'error_message': error_message})
 
@@ -46,19 +45,22 @@ class Sell (View):
                                 customer=customer)
 
         error_message = product.validate_product()
-        
-        if not error_message:
-            product.register()
 
+        if not error_message:
             length = request.POST.get('length')
-            for file_num in range(0, int(length)):
-                ProductImage.objects.create(
-                    product=product,
-                    image=request.FILES.get(f'images{file_num}')
-                )
-            request.session['success'] = product.id
-            return redirect('index')  # Redirect to the homepage or any other appropriate page after successful upload
+
+            if length == None or length == '' or length == '0':
+                error_message = 'Vous devez ajouter au moins une image'
+            else:
+                product.register()
+                for file_num in range(0, int(length)):
+                    product_img = ProductImage.objects.create(
+                        product=product,
+                        image=request.FILES.get(f'images{file_num}')
+                    )
+                json = JsonResponse({'redirect_url': reverse('product', args=[product.id])})
+                return json  # Redirect to the homepage or any other appropriate page after successful upload
 
         request.session['error_message'] = error_message
 
-        return redirect('index')
+        return JsonResponse({'redirect_url': reverse('sell', args=[])})
