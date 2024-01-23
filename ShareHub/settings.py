@@ -22,7 +22,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # KEY CHANGED FOR THE PRODUCTION VERSION ON THE SERVER THIS ONE IS FOR TESTING PURPOSES
-SECRET_KEY = 'hha^#di@8x)p8!+yfy#(v4=8n2)e+ere+z)wk2kp-a$h@)roh'
+# get the secret key from ./private/secret_key.txt
+SECRET_KEY = ""
+with open(os.path.join(BASE_DIR, 'private/secret_key.txt')) as f:
+    SECRET_KEY = f.read().strip()
+
+DATABASE_PASSWORD = ""
+with open(os.path.join(BASE_DIR, 'private/database_password.txt')) as f:
+    DATABASE_PASSWORD = f.read().strip()
+
+EMAIL_PASSWORD = ""
+with open(os.path.join(BASE_DIR, 'private/email_password.txt')) as f:
+    EMAIL_PASSWORD = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from store.models.customer import Customer
 from cryptography.fernet import Fernet
+import os
 
 class Message(models.Model):
     sender = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='sent_messages')
@@ -9,17 +10,36 @@ class Message(models.Model):
     encrypted_content = models.BinaryField(default=b"", blank=True, null=True)
     timestamp = models.DateTimeField(default=timezone.now)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.key = self.get_key()
+
+    def get_key(self):
+        key_file_path = './private/message_key.txt'
+        key = ""
+
+        # if not os.path.isfile(key_file_path):
+        #     # Generate a new key if the file doesn't exist
+        #     key = Fernet.generate_key()
+        #     with open(key_file_path, 'wb') as key_file:
+        #         key_file.write(key)
+        # else:
+        with open(key_file_path, 'rb') as f:
+            key = f.read()
+
+        return key
+
+
     def __str__(self):
         return f"From {self.sender} to {self.receiver} - {self.timestamp}"
 
-    def encrypt_content(self, content, key):
-        cipher_suite = Fernet(key)
+    def encrypt_content(self, content):
+        cipher_suite = Fernet(self.key)
         encrypted_content = cipher_suite.encrypt(content.encode('utf-8'))
         self.encrypted_content = encrypted_content
-        return key
 
-    def decrypt_content(self, key):
-        cipher_suite = Fernet(key)
+    def decrypt_content(self):
+        cipher_suite = Fernet(self.key)
         decrypted_content = cipher_suite.decrypt(self.encrypted_content).decode('utf-8')
         return decrypted_content
 

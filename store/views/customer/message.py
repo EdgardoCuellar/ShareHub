@@ -11,8 +11,6 @@ class MessagesView(View):
 
     html_template = "customer/message.html"
 
-    key = b'0jneb-P_LUtlb_kEk3-Bx5hojBgnnidBLXOgBC_BgvE=' # Temporary secret key
-
     @method_decorator(user_login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -28,7 +26,7 @@ class MessagesView(View):
             messages = Message.get_messages_between(sender, receiver)
             if messages.count() > 0:
                 for message in messages:
-                    message.content = message.decrypt_content(self.key)
+                    message.content = message.decrypt_content()
             else:
                 decrypted_messages = None
 
@@ -58,7 +56,7 @@ class MessagesView(View):
         content = request.POST.get('content')
         if content:
             message = Message(sender=sender)
-            message.encrypt_content(content, self.key)
+            message.encrypt_content(content)
             message.receiver = receiver
             message.save()
 

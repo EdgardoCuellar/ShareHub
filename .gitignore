@@ -3,6 +3,7 @@ aws/*
 design/*
 server/*
 media/*
+private/*
 
 tempo/*
 # Byte-compiled / optimized / DLL files
