@@ -53,13 +53,18 @@ class Sell (View):
                 error_message = 'Vous devez ajouter au moins une image'
             else:
                 product.register()
-                for file_num in range(0, int(length)):
-                    product_img = ProductImage.objects.create(
-                        product=product,
-                        image=request.FILES.get(f'images{file_num}')
-                    )
-                json = JsonResponse({'redirect_url': reverse('product', args=[product.id])})
-                return json  # Redirect to the homepage or any other appropriate page after successful upload
+                try:
+                    for file_num in range(0, int(length)):
+                        product_img = ProductImage.objects.create(
+                            product=product,
+                            image=request.FILES.get(f'images{file_num}')
+                        )
+                    json = JsonResponse({'redirect_url': reverse('product', args=[product.id])})
+                    return json  # Redirect to the homepage or any other appropriate page after successful upload
+                except Exception as e:
+                    print(e)
+                    product.remove()
+                    error_message = 'Une erreur est survenue lors de l\'ajout des images'
 
         request.session['error_message'] = error_message
 

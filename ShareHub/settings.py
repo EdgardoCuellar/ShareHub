@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 from datetime import datetime
 import os
+from storages.backends.s3boto3 import S3Boto3Storage
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -50,7 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'store'
+    'store',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -142,27 +145,31 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
+# Static files (CSS, JavaScript, Images) # STATICFILES_DIRS
+AWS_ACCESS_KEY_ID = 'DO00TJGG8YYLMU2KPXGZ'
+AWS_SECRET_ACCESS_KEY = 'your-spaces-secret-access-key'
+with open(os.path.join(BASE_DIR, 'private/aws_secret_access_key.txt')) as f:
+    AWS_SECRET_ACCESS_KEY = f.read().strip()
+AWS_STORAGE_BUCKET_NAME = 'sharehub'
+AWS_S3_ENDPOINT_URL = 'https://ams3.digitaloceanspaces.com'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_DEFAULT_ACL = 'public-read' # This will make sure that the uploaded files are public and can be accessed without any authentication.
+AWS_QUERYSTRING_AUTH = False # This will make sure that the file URL does not have unnecessary parameters like your access key.
 
-# STATIC USED IN PRODUCTION AND IN DEVELOPMENT
-
-if DEBUG:
-    STATIC_URL = '/static/'
-else:
-    STATIC_URL = 'http://127.0.0.1:5500/server/static/'
+AWS_STATIC_LOCATION = 'static'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, AWS_STATIC_LOCATION),
 ]
-
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_STATIC_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
-if DEBUG:
-    MEDIA_URL = '/media/'
-else:
-    MEDIA_URL = 'http://127.0.0.1:5500/server/media/'
-    
+AWS_MEDIA_LOCATION = 'media'
+MEDIA_URL = 'https://%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_MEDIA_LOCATION) 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
 # Email settings
