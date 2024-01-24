@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # KEY CHANGED FOR THE PRODUCTION VERSION ON THE SERVER THIS ONE IS FOR TESTING PURPOSES
 # get the secret key from ./private/secret_key.txt
 SECRET_KEY = ""
-with open(os.path.join(BASE_DIR, 'private/secret_key.txt')) as f:
+with open(os.path.join(BASE_DIR, 'private/django_secret_key.txt')) as f:
     SECRET_KEY = f.read().strip()
 
 DATABASE_PASSWORD = ""
@@ -102,11 +102,11 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'sharehub',
-            'USER': 'sharehub',
-            'PASSWORD': 'sharehub',
-            'HOST': 'localhost',  # Set your database host if it's not on localhost
-            'PORT': '',          # Leave empty to use the default PostgreSQL port (5432)
+            'NAME': 'ShareHub',
+            'USER': 'ShareHubAdmin',
+            'PASSWORD': DATABASE_PASSWORD, # get the password from ./private/database_password.txt
+            'HOST': 'sharehub.database.windows.net',  # Set your database host if it's not on localhost
+            'PORT': '1433',          # Leave empty to use the default PostgreSQL port (5432)
         }
     }
 
@@ -174,10 +174,9 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp-relay.sendinblue.com'
-EMAIL_HOST_USER = 'edgardo-cuellar@hotmail.com'
-# use password txt, is in ./private/password_mail.txt
-EMAIL_HOST_PASSWORD = 'SHW8ypOZbUxnV91Q'
+EMAIL_HOST = 'smtp.eu.mailgun.org'
+EMAIL_HOST_USER = 'postmaster@sharehub.social'
+EMAIL_HOST_PASSWORD = EMAIL_PASSWORD # get the password from ./private/email_password.txt
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
