@@ -2,6 +2,7 @@ from django.db import models
 from .category import Category, Condition, Place
 from .customer import Customer
 from datetime import datetime
+import time
 import random
 
 class Products(models.Model):
@@ -14,11 +15,13 @@ class Products(models.Model):
     description= models.CharField(max_length=250, default='', blank=True, null= True)
     date = models.IntegerField(default=2000)
     sold = models.BooleanField(default=False)
+    timestamp = models.IntegerField(default=time.time())
 
     def __str__(self):
         return self.name
 
     def register(self):
+        self.timestamp = time.time()
         self.save()
 
     def remove(self):

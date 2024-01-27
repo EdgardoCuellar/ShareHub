@@ -1,6 +1,7 @@
 from django.db import models
 from store.models.customer import Customer
 from store.models.product import Products
+import time
 
 class Prices(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='product')
@@ -8,7 +9,7 @@ class Prices(models.Model):
     buyer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='buyer')
     price = models.IntegerField(default=0)
     status = models.IntegerField(default=0)
-    date_offer = models.DateField(default=None, null=True, blank=True)
+    timestamp = models.IntegerField(default=time.time())
     date_status = models.DateField(default=None, null=True, blank=True)
 
     def __str__(self):
