@@ -2,6 +2,9 @@
 from celery import shared_task
 from django.utils import timezone
 from store.models.product import Products
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.utils import timezone
 
 @shared_task
 def your_delayed_task(product_id):
@@ -20,3 +23,8 @@ def your_delayed_task(product_id):
         file.close()
         
 
+@receiver(post_save, sender=Products)
+def schedule_delayed_task(sender, instance, **kwargs):
+    # Schedule the task after 24 hours
+    eta = timezone.now() + timezone.timedelta(hours=24)
+    your_delayed_task.apply_async(args=[instance.pk], eta=eta)

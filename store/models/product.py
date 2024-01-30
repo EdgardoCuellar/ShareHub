@@ -1,10 +1,6 @@
 from django.db import models
 from .category import Category, Condition, Place
 from .customer import Customer
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.utils import timezone
-from store.utils.tasks import your_delayed_task
 from datetime import datetime
 import time
 import random
@@ -131,8 +127,3 @@ class Products(models.Model):
     def remove_product_by_id(id):
         Products.objects.filter(id=id).delete()
         
-@receiver(post_save, sender=Products)
-def schedule_delayed_task(sender, instance, **kwargs):
-    # Schedule the task after 24 hours
-    eta = timezone.now() + timezone.timedelta(hours=24)
-    your_delayed_task.apply_async(args=[instance.pk], eta=eta)
