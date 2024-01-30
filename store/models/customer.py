@@ -1,4 +1,5 @@
 from django.db import models
+import time
 
 class Customer(models.Model):
     first_name = models.CharField(max_length=50, default="")
@@ -9,6 +10,7 @@ class Customer(models.Model):
     password = models.CharField(max_length=100, default="")
     register_date = models.DateField(default=None, null=True, blank=True)
     is_banned = models.BooleanField(default=False)
+    timestamp = models.IntegerField(default=time.time())
 
     def isExists(self):
         if Customer.objects.filter(email = self.email):

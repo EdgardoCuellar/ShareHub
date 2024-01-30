@@ -2,12 +2,14 @@ from django.db import models
 from django.db.models.fields.related import ForeignKey
 from .customer import Customer
 
+import time
 
 class Rating(models.Model):
     customer = ForeignKey(Customer, on_delete=models.CASCADE, default=None, related_name='customer')
     customer_rated = ForeignKey(Customer, on_delete=models.CASCADE, default=None, related_name='customer_rated')
     rating = models.IntegerField(default=0)
     comment = models.CharField(max_length=250, default='', blank=True, null=True)
+    timestamp = models.IntegerField(default=time.time())
 
     @staticmethod
     def get_count_user_sells(customer):
