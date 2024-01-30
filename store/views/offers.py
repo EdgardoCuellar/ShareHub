@@ -29,6 +29,8 @@ class Offers(View):
 
         offer = self.choice_an_offer(Products.get_product_by_id(product_id))
 
+        Prices.accept_offer_by_id(offer.id)
+
         order = Order(buyer=Customer(id=offer.buyer.id),
                         seller=Customer(id=offer.seller.id),
                         product=Products(id=offer.product.id),
@@ -43,10 +45,11 @@ class Offers(View):
         send_mail_sell(request, offer.product, offer.seller)
 
         # Send a message to the buyer
-        message = Message(sender=offer.seller,
-                            receiver=offer.buyer,
-                            product=offer.product,
-                            content="Votre offre a été acceptée. Vous pouvez contacter le vendeur pour plus d'informations.")
+        content = "Votre offre a été acceptée pour le produit " + offer.product.name + " au prix de " + str(offer.price / 100) + "€."
+
+        Message.send_message(sender_id=offer.seller.id,
+                            receiver_id=offer.buyer.id,
+                            content=content)
 
         return redirect('overview', product_id=product_id, offer_id=offer.id)
     
@@ -77,7 +80,7 @@ class Offers(View):
             products_offer.append((products[i], offers[i], len_offers[i]))
         return products_offer
 
-    def choice_an_offer(product):
+    def choice_an_offer(self, product):
         offers = Prices.get_prices_by_product_id(product.id)
         if len(offers) == 1:
             accepted_offer = Prices.accept_offer_by_id(offers[0].id)

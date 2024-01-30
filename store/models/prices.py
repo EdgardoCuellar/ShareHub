@@ -55,6 +55,13 @@ class Prices(models.Model):
     @staticmethod
     def get_price_by_id(id):
         return Prices.objects.filter(id=id).filter(status=0)[0]
+
+    @staticmethod
+    def get_price_by_id_accepted(id):
+        try :
+            return Prices.objects.filter(id=id).filter(status=2)[0]
+        except :
+            return False
     
     @staticmethod
     def get_all_prices():

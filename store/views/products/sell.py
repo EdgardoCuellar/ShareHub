@@ -63,7 +63,7 @@ class Sell (View):
                     return json  # Redirect to the homepage or any other appropriate page after successful upload
                 except Exception as e:
                     print(e)
-                    product.remove()
+                    product.force_delete()
                     error_message = 'Une erreur est survenue lors de l\'ajout des images'
 
         request.session['error_message'] = error_message

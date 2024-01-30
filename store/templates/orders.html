@@ -50,7 +50,7 @@
                             </div>
                         </td>
                         <td>
-                            <a href="product/{{order.product.id}}" class="flex flex-col space-y-2">
+                            <a href="{% url 'product' order.product.id %}" class="flex flex-col space-y-2">
                                 <p class="font-semibold">{{order.product.name}}</p>
                                 <div class="flex flex-row space-x-2">
                                     <p class="font-bold">{{order.price|currency}}</p>

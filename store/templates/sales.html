@@ -30,7 +30,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="product/{{order.product.id}}" class="flex flex-col space-y-2">
+                                    <a href="/product/{{order.product.id}}" class="flex flex-col space-y-2">
                                         <p class="font-semibold">{{order.product.name}}</p>
                                         <div class="flex flex-row space-x-2">
                                             <p class="font-bold">{{order.price|currency}}</p>
@@ -39,7 +39,7 @@
                                     </a>
                                 </td>
                                 <td title="Cliquez pour voir le profil de l'acheteur, et n'hésitez pas à lui envoyer un message."
-                                ><a href="profile/{{order.buyer.id}}"
+                                ><a href="/profile/{{order.buyer.id}}"
                                        class="flex flex-col space-y-2">
                                         <p>{{order.buyer.first_name}}</p>
                                         <p>{{order.buyer.last_name}}</p>

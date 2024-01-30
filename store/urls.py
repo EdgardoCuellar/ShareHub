@@ -45,7 +45,7 @@ urlpatterns = [
     path('sell', Sell.as_view(), name='sell'),
     path('orders', auth_middleware(OrderView.as_view()), name='orders'),
     path('sales', auth_middleware(Sales.as_view()), name='sales'),
-    path('overview/<int:product_id>/<int:offer_id>', auth_middleware(Overview.as_view()), name='overview'),
+    path('overview/<int:product_id>/<int:offer_id>', Overview.as_view(), name='overview'),
 
     path('profile/<int:user_id>', Profile.as_view(), name='profile'),
     path('profile', DashboardView.as_view(), name='profile'),

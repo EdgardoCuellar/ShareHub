@@ -20,6 +20,7 @@ class Products(models.Model):
     date = models.IntegerField(default=2000)
     sold = models.BooleanField(default=False)
     timestamp = models.IntegerField(default=time.time())
+    listed = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -28,8 +29,12 @@ class Products(models.Model):
         self.timestamp = time.time()
         self.save()
 
-    def remove(self):
+    def force_delete(self):
         self.delete()
+
+    def remove(self):
+        self.listed = False
+        self.save()
 
     def validate_product(self):
         error_message = None
@@ -57,14 +62,14 @@ class Products(models.Model):
 
     @staticmethod
     def product_exists(id):
-        if Products.objects.filter(id=id):
+        if Products.objects.filter(id=id, listed=True).exists():
             return True
         return False
 
     @staticmethod
     def get_product_by_id(id):
         try:
-            return Products.objects.get(id=id)
+            return Products.objects.get(id=id, listed=True)
         except:
             return False
 
@@ -75,19 +80,19 @@ class Products(models.Model):
     @staticmethod
     def get_products_by_userid(customer_id, sold=False):
         if sold:
-            return Products.objects.filter (customer=customer_id, sold=True)
+            return Products.objects.filter (customer=customer_id, sold=True, listed=True)
         else:
-            return Products.objects.filter (customer=customer_id, sold=False)
+            return Products.objects.filter (customer=customer_id, sold=False, listed=True)
     
     @staticmethod
     def get_all_products():
         # get all products sold = false
-        return Products.objects.filter(sold=False)
+        return Products.objects.filter(sold=False, listed=True)
 
     @staticmethod
     def get_all_products_by_categoryid(category_id):
         if category_id:
-            return Products.objects.filter (category=category_id)
+            return Products.objects.filter (category=category_id, sold=False, listed=True)
         else:
             return Products.get_all_products();
 
@@ -113,5 +118,5 @@ class Products(models.Model):
 
     @staticmethod
     def remove_product_by_id(id):
-        Products.objects.filter(id=id).delete()
+        Products.objects.filter(id=id).update(listed=False)
         

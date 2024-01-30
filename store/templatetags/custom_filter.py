@@ -4,6 +4,7 @@ from store.models.product import Products
 from store.models.category import Category
 from store.models.prices import Prices
 from store.models.product_img import ProductImage
+import time
 
 register = template.Library()
 
@@ -16,6 +17,10 @@ def currency(number):
 def min_price(price):
     price = price - int(price * 0.2)  
     return price
+
+@register.filter(name='timestamp_to_date')
+def timestamp_to_date(timestamp):
+    return time.strftime('%d/%m/%Y', time.localtime(timestamp))
 
 @register.filter(name='user_name')
 def get_user_name(id):

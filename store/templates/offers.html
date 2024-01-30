@@ -61,7 +61,7 @@
                                           Accepter une offre
                                         </span>
                                         {% else %}
-                                        <form action="/check-out" method="POST">
+                                        <form action="{% url 'offers' %}" method="POST">
                                             {% csrf_token %}
                                             <input hidden type="text" name='product_id' value='{{product.0.id}}'>
                                             <input type="submit" value="Accepter une offre" class="cursor-pointer btn-green rounded-full antialiased font-bold px-4 py-2">

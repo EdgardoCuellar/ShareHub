@@ -16,7 +16,7 @@ class Overview(View):
 
     def get(self , request, product_id, offer_id):
         product = Products.get_product_by_id(product_id)
-        offer = Prices.get_price_by_id(offer_id)
+        offer = Prices.get_price_by_id_accepted(offer_id)
         if not product:
             return redirect('index')
         if not offer:
