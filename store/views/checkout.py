@@ -9,7 +9,7 @@ from store.models.orders import Order
 from store.models.message import Message
 from store.models.prices import Prices
 
-import datetime
+import time
 
 from store.utils.send_email import send_mail_sell, send_mail_buy
 
@@ -38,7 +38,7 @@ class CheckOut(View):
                             content="Votre offre a été acceptée. Vous pouvez contacter le vendeur pour plus d'informations.")
 
         offer.status = 2
-        offer.date_status = datetime.datetime.today()
+        offer.timestamp_status = time.time()
         offer.save()
         return redirect('sales')
 

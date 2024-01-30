@@ -25,15 +25,20 @@ class Product(View):
             return redirect('index')
 
     def post(self , request, product_id=None):
+        if product_id is None or not Products.product_exists(product_id):
+            return redirect('index')
+        if not request.session.get('customer'):
+            return redirect('login')
         product = Products.get_product_by_id(product_id)
         rating = Rating.get_rating(product.customer.id)
         nb_offers = len(Prices.get_prices_by_product_id(product_id))
-        if request.POST.get('offer'):
+        if Prices.is_already_offer(request.session.get('customer') ,product_id) and request.POST.get('offer'):
+            return redirect('product' , product_id=product_id)
+        elif request.POST.get('offer'):
             offer = request.POST.get('offer')
         else:
-            offer = Prices.get_price_by_buyer_product(request.session.get('customer') ,product_id)
-            offer.delete()
-            return render(request , self.html_template , {'product' : product, 'product_offer': None, 'rating': rating, 'nb_offers': nb_offers} )
+            Prices.remove_buyer_product_offer(request.session.get('customer') ,product_id)
+            return redirect('product' , product_id=product_id)
 
         offer = offer.replace(',', '.')        
         

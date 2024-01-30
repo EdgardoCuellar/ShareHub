@@ -4,7 +4,7 @@ from store.models.prices import Prices
 from django.views import  View
 from store.models.product import Products
 import random
-import datetime
+import time
 
 from django.utils.decorators import method_decorator
 from store.utils.decorators import user_login_required
@@ -24,7 +24,7 @@ class Offers(View):
         offer = Prices.get_price_by_id(offer_id)
         offer.status = 1
         
-        offer.date_status = datetime.datetime.today()
+        offer.timestamp_status = time.time()
         
         offer.save()
 

@@ -8,9 +8,9 @@ class Prices(models.Model):
     seller = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='seller')
     buyer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='buyer')
     price = models.IntegerField(default=0)
-    status = models.IntegerField(default=0)
+    status = models.IntegerField(default=0) # 0: offer, 1: accepted, 2: sold, -1: removed
     timestamp = models.IntegerField(default=time.time())
-    date_status = models.DateField(default=None, null=True, blank=True)
+    timestamp_status = models.IntegerField(default=time.time(), null=True, blank=True) # date when the status changed
 
     def __str__(self):
         return str(self.price / 100) + '€'
@@ -30,6 +30,18 @@ class Prices(models.Model):
     @staticmethod
     def get_price_by_buyer_product(buyer_id, product_id):
         return Prices.get_prices_by_buyer_id(buyer_id).filter(product=product_id).filter(status=0)
+
+    @staticmethod
+    def is_already_offer(buyer_id, product_id):
+        return Prices.get_price_by_buyer_product(buyer_id, product_id).filter(status=0).exists()
+
+    @staticmethod
+    def remove_buyer_product_offer(buyer_id, product_id):
+        Prices.get_price_by_buyer_product(buyer_id, product_id).filter(status=0).update(status=-1, timestamp_status=time.time())
+
+    @staticmethod
+    def remove_offer_by_id(id):
+        Prices.objects.filter(id=id).filter(status=0).update(status=-1, timestamp_status=time.time())
     
     @staticmethod
     def get_price_by_id(id):

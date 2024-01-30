@@ -20,9 +20,7 @@ class PropositionView(View):
 
     def post(self , request):
         offer_id = int(request.POST.get('offer'))
-        offer = Prices.get_price_by_id(offer_id)
-        offer.status = 1
-        offer.save()
+        Prices.remove_offer_by_id(offer_id)
         
         offers = Prices.get_prices_by_buyer_id(request.session.get('customer'))
-        return render(request , self.html_template , {'offers' : offers} )
+        return redirect('proposition')

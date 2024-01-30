@@ -5,6 +5,10 @@ from datetime import datetime
 import time
 import random
 
+MIN_TIME_BEFORE_ACCEPT_OFFER = 3 * 60 * 60 * 24 # 3 days
+MIN_OFFERS_BEFORE_ACCEPT_OFFER = 2 # Need 2 offers before have the possibility to accept one
+MIN_TIME_BEFORE_ACCEPT_SINGLE_OFFER = 14 * 60 * 60 * 24 # days before seller could accept a single offer
+
 class Products(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, default=None)
     name = models.CharField(max_length=60, default='')
@@ -86,22 +90,6 @@ class Products(models.Model):
             return Products.objects.filter (category=category_id)
         else:
             return Products.get_all_products();
-
-    @staticmethod
-    def transformPrice(price):
-            # check if the number convertable to float
-        if not price:
-            return 0
-        price = price.replace(',', '.')
-        if not Product.is_float(price):
-            return 0
-        price = float(price)
-        price = int(price * 100)
-
-        # Here's the logic to convert the price to our price fixation system
-        price = price + random.randint(-int(price * 0.2), int(price * 0.2))
-
-        return price
 
     @staticmethod
     def is_float(string):

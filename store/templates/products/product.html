@@ -114,12 +114,12 @@
                 <p class="text-md mb-2" style="max-width: 35rem;">{{product.description}}</p>
                 <div class="flex">
                     {% if request.session.customer %}
-                        <form action="/product/{{product.id}}" method="POST" class="flex flex-col lg:flex-row space-x-4 space-y-2">
+                        <form action="/product/{{product.id}}" method="POST" class="flex flex-col lg:flex-row space-y-2">
                             {% csrf_token %}
                             {% if product.sold == False %}
                                 {% if product.customer.id == request.session.customer %}
                                     <a href="/modify_product/{{product.id}}" 
-                                        class="btn-purple w-32 text-center font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                        class="mr-4 btn-purple w-32 text-center font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                         <i class="bi-cart-fill me-1"></i>
                                         Modifier
                                     </a>
@@ -131,8 +131,8 @@
                                         </a>
                                 {% else %}
                                     {% if product_offer %}
-                                        <div class="mb-2 flex items-center">
-                                            <span>Votre offre actuelle {{product_offer}}</span>
+                                        <div class="mb-2 flex flex-row">
+                                            <span>Votre offre actuelle <b>{{product_offer}}</b></span>
                                             <button class="btn-retour btn-outline-dark flex-shrink-0 ml-2" type="submit">
                                                 <i class="bi-cart-fill me-1"></i>
                                                 Retirer votre offre

@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% load cart %}
 {% load custom_filter %}
 
 <style>
@@ -58,7 +57,7 @@
                 <div title="Votre offre actuelle" class="flex-none w-1/4">
                   <h5 class="mb-0">Offre: {{ offer.price|currency }}</h5>
                 </div>
-                <form action="/cart" method="POST" class="flex-none w-1/12">
+                <form action="{% url 'proposition' %}" method="POST" class="flex-none w-1/12">
                   {% csrf_token %}
                   <input hidden type="text" name="offer" value="{{ offer.id }}">
                   <button title="Annuler votre proposition" type="submit" style="height: 64px;" class="flex items-center px-3 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-100 hover:bg-gray-300">
