@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load custom_filter %}
+
+<div class="w-full flex flex-col justify-center items-center">
+
+    <div class="sm:w-full mx-4 md:w-6/12">
+       <div class="flex justify-center">
+              <div class="w-full">
+                
+                <h2 class="text-2xl mb-2">Récapitulatif</h2>
+
+                <div class="h-32 w-20">
+                    <img src="{{ offer.product.id|get_first_image_product }}" class="object-cover" alt="">
+                </div>
+
+                <a href="product/{{offer.product.id}}" class="flex flex-col space-y-2">
+                    <p class="font-semibold">{{order.product.name}}</p>
+                    <div class="flex flex-row space-x-2">
+                        <p class="font-bold">{{order.price|currency}}</p>
+                        <p>{{order.date}}</p>
+                    </div>
+                </a>
+
+                <label class="text-sm py-2">{{offer.product.place}}</label>
+
+                </tr>
+            </div>
+        </div>
+   </div>
+</div>
+
+{% endblock %}

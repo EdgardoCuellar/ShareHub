@@ -17,10 +17,10 @@ from .views.products.modify_product import ModifyProduct
 from .views.products.my_products import MyProductsView
 from .views.products.sell import Sell
 from .views.products.user_products import UserProductsView
+from .views.products.overview import Overview
 
 from .views.proposition import PropositionView
 from .views.offers import Offers
-from .views.checkout import CheckOut
 from .views.orders import OrderView
 from .views.sales import Sales
 
@@ -42,10 +42,10 @@ urlpatterns = [
 
     path('proposition', auth_middleware(PropositionView.as_view()) , name='proposition'),
     path('offers', auth_middleware(Offers.as_view()) , name='offers'),
-    path('check-out', CheckOut.as_view() , name='checkout'),
     path('sell', Sell.as_view(), name='sell'),
     path('orders', auth_middleware(OrderView.as_view()), name='orders'),
     path('sales', auth_middleware(Sales.as_view()), name='sales'),
+    path('overview/<int:product_id>/<int:offer_id>', auth_middleware(Overview.as_view()), name='overview'),
 
     path('profile/<int:user_id>', Profile.as_view(), name='profile'),
     path('profile', DashboardView.as_view(), name='profile'),

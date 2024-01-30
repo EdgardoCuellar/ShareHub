@@ -44,6 +44,15 @@ class Prices(models.Model):
         Prices.objects.filter(id=id).filter(status=0).update(status=-1, timestamp_status=time.time())
     
     @staticmethod
+    def refuse_offer_by_id(id):
+        Prices.objects.filter(id=id).filter(status=0).update(status=1, timestamp_status=time.time())
+
+    @staticmethod
+    def accept_offer_by_id(id):
+        Prices.objects.filter(id=id).filter(status=0).update(status=2, timestamp_status=time.time())
+        return Prices.objects.filter(id=id).filter(status=2)[0]
+
+    @staticmethod
     def get_price_by_id(id):
         return Prices.objects.filter(id=id).filter(status=0)[0]
     

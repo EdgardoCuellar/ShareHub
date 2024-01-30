@@ -2,9 +2,14 @@ from django.shortcuts import render , redirect
 
 from store.models.prices import Prices
 from django.views import  View
-from store.models.product import Products
+from store.models.product import Products, MIN_TIME_BEFORE_ACCEPT_OFFER, MIN_TIME_BEFORE_ACCEPT_SINGLE_OFFER
+from store.models.orders import Order
 import random
 import time
+
+from store.utils.send_email import send_mail_sell, send_mail_buy
+from store.models.message import Message
+from store.models.customer import Customer
 
 from django.utils.decorators import method_decorator
 from store.utils.decorators import user_login_required
@@ -20,15 +25,30 @@ class Offers(View):
         return render(request , 'offers.html' , {'products': products_offer} )
 
     def post(self , request):
-        offer_id = int(request.POST.get('offer'))
-        offer = Prices.get_price_by_id(offer_id)
-        offer.status = 1
-        
-        offer.timestamp_status = time.time()
-        
-        offer.save()
+        product_id = request.POST.get('product_id')
 
-        return redirect('offers')
+        offer = self.choice_an_offer(Products.get_product_by_id(product_id))
+
+        order = Order(buyer=Customer(id=offer.buyer.id),
+                        seller=Customer(id=offer.seller.id),
+                        product=Products(id=offer.product.id),
+                        price=offer.price,
+                        status=False,)
+        order.save()
+        offer.product.sold = True
+        offer.product.save()
+
+        # Send an email to the buyer
+        send_mail_buy(request, offer.product, offer.buyer)
+        send_mail_sell(request, offer.product, offer.seller)
+
+        # Send a message to the buyer
+        message = Message(sender=offer.seller,
+                            receiver=offer.buyer,
+                            product=offer.product,
+                            content="Votre offre a été acceptée. Vous pouvez contacter le vendeur pour plus d'informations.")
+
+        return redirect('overview', product_id=product_id, offer_id=offer.id)
     
     def get_offers(self, request):
         products = Products.get_products_by_userid(request.session.get('customer'))
@@ -37,14 +57,39 @@ class Offers(View):
         for product in products:
             temp_offers = Prices.get_prices_by_product_id(product.id)
             len_offers.append(len(temp_offers))
-            # select only one offer from temp_offers randomly
-            if len(temp_offers) > 0:
-                offer = temp_offers[random.randint(0, len(temp_offers)-1)]
-                offers.append(offer)
+            if len(temp_offers) == 0:
+                offers.append("Vous n'avez pas d'offre pour ce produit")
+            elif len(temp_offers) == 1:
+                if temp_offers[0].timestamp - product.timestamp > MIN_TIME_BEFORE_ACCEPT_SINGLE_OFFER:
+                    offers.append(None)
+                else:    
+                    min_day = int((MIN_TIME_BEFORE_ACCEPT_SINGLE_OFFER - (temp_offers[0].timestamp - product.timestamp)) / (60 * 60 * 24))
+                    offers.append("Vous ne pouvez pas accepter une seule offre avant "+ str(min_day) + " jours ou qu'une autre offre soit faite.")
             else:
-                offers.append(None)
-                
+                if temp_offers[0].timestamp - product.timestamp > MIN_TIME_BEFORE_ACCEPT_OFFER:
+                    offers.append(None)
+                else:
+                    min_day = int((MIN_TIME_BEFORE_ACCEPT_OFFER - (temp_offers[0].timestamp - product.timestamp)) / (60 * 60 * 24))
+                    offers.append("Vous ne pouvez pas accepter une offre avant "+ str(min_day) + " jours.")
+            
         products_offer = []
         for i in range(len(products)):
             products_offer.append((products[i], offers[i], len_offers[i]))
         return products_offer
+
+    def choice_an_offer(product):
+        offers = Prices.get_prices_by_product_id(product.id)
+        if len(offers) == 1:
+            accepted_offer = Prices.accept_offer_by_id(offers[0].id)
+        else:
+            # get the id of the offer with the closest price to the product price, and if there are several that are less 1@ close, take the first one
+            sorted_offers = sorted(offers, key=lambda offer: abs(offer.price - product.price))
+            accepted_offer = sorted_offers[random.randint(0, 1)]
+                
+            # refuse all other offers
+            for offer in offers:
+                if offer.id != accepted_offer.id:
+                    Prices.refuse_offer_by_id(offer.id)
+        return accepted_offer
+            
+            
