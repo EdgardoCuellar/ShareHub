@@ -41,7 +41,7 @@ with open(os.path.join(BASE_DIR, 'private/email_password.txt')) as f:
 DEBUG = True
 DATABASE_SQLITE = True
 
-ALLOWED_HOSTS = ['15.188.149.136', 'localhost', '127.0.0.1', "nedgardo.pythonanywhere.com"]
+ALLOWED_HOSTS = ['15.188.149.136', 'localhost', '127.0.0.1', "nedgardo.pythonanywhere.com", "64.227.73.236", "sharehub.social"]
 
 # Application definition
 
