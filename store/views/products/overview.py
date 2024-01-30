@@ -21,4 +21,8 @@ class Overview(View):
             return redirect('index')
         if not offer:
             return redirect('index')
+
+        if product.customer.id != request.session.get('customer'):
+            return redirect('index')
+
         return render(request , 'overview.html' , {'product' : product, 'offer': offer} )

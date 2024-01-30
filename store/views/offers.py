@@ -45,7 +45,7 @@ class Offers(View):
         send_mail_sell(request, offer.product, offer.seller)
 
         # Send a message to the buyer
-        content = "Votre offre a été acceptée pour le produit " + offer.product.name + " au prix de " + str(offer.price / 100) + "€."
+        content = "Votre offre a été acceptée pour le produit " + offer.product.name + " au prix de " + str(offer.price / 100) + "€"
 
         Message.send_message(sender_id=offer.seller.id,
                             receiver_id=offer.buyer.id,
