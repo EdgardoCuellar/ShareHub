@@ -164,7 +164,7 @@
                     {% endif %}
                 </div>
                 
-                <a href="{% url 'price' %}" class="btn-login text-xs">Comment ça marche</a>
+                <a href="{% url 'about' %}" class="btn-login text-xs">Comment ça marche</a>
             </div>
         </div>
     </div>
@@ -174,7 +174,12 @@
     function confirmDelete() {
         var result = window.confirm("Êtes-vous sûr de vouloir supprimer cet article ?");
         if (result) {
-            window.location.href = "/product/remove/{{product.id}}";
+            var answer = window.confirm("Voulez vous répondre à un petit formulaire, cela nous aiderait beaucoup, merci !");
+            if (answer) {
+                window.location.href = "/product/remove/{{product.id}}?form=true";
+            } else {
+                window.location.href = "/product/remove/{{product.id}}";
+            }
         }
     }
 </script>

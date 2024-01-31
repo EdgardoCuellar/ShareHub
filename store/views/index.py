@@ -19,6 +19,8 @@ class IndexView(View):
         # Apply filters
         products, values = self.filter(request, all_products)
 
+        products = products.order_by('id')
+
         # Pagination
         page = request.GET.get('page', 1)
         paginator = Paginator(products, 16)  # Show 16 products per page
@@ -74,5 +76,5 @@ def display_404(request):
 def confidentiality(request):
     return render(request, 'others/confidentiality.html')
 
-def price(request):
-    return render(request, 'others/price.html')
+def about(request):
+    return render(request, 'others/about.html')

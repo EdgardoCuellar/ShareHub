@@ -62,4 +62,8 @@ def remove(request, product_id):
     ProductImage.remove_images_by_product_id(product_id)
 
     Products.remove_product_by_id(product_id)
+
+    if 'form' in request.GET:
+        return redirect('https://forms.gle/N1GxfS8Cwr7ZDJVE6')
+
     return redirect('index')
