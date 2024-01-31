@@ -2,19 +2,35 @@ from django.shortcuts import render , redirect , HttpResponseRedirect
 from store.models.product import Products
 from store.models.category import Category, Condition
 from django.views import View
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 class IndexView(View):
 
     html_link = 'index.html'
 
-    def get(self , request):
+    def get(self, request):
         categories = Category.get_all_categories()
         conditions = Condition.get_all_conditions()
 
-        products, values = self.filter(request, Products.get_all_products())
+        # Get all products
+        all_products = Products.get_all_products()
 
-        return render(request , self.html_link, {
+        # Apply filters
+        products, values = self.filter(request, all_products)
+
+        # Pagination
+        page = request.GET.get('page', 1)
+        paginator = Paginator(products, 16)  # Show 16 products per page
+
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
+
+        return render(request, self.html_link, {
             'products': products,
             'values': values,
             'categories': categories,

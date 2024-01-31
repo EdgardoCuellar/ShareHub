@@ -10,7 +10,10 @@
        <div class="flex justify-center">
               <div class="w-full">
                 
-                <h2 class="text-2xl mb-2">Récapitulatif de la vente</h2>
+                <div class="flex flex-row items-left items-baseline">
+                    <h2 class="text-2xl mb-2 mr-4">Récapitulatif de la vente</h2>
+                    <p class="text-xs"> en savoir plus sur le système de <a href="{% url 'price' %}" class="btn-login">prix</a></p>
+                  </div>
                 <a href="{% url 'product' offer.product.id %}" class="flex flex-col space-y-2">
                     <p class="font-semibold">{{offer.product.name}}</p>
 
