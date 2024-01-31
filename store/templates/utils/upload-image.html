@@ -18,7 +18,6 @@
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
 
 
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var files = []
@@ -29,14 +28,14 @@
             allowMultiple:true,
             labelMaxFileSizeExceeded: "Le fichier est trop volumineux",
             maxFiles:3,
-            maxFileSize: '5MB'
+            maxFileSize: '10MB',
         })
         const inputElement = document.querySelector('input[type="file"]');
         const pond = FilePond.create( inputElement, {
             acceptedFileTypes:['image/png', 'image/jpeg'],
             onaddfile: (err, fileItem) => {
                 if (!err) {
-                files.push(fileItem.file)
+                    files.push(fileItem.file)
                 }
                 console.log(files)
             },
@@ -64,37 +63,86 @@
 
             // Add data to the form
             var formData = new FormData(this);
-            for (var i = 0; i < files.length; i++) {
-                formData.append('images' + i, files[i]);
-            }
-            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
+            var promises = files.map((file, i) => new Promise((resolve, reject) => {
+                resizeImage(file, 1080, function(resizedImage) {
+                    var timestamp = new Date().getTime();
+                    var newName = file.name.split('.').slice(0, -1).join('.') + '-' + timestamp + '.' + file.name.split('.').pop();
+                    formData.append('images' + i, new File([resizedImage], newName));
+                    resolve();
+                });
+            }));
 
-            // Submit the form data using fetch (or another method)
-            {% if arg1 and arg2 %}
-            fetch('{% url dest arg1 arg2 %}', {
-            {% elif arg1 %}
-            fetch('{% url dest arg1 %}', {
-            {% else %}
-            fetch('{% url dest %}', {
-            {% endif %}
-                method: 'POST',
-                body: formData
-            }).then(response => {
-                if (!response.ok) {
-                    console.log('Response status:', response.status);
-                    console.log('Response status text:', response.statusText);
-                    throw new Error('Erreur lors de l\'envoi des données au serveur');
-                }
-                return response.json();
-            }).then(data => {
-                // Redirect to the URL returned from the server
-                window.location.href = data.redirect_url;
-            }).catch(error => {
-                console.error('Error:', error);
-                alert(error.message);
+            // Wait for all promises to resolve
+            Promise.all(promises).then(() => {
+                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+                
+                // Submit the form data using fetch (or another method)
+                {% if arg1 and arg2 %}
+                fetch('{% url dest arg1 arg2 %}', {
+                {% elif arg1 %}
+                fetch('{% url dest arg1 %}', {
+                {% else %}
+                fetch('{% url dest %}', {
+                {% endif %}
+                    method: 'POST',
+                    body: formData
+                }).then(response => {
+                    if (!response.ok) {
+                        console.log('Response status:', response.status);
+                        console.log('Response status text:', response.statusText);
+                        throw new Error('Erreur lors de l\'envoi des données au serveur');
+                    }
+                    return response.json();
+                }).then(data => {
+                    // Redirect to the URL returned from the server
+                    window.location.href = data.redirect_url;
+                }).catch(error => {
+                    console.error('Error:', error);
+                    alert(error.message);
+                });
             });
         });
     });
+
+    function dataURLtoBlob(dataurl) {
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], {type:mime});
+    }
+
+    function resizeImage(file, maxWidth, callback) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            var img = new Image();
+            img.onload = function() {
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0);
+
+                var width = img.width;
+                var height = img.height;
+
+                if (width > maxWidth) {
+                    height *= maxWidth / width;
+                    width = maxWidth;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, width, height);
+
+                callback(dataURLtoBlob(canvas.toDataURL('image/jpeg'))); // specify 'image/jpeg' here
+            }
+            img.src = event.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+
+
 </script>
 
 {% endblock image_upload %}
