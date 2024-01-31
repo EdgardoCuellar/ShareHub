@@ -106,7 +106,7 @@ else:
             'USER': 'sharehubadmin',
             'PASSWORD': DATABASE_PASSWORD, # get the password from ./private/database_password.txt
             'HOST': 'localhost',  # Set your database host if it's not on localhost
-            'PORT': '1433',          # Leave empty to use the default PostgreSQL port (5432)
+            'PORT': '5432',          # Leave empty to use the default PostgreSQL port (5432)
         }
     }
 
