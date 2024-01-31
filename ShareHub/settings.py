@@ -39,7 +39,7 @@ with open(os.path.join(BASE_DIR, 'private/email_password.txt')) as f:
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-DATABASE_SQLITE = True
+DATABASE_SQLITE = False
 
 ALLOWED_HOSTS = ['15.188.149.136', 'localhost', '127.0.0.1', "nedgardo.pythonanywhere.com", "64.227.73.236", "sharehub.social", "www.sharehub.social"]
 
@@ -102,10 +102,10 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'ShareHub',
-            'USER': 'ShareHubAdmin',
+            'NAME': 'sharehub',
+            'USER': 'sharehubadmin',
             'PASSWORD': DATABASE_PASSWORD, # get the password from ./private/database_password.txt
-            'HOST': 'sharehub.database.windows.net',  # Set your database host if it's not on localhost
+            'HOST': 'localhost',  # Set your database host if it's not on localhost
             'PORT': '1433',          # Leave empty to use the default PostgreSQL port (5432)
         }
     }
