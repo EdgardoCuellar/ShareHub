@@ -2,8 +2,6 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
 from anymail.message import attach_inline_image_file
-import requests
-from tempfile import NamedTemporaryFile
 
 from store.models.customer import Customer as User
 from store.models.product import Products
@@ -17,7 +15,7 @@ def send_mail_sell(request, product: Products, user: User):
         
     subject = "ShareHub - vente conclue"
     message = create_email_sell(request, product)
-    from_email = "no-reply@sharehub.social"
+    from_email = settings.DEFAULT_FROM_EMAIL
     recipient_list = [user.email]  
 
     email = EmailMultiAlternatives(
@@ -35,7 +33,7 @@ def send_mail_buy(request, product: Products, user: User):
         
     subject = "ShareHub - offre acceptée"
     message = create_email_buy(request, product)
-    from_email = "no-reply@sharehub.social"
+    from_email = settings.DEFAULT_FROM_EMAIL
     recipient_list = [user.email]  
 
     email = EmailMultiAlternatives(
@@ -53,7 +51,7 @@ def send_reset_password(request, forget_password: ForgotPassword):
         
     subject = "Réinitialiser votre mot de passe Rentizy"
     message = create_forgot_password(request, forget_password)
-    from_email = "no-reply@sharehub.social"
+    from_email = settings.DEFAULT_FROM_EMAIL
     recipient_list = [forget_password.customer.email]  
 
     email = EmailMultiAlternatives(
