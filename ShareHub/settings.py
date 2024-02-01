@@ -38,8 +38,8 @@ with open(os.path.join(BASE_DIR, 'private/email_password.txt')) as f:
     EMAIL_PASSWORD = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-DATABASE_SQLITE = False
+DEBUG = True
+DATABASE_SQLITE = True
 
 ALLOWED_HOSTS = ['15.188.149.136', 'localhost', '127.0.0.1', "nedgardo.pythonanywhere.com", "64.227.73.236", "sharehub.social", "www.sharehub.social"]
 
@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'store',
     'storages',
+    'anymail',
 ]
 
 MIDDLEWARE = [
@@ -173,13 +174,21 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
 # Email settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.eu.mailgun.org'
-EMAIL_HOST_USER = 'postmaster@sharehub.social'
-EMAIL_HOST_PASSWORD = EMAIL_PASSWORD # get the password from ./private/email_password.txt
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.eu.mailgun.org'
+# EMAIL_HOST_USER = 'postmaster@sharehub.social'
+# EMAIL_HOST_PASSWORD = EMAIL_PASSWORD # get the password from ./private/email_password.txt
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": "a77af78f57cbf370c9401f73d8c5620d-69a6bd85-9a03c1e5",
+    "MAILGUN_SENDER_DOMAIN": 'sharehub.social',  
+}
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+# DEFAULT_FROM_EMAIL = "no-reply@sharehub.social" 
+SERVER_EMAIL = 'postmaster@sharehub.social'
 
 
 # CACHE PERFORMANCES TO DO IT TIME
