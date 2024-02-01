@@ -38,7 +38,7 @@ with open(os.path.join(BASE_DIR, 'private/email_password.txt')) as f:
     EMAIL_PASSWORD = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 DATABASE_SQLITE = False
 
 ALLOWED_HOSTS = ['15.188.149.136', 'localhost', '127.0.0.1', "nedgardo.pythonanywhere.com", "64.227.73.236", "sharehub.social", "www.sharehub.social"]
