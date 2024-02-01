@@ -37,6 +37,10 @@ EMAIL_PASSWORD = ""
 with open(os.path.join(BASE_DIR, 'private/email_password.txt')) as f:
     EMAIL_PASSWORD = f.read().strip()
 
+EMAIL_API_KEY = ""
+with open(os.path.join(BASE_DIR, 'private/email_api_key.txt')) as f:
+    EMAIL_API_KEY = f.read().strip()
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 DATABASE_SQLITE = False
@@ -183,7 +187,7 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
 ANYMAIL = {
-    "MAILGUN_API_KEY": "a77af78f57cbf370c9401f73d8c5620d-69a6bd85-9a03c1e5",
+    "MAILGUN_API_KEY": EMAIL_API_KEY,
     "MAILGUN_API_URL": "https://api.eu.mailgun.net/v3",
     "MAILGUN_SENDER_DOMAIN": "sharehub.social",
 }
