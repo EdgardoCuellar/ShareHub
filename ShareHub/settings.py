@@ -174,13 +174,13 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
 # Email settings
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.eu.mailgun.org'
-# EMAIL_HOST_USER = 'postmaster@sharehub.social'
-# EMAIL_HOST_PASSWORD = EMAIL_PASSWORD # get the password from ./private/email_password.txt
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_USE_SSL = False
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.eu.mailgun.org'
+EMAIL_HOST_USER = 'postmaster@sharehub.social'
+EMAIL_HOST_PASSWORD = EMAIL_PASSWORD # get the password from ./private/email_password.txt
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
 ANYMAIL = {
     "MAILGUN_API_KEY": "a77af78f57cbf370c9401f73d8c5620d-69a6bd85-9a03c1e5",
