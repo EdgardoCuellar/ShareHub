@@ -23,7 +23,7 @@ class Customer(models.Model):
 
     @staticmethod
     def user_exists(id):
-        if Customer.objects.filter(id=id):
+        if Customer.objects.filter(id=id).exists():
             return True
         return False
 
@@ -35,9 +35,9 @@ class Customer(models.Model):
             return False
 
     @staticmethod
-    def get_customer_by_id(id):
+    def get_customer_by_id(user_id):
         try:
-            return Customer.objects.get(id= id)
+            return Customer.objects.get(id=user_id)
         except:
             return False
 
