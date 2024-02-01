@@ -39,7 +39,7 @@ with open(os.path.join(BASE_DIR, 'private/email_password.txt')) as f:
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-DATABASE_SQLITE = False
+DATABASE_SQLITE = True
 
 ALLOWED_HOSTS = ['15.188.149.136', 'localhost', '127.0.0.1', "nedgardo.pythonanywhere.com", "64.227.73.236", "sharehub.social", "www.sharehub.social"]
 
@@ -184,11 +184,12 @@ EMAIL_USE_SSL = False
 
 ANYMAIL = {
     "MAILGUN_API_KEY": "a77af78f57cbf370c9401f73d8c5620d-69a6bd85-9a03c1e5",
-    "MAILGUN_SENDER_DOMAIN": 'sharehub.social',  
+    "MAILGUN_API_URL": "https://api.eu.mailgun.net/v3",
+    "MAILGUN_SENDER_DOMAIN": "sharehub.social",
 }
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
-# DEFAULT_FROM_EMAIL = "no-reply@sharehub.social" 
-SERVER_EMAIL = 'postmaster@sharehub.social'
+DEFAULT_FROM_EMAIL = 'ShareHub <no-reply@sharehub.social>' 
+# SERVER_EMAIL = 'postmaster@sharehub.social'
 
 
 # CACHE PERFORMANCES TO DO IT TIME
