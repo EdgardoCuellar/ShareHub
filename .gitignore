@@ -4,6 +4,8 @@ design/*
 server/*
 media/*
 private/*
+static/music/*
+store/templates/other/edo.html
 
 tempo/*
 # Byte-compiled / optimized / DLL files

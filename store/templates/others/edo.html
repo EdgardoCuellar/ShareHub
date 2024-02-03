@@ -8,11 +8,31 @@
 
     <div class="flex flex-col justify-center text-center mb-8">
 
-        <p>HEY HEY HEY</p>
+        <audio id="myAudio">
+            <source src="{% static 'music/we-live-we-love-we-lie-made-with-Voicemod.mp3' %}" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+          
+          <script>
+            document.body.addEventListener('click', function () {
+              var x = document.getElementById("myAudio"); 
+              x.play(); 
+            });
+            </script>
 
-        <p> MAIS TU VIENS D'ARRIVER SUR LA PAGE D'EDO</p>
+        <p class="text-6xl font-bold text-center text-red-500">HEY HEY HEY</p>
 
-        <h1>HE OUI C'EST MOI EDO</h1>
+        <p class="text-5xl font-bold text-center text-green-500">MAIS TU VIENS D'ARRIVER SUR LA PAGE D'EDO</p>
+
+        <p class="text-4xl font-bold text-center text-blue-500">HE OUI C'EST MOI EDO</p>
+
+        <p class="text-3xl font-bold text-center text-yellow-500">EL CREATOR DU SITE</p>
+
+        <img src="https://cdn.discordapp.com/attachments/718214061283737712/1203475635369017384/edo_cursed.png?ex=65d13b06&is=65bec606&hm=220659f991a20001e3df6afd09f26441d85638684986384b1bd84bda6a43e711&" alt="edo" class="mx-auto my-4" style="width: 400px;" />
+
+        <p class="text-3xl font-bold text-center text-pink-500">ET MERCI AU GOOFY GANG POUR L'AIDE ARIGATO</p>
+
+        <p class="text-sm font-bold text-center">click n'importe où :)</p>
 
     </div>
 
