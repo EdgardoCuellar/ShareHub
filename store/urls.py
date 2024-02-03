@@ -3,6 +3,7 @@ from django.urls import path
 
 from .views.homepage import Homepage
 from .views.index import IndexView, display_404, confidentiality, about
+from .views.hehe.edo import EdoView
 
 from .views.customer.signup import Signup
 from .views.customer.login import Login , logout
@@ -63,4 +64,5 @@ urlpatterns = [
     path('display_404', display_404, name='display_404'), # just a test
     path('confidentiality', confidentiality, name='confidentiality'),
     path('about', about, name='about'),
+    path('edo', EdoView.as_view(), name='edo'),
 ]

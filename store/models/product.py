@@ -5,9 +5,9 @@ from datetime import datetime
 import time
 import random
 
-MIN_TIME_BEFORE_ACCEPT_OFFER = 3 * 60 * 60 * 24 # 3 days
+MIN_TIME_BEFORE_ACCEPT_OFFER = 2 * 60 * 60 * 24 # 3 days
 MIN_OFFERS_BEFORE_ACCEPT_OFFER = 2 # Need 2 offers before have the possibility to accept one
-MIN_TIME_BEFORE_ACCEPT_SINGLE_OFFER = 14 * 60 * 60 * 24 # days before seller could accept a single offer
+MIN_TIME_BEFORE_ACCEPT_SINGLE_OFFER = 10 * 60 * 60 * 24 # days before seller could accept a single offer
 
 class Products(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, default=None)
