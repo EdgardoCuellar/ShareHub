@@ -27,6 +27,7 @@ SECRET_KEY = "@%y$^qp$&juy822&rn!qu+cb@vw(f7+q555komvrh^=#-c=d62"
 # with open(os.path.join(BASE_DIR, 'private/email_password.txt')) as f:
 #     EMAIL_PASSWORD = f.read().strip()
 
+# Here and the email's settings to try it you should have an API key
 # EMAIL_API_KEY = ""
 # with open(os.path.join(BASE_DIR, 'private/email_api_key.txt')) as f:
 #     EMAIL_API_KEY = f.read().strip()
@@ -138,15 +139,18 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# YOU CAN CHOOSE WICH ONE YOU WANT TO USE
+
 # Email settings you should get a SMTP server to try it
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.eu.mailgun.org'
-# EMAIL_HOST_USER = 'postmaster@sharehub.social'
+# EMAIL_HOST = 'smtp.eu.******.org'
+# EMAIL_HOST_USER = '*******@sharehub.social'
 # EMAIL_HOST_PASSWORD = EMAIL_PASSWORD # get the password from ./private/email_password.txt
 # EMAIL_PORT = 587
 # EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = False
 
+# Email settings you should get an API key to try it
 # ANYMAIL = {
 #     "MAILGUN_API_KEY": EMAIL_API_KEY,
 #     "MAILGUN_API_URL": "https://api.eu.mailgun.net/v3",

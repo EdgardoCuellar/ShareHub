@@ -36,3 +36,15 @@ def create_forgot_password(request, forgot_password: ForgotPassword):
     html_content = html_content.replace('#get_host#', request.META['HTTP_HOST'])
 
     return html_content
+
+def create_email_offers(request, product: Products, offers_number):
+    html_file_path = os.path.join(settings.BASE_DIR, 'static', 'mails', 'offers.html')
+    with open(html_file_path, 'r', encoding='utf-8') as file:
+        html_content = file.read()
+
+    html_content = html_content.replace('#name#', product.name)
+    html_content = html_content.replace('#offers_number#', str(offers_number))
+    html_content = html_content.replace('#link#', request.META['HTTP_HOST'])
+    html_content = html_content.replace('#product-id#', str(product.id))
+
+    return html_content

@@ -8,6 +8,8 @@ from store.models.rating import Rating
 from store.models.product_img import ProductImage
 from django.views import  View
 
+from store.utils.send_email import send_offers
+
 class Product(View):
 
     html_template = "products/product.html"
@@ -51,6 +53,10 @@ class Product(View):
                            price=offer,
                            status=0)
         new_offer.save()
+
+        # after two offers, send an email to the seller, and after 4 offers, send an email to the seller
+        if Prices.get_number_of_offers(product_id) == 2 or Prices.get_number_of_offers(product_id) == 4:
+            send_offers(request, product, Prices.get_number_of_offers(product_id))
 
         return render(request , self.html_template , {'product' : product, 'product_offer': new_offer, 'rating': rating, 'nb_offers': nb_offers} )
 

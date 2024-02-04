@@ -33,19 +33,15 @@ DATABASE_PASSWORD = ""
 with open(os.path.join(BASE_DIR, 'private/database_password.txt')) as f:
     DATABASE_PASSWORD = f.read().strip()
 
-EMAIL_PASSWORD = ""
-with open(os.path.join(BASE_DIR, 'private/email_password.txt')) as f:
-    EMAIL_PASSWORD = f.read().strip()
-
 EMAIL_API_KEY = ""
 with open(os.path.join(BASE_DIR, 'private/email_api_key.txt')) as f:
     EMAIL_API_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-DATABASE_SQLITE = False
+DEBUG = True
+DATABASE_SQLITE = True
 
-ALLOWED_HOSTS = ['15.188.149.136', 'localhost', '127.0.0.1', "nedgardo.pythonanywhere.com", "64.227.73.236", "sharehub.social", "www.sharehub.social"]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', "nedgardo.pythonanywhere.com", "64.227.73.236", "sharehub.social", "www.sharehub.social"]
 
 # Application definition
 
@@ -176,16 +172,7 @@ MEDIA_URL = 'https://%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_MEDIA_LOCATION)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-
 # Email settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.eu.mailgun.org'
-EMAIL_HOST_USER = 'postmaster@sharehub.social'
-EMAIL_HOST_PASSWORD = EMAIL_PASSWORD # get the password from ./private/email_password.txt
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-
 ANYMAIL = {
     "MAILGUN_API_KEY": EMAIL_API_KEY,
     "MAILGUN_API_URL": "https://api.eu.mailgun.net/v3",

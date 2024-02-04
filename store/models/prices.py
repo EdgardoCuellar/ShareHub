@@ -66,3 +66,7 @@ class Prices(models.Model):
     @staticmethod
     def get_all_prices():
         return Prices.objects.all().filter(status=0)
+
+    @staticmethod
+    def get_number_of_offers(product_id):
+        return Prices.get_prices_by_product_id(product_id).count()
