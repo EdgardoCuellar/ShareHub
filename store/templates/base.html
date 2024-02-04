@@ -9,6 +9,9 @@
     {% load static %}
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
     <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}">
@@ -20,6 +23,10 @@
   body {
     background-color: #fafafa;
     font-family: 'Open Sans', sans-serif;
+  }
+
+  .sharehub-tilte {
+    font-family: 'Montserrat', sans-serif;
   }
 
   .btn-ulb {
@@ -108,10 +115,6 @@
 
 </style>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap" rel="stylesheet">
-
 <body class="font-open-sans min-h-screen flex flex-col" style="height: 100vh;">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
   <div class="bg-fafafa p-4 text-md">
@@ -121,7 +124,7 @@
               <img src="{% static 'img/logo.png' %}" alt="Logo" class="w-12 h-12 mr-2">
             </a>
             <a href="/index">
-              <h2 class="z-2 text-2xl font-bold text-blue" style="font-family:'Rubik', sans-serif;">ShareHub</h2>
+              <h2 class="sharehub-tilte z-2 text-3xl text-blue" style="font-size: 1.625rem;line-height: 2.1rem;">ShareHub</h2>
             </a>
           </div>
 
