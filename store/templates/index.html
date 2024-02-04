@@ -136,7 +136,7 @@
                 <div class="syllabi_img_div flex flex-col h-80 justify-center items-center">
                     <img src="{{ product.id|get_first_image_product }}" class="syllabi_img w-full rounded">
                 </div>
-                <h2 class="text-md font-semibold">{{ product.name }}</h2>
+                <h2 class="text-md font-semibold" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ product.name }}</h2>
                 <div class="flex flex-row justify-between">
                     <p class="text-gray-500">{{ product.condition }}</p>
                     <p class="text-gray-500">{{ product.date }}</p>
