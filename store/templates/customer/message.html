@@ -30,7 +30,7 @@
                 </div>
                 <div class="w-full overflow-hidden">
                     <div class="text-lg sm:text-md font-semibold truncate">
-                        {{user.first_name}} {{user.last_name}}
+                        {{user.first_name}} {{user.last_name}} {{ request.session.customer|get_nb_unseen_msg_per_sender:user.id }}
                     </div>
                         <p class="text-gray-500 text-sm truncate">
                             {{user.faculty|get_category_name}}

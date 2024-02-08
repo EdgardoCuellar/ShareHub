@@ -19,29 +19,23 @@ from storages.backends.s3boto3 import S3Boto3Storage
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# The secret test key, is would never be used in production
+SECRET_KEY = "@%y$^qp$&juy822&rn!qu+cb@vw(f7+q555komvrh^=#-c=d62"
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+# Here and the email's settings to try it you should have a SMTP server
+# EMAIL_PASSWORD = ""
+# with open(os.path.join(BASE_DIR, 'private/email_password.txt')) as f:
+#     EMAIL_PASSWORD = f.read().strip()
 
-# KEY CHANGED FOR THE PRODUCTION VERSION ON THE SERVER THIS ONE IS FOR TESTING PURPOSES
-# get the secret key from ./private/secret_key.txt
-SECRET_KEY = ""
-with open(os.path.join(BASE_DIR, 'private/django_secret_key.txt')) as f:
-    SECRET_KEY = f.read().strip()
-
-DATABASE_PASSWORD = ""
-with open(os.path.join(BASE_DIR, 'private/database_password.txt')) as f:
-    DATABASE_PASSWORD = f.read().strip()
-
-EMAIL_API_KEY = ""
-with open(os.path.join(BASE_DIR, 'private/email_api_key.txt')) as f:
-    EMAIL_API_KEY = f.read().strip()
+# Here and the email's settings to try it you should have an API key
+# EMAIL_API_KEY = ""
+# with open(os.path.join(BASE_DIR, 'private/email_api_key.txt')) as f:
+#     EMAIL_API_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-DATABASE_SQLITE = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', "nedgardo.pythonanywhere.com", "64.227.73.236", "sharehub.social", "www.sharehub.social"]
+ALLOWED_HOSTS = ['15.188.149.136', 'localhost', '127.0.0.1', "nedgardo.pythonanywhere.com", "64.227.73.236", "sharehub.social", "www.sharehub.social"]
 
 # Application definition
 
@@ -91,25 +85,13 @@ WSGI_APPLICATION = 'ShareHub.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
-if DATABASE_SQLITE:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'sharehub',
-            'USER': 'sharehubadmin',
-            'PASSWORD': DATABASE_PASSWORD, # get the password from ./private/database_password.txt
-            'HOST': 'localhost',  # Set your database host if it's not on localhost
-            'PORT': '5432',          # Leave empty to use the default PostgreSQL port (5432)
-        }
-    }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -147,64 +129,36 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images) # STATICFILES_DIRS
-AWS_ACCESS_KEY_ID = 'DO00TJGG8YYLMU2KPXGZ'
-AWS_SECRET_ACCESS_KEY = 'your-spaces-secret-access-key'
-with open(os.path.join(BASE_DIR, 'private/aws_secret_access_key.txt')) as f:
-    AWS_SECRET_ACCESS_KEY = f.read().strip()
-AWS_STORAGE_BUCKET_NAME = 'sharehub'
-AWS_S3_ENDPOINT_URL = 'https://ams3.digitaloceanspaces.com'
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-AWS_DEFAULT_ACL = 'public-read' # This will make sure that the uploaded files are public and can be accessed without any authentication.
-AWS_QUERYSTRING_AUTH = False # This will make sure that the file URL does not have unnecessary parameters like your access key.
-
-AWS_STATIC_LOCATION = 'static'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, AWS_STATIC_LOCATION),
+    os.path.join(BASE_DIR, "static"),
 ]
-STATIC_URL = 'https://%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_STATIC_LOCATION)
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
-AWS_MEDIA_LOCATION = 'media'
-MEDIA_URL = 'https://%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_MEDIA_LOCATION) 
+# Media files
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-# Email settings
-ANYMAIL = {
-    "MAILGUN_API_KEY": EMAIL_API_KEY,
-    "MAILGUN_API_URL": "https://api.eu.mailgun.net/v3",
-    "MAILGUN_SENDER_DOMAIN": "sharehub.social",
-}
-EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
-DEFAULT_FROM_EMAIL = 'ShareHub <no-reply@sharehub.social>' 
+# YOU CAN CHOOSE WICH ONE YOU WANT TO USE
+
+# Email settings you should get a SMTP server to try it
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.eu.******.org'
+# EMAIL_HOST_USER = '*******@sharehub.social'
+# EMAIL_HOST_PASSWORD = EMAIL_PASSWORD # get the password from ./private/email_password.txt
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
+
+# Email settings you should get an API key to try it
+# ANYMAIL = {
+#     "MAILGUN_API_KEY": EMAIL_API_KEY,
+#     "MAILGUN_API_URL": "https://api.eu.mailgun.net/v3",
+#     "MAILGUN_SENDER_DOMAIN": "sharehub.social",
+# }
+# EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+# DEFAULT_FROM_EMAIL = 'ShareHub <no-reply@sharehub.social>' 
 # SERVER_EMAIL = 'postmaster@sharehub.social'
-
-
-# CACHE PERFORMANCES TO DO IT TIME
-# if DEBUG:
-#     CACHES = {
-#     "default": {
-#         "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
-#         "LOCATION": "127.0.0.1:11211",
-#         }
-#     }
-
-# else:
-#     CACHES = {
-#     "default": {
-#         "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
-#         "LOCATION": [
-#             "172.19.26.240:11211",
-#             "172.19.26.242:11211",
-#         ],
-#         }
-#     }
-
-
-# settings.py
 
 # Set the logging configuration
 LOGGING_DIR = os.path.join(BASE_DIR, 'logs')

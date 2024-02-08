@@ -8,6 +8,7 @@ class Message(models.Model):
     sender = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='sent_messages')
     receiver = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='received_messages')
     encrypted_content = models.BinaryField(default=b"", blank=True, null=True)
+    receiver_seen = models.BooleanField(default=False)
     timestamp = models.DateTimeField(default=timezone.now)
 
     def __init__(self, *args, **kwargs):
@@ -58,3 +59,17 @@ class Message(models.Model):
         message.receiver = receiver
         message.save()
         return key
+    
+    @staticmethod
+    def get_nb_unseen_msg(user):
+        nb_unseen = Message.objects.filter(receiver=user, receiver_seen=False).count()
+        return nb_unseen
+    
+    @staticmethod
+    def get_nb_unseen_msg_per_sender(user, sender):
+        nb_unseen = Message.objects.filter(receiver=user, sender=sender, receiver_seen=False).count()
+        return nb_unseen
+    
+    @staticmethod
+    def set_msg_seen(user, sender):
+        Message.objects.filter(sender=sender, receiver=user, receiver_seen=False).update(receiver_seen=True)

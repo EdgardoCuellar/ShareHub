@@ -4,6 +4,8 @@ from store.models.product import Products
 from store.models.category import Category
 from store.models.prices import Prices
 from store.models.product_img import ProductImage
+from store.models.message import Message
+from store.models.orders import Order
 import time
 
 register = template.Library()
@@ -65,3 +67,30 @@ def define(val=None):
 @register.filter(name='get_nb_offers')
 def get_nb_offers(product_id):
     return len(Prices.get_prices_by_product_id(product_id))
+
+@register.filter(name="get_nb_sells")
+def get_nb_sells(user_id):
+    nb = Order.get_orders_by_seller(user_id).count()
+    if nb == 0:
+        return ""
+    else:
+        return nb
+    
+@register.filter(name="get_nb_unseen_msg")
+def get_nb_unseen_msg(user_id):
+    user = Customer.get_customer_by_id(user_id)
+    nb = Message.get_nb_unseen_msg(user)
+    if nb == 0:
+        return ""
+    else:
+        return nb
+    
+@register.filter(name="get_nb_unseen_msg_per_sender")
+def get_nb_unseen_msg_per_sender(user_id, sender_id):
+    user = Customer.get_customer_by_id(user_id)
+    sender = Customer.get_customer_by_id(sender_id)
+    nb = Message.get_nb_unseen_msg_per_sender(user=user, sender=sender)
+    if nb == 0:
+        return ""
+    else:
+        return nb

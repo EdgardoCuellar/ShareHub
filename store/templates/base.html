@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     {% load static %}
+    
+    {% load custom_filter %}
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -180,10 +182,13 @@
                       <a href="{% url 'dashboard' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Compte</a>
                   </li>
                   <li>
-                      <a href="{% url 'messages' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Messages</a>
+                      <a href="{% url 'messages' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Messages {{request.session.customer|get_nb_unseen_msg}}</a>
                   </li>
                   <li>
-                      <a href="{% url 'sales' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Vos ventes</a>
+                      <a href="{% url 'orders' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Vos achats</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'sales' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Vos ventes  {{request.session.customer|get_nb_sells}}</a>
                   </li>
                   <li>
                       <a href="{% url 'logout' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Déconnexion</a>

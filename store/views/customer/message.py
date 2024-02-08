@@ -27,6 +27,7 @@ class MessagesView(View):
             if messages.count() > 0:
                 for message in messages:
                     message.content = message.decrypt_content()
+                Message.set_msg_seen(sender=receiver, user=sender)
             else:
                 decrypted_messages = None
 
