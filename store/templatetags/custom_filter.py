@@ -94,3 +94,11 @@ def get_nb_unseen_msg_per_sender(user_id, sender_id):
         return ""
     else:
         return nb
+
+@register.filter(name="get_nb_orders")
+def get_nb_orders(user_id):
+    nb = Order.get_orders_by_buyer(user_id).count()
+    if nb == 0:
+        return ""
+    else:
+        return nb
