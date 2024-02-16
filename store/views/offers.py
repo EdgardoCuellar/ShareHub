@@ -67,7 +67,11 @@ class Offers(View):
                     offers.append(None)
                 else:    
                     min_day = int((MIN_TIME_BEFORE_ACCEPT_SINGLE_OFFER - (temp_offers[0].timestamp - product.timestamp)) / (60 * 60 * 24))
-                    offers.append("Vous ne pouvez pas accepter une seule offre avant "+ str(min_day) + " jours ou qu'une autre offre soit faite.")
+                    if min_day > 0:
+                        offers.append("Vous ne pouvez pas accepter une seule offre avant "+ str(min_day) + " jours ou qu'une autre offre soit faite.")
+                    else:
+                        min_hour = int((MIN_TIME_BEFORE_ACCEPT_SINGLE_OFFER - (temp_offers[0].timestamp - product.timestamp)) / (60 * 60))
+                        offers.append("Vous ne pouvez pas accepter une seule offre avant "+ str(min_hour) + " heures ou qu'une autre offre soit faite.")
             else:
                 if temp_offers[0].timestamp - product.timestamp > MIN_TIME_BEFORE_ACCEPT_OFFER:
                     offers.append(None)
