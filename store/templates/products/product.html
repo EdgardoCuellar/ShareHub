@@ -113,6 +113,9 @@
                             <div>
                                 <span>Il y a déjà <b>{{nb_offers}}</b> propositions</span>
                             </div>
+                            <div class="cooldown-timer">
+                                <p>Temps restant : {{ product_offer.cooldown_end_time|timeuntil }}</p>
+                            </div>
                         {% else %}
                             <span>Il n'y a pas encore eu de propositions</span>
                         {% endif %}  

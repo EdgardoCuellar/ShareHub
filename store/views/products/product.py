@@ -54,6 +54,11 @@ class Product(View):
                            status=0)
         new_offer.save()
 
+        # Start the cooldown when an offer is made
+        new_offer.start_cooldown()
+
+        return redirect('product', product_id=product_id)
+
         # after two offers, send an email to the seller, and after 4 offers, send an email to the seller
         if Prices.get_number_of_offers(product_id) == 2 or Prices.get_number_of_offers(product_id) == 4:
             send_offers(request, product, Prices.get_number_of_offers(product_id))

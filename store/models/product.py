@@ -5,38 +5,41 @@ from datetime import datetime
 import time
 import random
 
-MIN_TIME_BEFORE_ACCEPT_OFFER = 2 * 60 * 60 * 24 # 3 days
-MIN_OFFERS_BEFORE_ACCEPT_OFFER = 2 # Need 2 offers before have the possibility to accept one
-MIN_TIME_BEFORE_ACCEPT_SINGLE_OFFER = 10 * 60 * 60 * 24 # days before seller could accept a single offer
+# Constants for accepting offers
+MIN_TIME_BEFORE_ACCEPT_OFFER = 1 * 60 * 60 * 24  # 1 day in seconds
+MIN_OFFERS_BEFORE_ACCEPT_OFFER = 2  # Minimum number of offers required before accepting one
+MIN_TIME_BEFORE_ACCEPT_SINGLE_OFFER = 2 * 60 * 60 * 24  # Time before seller can accept a single offer
 
 class Products(models.Model):
+    # ForeignKey relationships for customer, category, condition, and place
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, default=None)
     name = models.CharField(max_length=60, default='')
-    price= models.IntegerField(default=0)
-    category= models.ForeignKey(Category,on_delete=models.CASCADE,default=1 )
-    condition= models.ForeignKey(Condition,on_delete=models.CASCADE,default=1 )
-    place= models.ForeignKey(Place,on_delete=models.CASCADE,default=1 )
-    description= models.CharField(max_length=250, default='', blank=True, null= True)
-    date = models.IntegerField(default=2000)
-    sold = models.BooleanField(default=False)
-    timestamp = models.IntegerField(default=time.time())
-    listed = models.BooleanField(default=True)
+    price = models.IntegerField(default=0)  # Price is in cents for better precision
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
+    condition = models.ForeignKey(Condition, on_delete=models.CASCADE, default=1)
+    place = models.ForeignKey(Place, on_delete=models.CASCADE, default=1)
+    description = models.CharField(max_length=250, default='', blank=True, null=True)
+    date = models.IntegerField(default=2000)  # Year of the product
+    sold = models.BooleanField(default=False)  # Whether the product is sold
+    timestamp = models.IntegerField(default=time.time())  # Unix timestamp
+    listed = models.BooleanField(default=True)  # If the product is still listed
 
     def __str__(self):
         return self.name
 
     def register(self):
-        self.timestamp = time.time()
+        self.timestamp = time.time()  # Update the timestamp to the current time
         self.save()
 
     def force_delete(self):
         self.delete()
 
     def remove(self):
-        self.listed = False
+        self.listed = False  # Mark the product as unlisted, don't delete
         self.save()
 
     def validate_product(self):
+        # Basic validation for the product fields
         error_message = None
         if not self.name:
             error_message = "Veillez entrer le nom de l'article"
@@ -48,12 +51,12 @@ class Products(models.Model):
             error_message = "Veillez entrer la description de l'article"
         elif not self.date:
             error_message = "Veillez entrer l'année de l'article"
-        elif len (self.name) > 80:
+        elif len(self.name) > 80:
             error_message = 'Le nom ne peut pas contenir plus de 80 caractères'
         elif int(self.price) < 100 or int(self.price) > 10000:
-            error_message = "Le prix doit se trouver entre 1 et 100 €" 
+            error_message = "Le prix doit se trouver entre 1 et 100 €"
         elif int(self.date) < 1900:
-            error_message = "L'année d'achat doit etre possible" 
+            error_message = "L'année d'achat doit etre possible"
         elif int(self.date) > datetime.now().year:
             error_message = "L'année d'achat ne peut pas être dans le futur"
         elif self.description and len(self.description) >= 300:
@@ -62,12 +65,14 @@ class Products(models.Model):
 
     @staticmethod
     def product_exists(id):
+        # Check if a product with the given id exists and is listed
         if Products.objects.filter(id=id, listed=True).exists():
             return True
         return False
 
     @staticmethod
     def get_product_by_id(id):
+        # Retrieve a product by id, if listed
         try:
             return Products.objects.get(id=id, listed=True)
         except:
@@ -75,29 +80,33 @@ class Products(models.Model):
 
     @staticmethod
     def get_products_by_id(ids):
-        return Products.objects.filter (id__in=ids)
+        # Get multiple products by ids
+        return Products.objects.filter(id__in=ids)
 
     @staticmethod
     def get_products_by_userid(customer_id, sold=False):
+        # Get products for a specific user, filter by sold status
         if sold:
-            return Products.objects.filter (customer=customer_id, sold=True, listed=True)
+            return Products.objects.filter(customer=customer_id, sold=True, listed=True)
         else:
-            return Products.objects.filter (customer=customer_id, sold=False, listed=True)
-    
+            return Products.objects.filter(customer=customer_id, sold=False, listed=True)
+
     @staticmethod
     def get_all_products():
-        # get all products sold = false
+        # Get all available products that are not sold and listed
         return Products.objects.filter(sold=False, listed=True)
 
     @staticmethod
     def get_all_products_by_categoryid(category_id):
+        # Get products filtered by category
         if category_id:
-            return Products.objects.filter (category=category_id, sold=False, listed=True)
+            return Products.objects.filter(category=category_id, sold=False, listed=True)
         else:
-            return Products.get_all_products();
+            return Products.get_all_products()
 
     @staticmethod
     def is_float(string):
+        # Check if a string can be converted to a float
         try:
             float(string)
             return True
@@ -106,6 +115,7 @@ class Products(models.Model):
 
     @staticmethod
     def price_good_format(price):
+        # Clean and format the price as an integer (cents)
         if not price:
             return 0
         price = price.replace(',', '.')
@@ -113,10 +123,9 @@ class Products(models.Model):
             return 0
         price = float(price)
         price = int(price * 100)
-
         return price
 
     @staticmethod
     def remove_product_by_id(id):
+        # Mark the product as unlisted (soft delete)
         Products.objects.filter(id=id).update(listed=False)
-        

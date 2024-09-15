@@ -99,3 +99,26 @@ class Offers(View):
         return accepted_offer
             
             
+    def post(self, request):
+        product_id = request.POST.get('product_id')
+
+        # Fetch product and offer
+        product = Products.get_product_by_id(product_id)
+        offer = Prices.choice_an_offer(product)
+
+        # Accept the offer
+        Prices.accept_offer_by_id(offer.id)
+
+        # Start cooldown if there are more offers
+        if Prices.get_number_of_offers(product_id) > 0:
+            offer.start_cooldown()
+
+        return redirect('overview', product_id=product_id, offer_id=offer.id)
+
+    def choice_an_offer(self, product):
+        offers = Prices.get_prices_by_product_id(product.id)
+
+        # Use existing logic to pick a random offer or accept the first one if only one exists
+        accepted_offer = random.choice(offers) if len(offers) > 1 else Prices.accept_offer_by_id(offers[0].id)
+
+        return accepted_offer
