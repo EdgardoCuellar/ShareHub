@@ -23,7 +23,8 @@
 
 @media (min-width: 1400px) {
   .syllabi {
-    height: 24rem;
+    height: 25rem;
+    max-height: 25rem;
     width: 16rem;
   }
 
@@ -132,14 +133,15 @@
     {% if products %}
         {% for product in products %}
             <a href="{% url 'product' product.id %}" 
-                class="syllabi group rounded-md p-2 relative overflow-hidden max-h-96 transition-transform transform hover:scale-100">
+                class="syllabi group rounded-md p-2 relative overflow-hidden transition-transform transform hover:scale-100">
                 <div class="syllabi_img_div flex flex-col h-80 justify-center items-center">
                     <img src="{{ product.id|get_first_image_product }}" class="syllabi_img w-full rounded">
                 </div>
                 <h2 class="text-md font-semibold" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ product.name }}</h2>
+                <p class="text-gray-500">{{ product.price|currency }}</p>
                 <div class="flex flex-row justify-between">
-                    <p class="text-gray-500">{{ product.condition }}</p>
-                    <p class="text-gray-500">{{ product.date }}</p>
+                    <p class="text-gray-600">{{ product.condition }}</p>
+                    <p class="text-gray-600">{{ product.date }}</p>
                 </div>
                 <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center">
                     <p class="text-white font-bold px-2">{{ product.name }}</p>

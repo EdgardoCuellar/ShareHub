@@ -89,9 +89,8 @@ class Offers(View):
         if len(offers) == 1:
             accepted_offer = Prices.accept_offer_by_id(offers[0].id)
         else:
-            # get the id of the offer with the closest price to the product price, and if there are several that are less 1@ close, take the first one
-            sorted_offers = sorted(offers, key=lambda offer: abs(offer.price - product.price))
-            accepted_offer = sorted_offers[random.randint(0, 1)]
+            # select a random offer
+            accepted_offer = random.choice(offers)
                 
             # refuse all other offers
             for offer in offers:

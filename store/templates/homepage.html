@@ -33,9 +33,9 @@ U _____ u ____      U  ___ u
             <h1 class="sharehub-tilte title-font text-6xl mb-4 text-blue">
                 ShareHub ULB
             </h1>
-            <p class="mb-10 mt-2 leading-relaxed text-3xl">Partagez et revendez vos syllabus</p>
+            <p class="mb-10 mt-2 leading-relaxed text-3xl">Donnez une seconde vie à vos syllabus</p>
             <div class="flex justify-center">
-                <a href="{% url 'index' %}" class="btn-ulb border-0 py-2 px-6 rounded text-lg">Partager</a>
+                <a href="{% url 'index' %}" class="btn-ulb border-0 py-2 px-6 rounded text-lg">Découvrir</a>
                 <a href="{% url 'signup' %}" class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">S'enregistrer</a>
             </div>
         </div>
@@ -113,9 +113,8 @@ U _____ u ____      U  ___ u
           <br class="hidden lg:inline-block">
         </h1>
         <p class="mb-8 leading-relaxed text-justify">
-          ShareHub est à la base une initiative visant à explorer un nouveau modèle économique, axé sur une redistribution plus équitable et éloigné des schémas compétitifs prévalents sur la plupart des sites de seconde main. 
-          Cette plateforme s'inscrit dans le cadre d'un projet de mémoire, fusionnant les domaines de l'informatique et de l'économie, en s'appuyant sur les travaux de divers anciens étudiants et professeurs de l'ULB.
-          En utilisant ShareHub, vous contribuez à l'avancement de la recherche et à l'amélioration de la compréhension des plateformes de seconde main, tout en permettant aux étudiants de l'ULB de revendre leurs syllabus en toute facilité.
+          ShareHub est une plateforme unique dédiée aux étudiants de l'ULB, qui permet de revendre facilement leurs syllabus tout en testant un modèle économique redistributif inédit. 
+          À la croisée de l'économie et de la recherche académique, ShareHub facilite la revente de matériel pédagogique tout en contribuant à une redistribution plus équitable des ressources.
         </p>
       </div>
     </div>
@@ -127,16 +126,9 @@ U _____ u ____      U  ___ u
           <br class="hidden lg:inline-block">
         </h1>
         <p class="mb-8 leading-relaxed text-justify">
-          Étant donné qu'il n'existe actuellement aucune plateforme en ligne permettant aux étudiants de l'ULB de revendre leurs syllabus, à l'exception de divers groupes Facebook,
-          la création de cette plateforme s'est avérée être une excellente idée. ShareHub vise à réduire les frais des étudiants tout en leur offrant la facilité de revendre leurs syllabus.
-
-          Nous espérons que la plateforme sera largement utilisée par les étudiants, étant certes un projet de mémoire contribuant à faire avancer la recherche en testant un nouveau modèle économique,
-          mais étant avant tout conçue pour répondre à un besoin des étudiants de l'ULB.
-
-          <br>
-          Les différents retours des étudiants nous permettront d'améliorer la plateforme et de la faire évoluer au fil des années. Sans oublier que la façon dont fonctionne ShareHub aujourd'hui pourra évoluer pour s'adapter au mieux aux étudiants.
-          ShareHub deviendra un projet Open Source, offrant ainsi un accès libre au code source, permettant à quiconque de contribuer à l'amélioration de la plateforme. Ainsi, elle sera une plateforme par les étudiants et pour les étudiants, 
-          se voulant la plus transparente possible.
+          Il existe peu de plateformes permettant aux étudiants de l'ULB de revendre leurs syllabus en ligne. ShareHub répond à ce besoin en offrant une solution simple, écologique et transparente.
+          Le projet a pour vocation de servir les étudiants tout en testant un nouveau modèle économique basé sur la redistribution équitable des ressources. 
+          Les retours des utilisateurs permettront d'améliorer continuellement la plateforme et de l'adapter aux besoins spécifiques des étudiants.       
         </p>
       </div>
       <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
@@ -154,11 +146,8 @@ U _____ u ____      U  ___ u
           <br class="hidden lg:inline-block">
         </h1>
         <p class="mb-8 leading-relaxed text-justify">
-          ShareHub se distingue des autres plateformes de seconde main par son système d'achat et de fixation des prix. Ainsi, comme expliqué précédemment, l'intérêt actuel de ShareHub est de tester un nouveau modèle économique.
-          La plupart des sites de seconde main mettent en place un système d'enchères, où le prix d'un produit augmente en fonction de la fameuse loi de l'offre et de la demande, créant un marché compétitif propice à la surenchère.
-          <br>
-          ShareHub prend ce système à contre-pied pour tester une économie beaucoup plus redistributive et équitable, dans un marché basé sur l'aléatoire et l'imprévisible.
-          Cette façon de faire n'ayant pour l'instant jamais été testée, nous ne savons pas encore si cela fonctionnera, mais cela fera, dans tous les cas, avancer la recherche et la compréhension des plateformes de seconde main.
+          Contrairement aux plateformes traditionnelles qui favorisent des systèmes de tarification compétitifs basés sur l'offre et la demande, ShareHub expérimente un modèle redistributif inédit. 
+          Les prix sont fixés par les vendeurs, mais restent inconnus des acheteurs, qui soumettent leurs offres sans connaître les prix exacts. Le vendeur choisit ensuite une offre de manière semi-aléatoire, garantissant un processus plus équitable.
         </p>
       </div>
     </div>
@@ -177,13 +166,9 @@ U _____ u ____      U  ___ u
         <p class="mb-4 leading-relaxed text-justify">
           Mais alors, comment fonctionne ShareHub ? Quelle est cette fameuse économie aléatoire et imprévisible ?
           <br>
-          Pour simplifier, lorsqu'un étudiant met en vente un article, il doit fixer un prix, qui ne sera connu à tout instant que par lui-même, c'est-à-dire que les acheteurs ne connaissent pas le prix fixé par le vendeur.
-          À ce moment-là, les acheteurs pourront proposer un prix au vendeur en ayant comme seule information le nombre de personnes ayant déjà proposé un prix pour l'article en question. Ainsi, après un certain temps ou un certain nombre d'offres,
-          le vendeur pourra "tirer au sort" une offre parmi toutes celles qui lui ont été proposées de manière "aléatoire".
-          L'offre qui sera tirée au sort sera celle proche du prix fixé par le vendeur, mais pas forcément celle qui s'en rapproche le plus, d'autres facteurs aléatoires étant pris en compte.
-          <br>
-          Le système d'achat changera et évoluera sans aucun doute au fur et à mesure des retours des étudiants. Et lorsque la recherche menée sur ShareHub sera terminée, le système de prix le plus apprécié sera gardé, pour ainsi pérenniser la plateforme et la rendre la plus utile possible pour les étudiants.
-          <br>
+           Lorsque vous mettez un syllabus en vente sur ShareHub, vous fixez un prix qui est caché pour les acheteurs. Les acheteurs soumettent ensuite leurs offres, et l'offre acceptée est tirée de manière semi-aléatoire. 
+            Cela permet de rétablir une certaine équité dans le processus de vente, en évitant les surenchères habituelles des plateformes classiques. Ce système innovant fait partie d'une recherche visant à mieux comprendre les modèles économiques alternatifs.
+        <br>
           Pour en savoir plus sur le fonctionnement de ShareHub, vous pouvez consulter la page <a href="{% url 'about' %}" class="btn-login">à propos</a>.
         </p>
       </div>
@@ -192,7 +177,7 @@ U _____ u ____      U  ___ u
   </section>
   
   <div class="w-full flex flex-col items-center justify-center">
-    <img class="md:w-4/12 sm:w-8/12 mb-2 object-cover object-center rounded" alt="fonctionnement" src="{% static 'img/homepage-main.png' %}">
+    <img class="md:w-4/12 sm:w-8/12 mb-2 object-cover object-center rounded" alt="fonctionnement" src="{% static 'img/Schéma ShareHub économie.png' %}">
   </div>
 
   <div class="text-center mb-8">
@@ -205,7 +190,7 @@ U _____ u ____      U  ___ u
     <div class="flex flex-col justify-center items-center">
       <h2 class="mb-2 font-bold text-lg">Contact</h2>
       <p class="mb-6 sm:w-full md:w-1/2 text-gray-800">
-        Pour tout problème, suggestion, demande ou autre, veuillez passer par ce lien pour me contacter. N'hésitez pas à faire un retour si vous pensez que cela serait pertinent ou si vous avez rencontré tout type de problème sur la plateforme, que ce soit un problème technique ou avec un autre utilisateur.
+        Pour toute question ou suggestion, utilisez le formulaire de contact ci-dessous. Vos retours sont essentiels pour nous aider à améliorer ShareHub et à mieux répondre à vos attentes.
       </p>
       <div class="row">
         <div class="mx-auto mb-5 mb-lg-0 space-y-4">
@@ -215,6 +200,11 @@ U _____ u ____      U  ___ u
             <p class="font-weight-light mb-0">Merci d'avance !</p>
         </div>
       </div>
+
+      <div class="w-full flex flex-col items-center justify-center">
+        <img class="md:w-3/12 sm:w-6/12 mb-2 object-cover object-center rounded" alt="Feedback" src="{% static 'img/idea_box.png' %}">
+      </div>
+
     </div>
   </section>
 

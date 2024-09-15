@@ -1,17 +1,22 @@
 # ShareHub ULB
-The source code of ShareHub, have fun reading my code and highlighting my mistakes 
-## Overview
-ShareHub is originally an initiative aiming to explore a new economic model, focused on a more equitable redistribution and diverging from the prevalent competitive patterns on most second-hand platforms. This platform is part of a thesis project, merging the fields of computer science and economics, drawing on the work of various former students and professors at ULB. By using ShareHub, you contribute to advancing research and improving the understanding of second-hand platforms, while enabling ULB students to easily resell their syllabi.
-## Requirements
-Is really easy, you just need python3 and pip. 
-Install python `sudo apt install python3`
-Install pip `sudo apt install python3-pip`
-Install the dependencies `pip install -r requirements.txt`
 
-There's a good chance there are dependency issues and if there are good luck, just read what the error says and install the package or reinstall the package. 
+Welcome to the source code of ShareHub! Enjoy browsing through the code, and feel free to point out any mistakes or improvements. 
+
+## Overview
+
+ShareHub is an initiative aimed at testing a **new economic model**, one that focuses on **fairer redistribution**, contrasting with the competitive nature of most second-hand platforms. This platform was developed as part of a **thesis project**, blending **computer science** and **economics**, drawing from the work of various former students and professors at ULB. By using ShareHub, you contribute to **academic research** and help us better understand the dynamics of second-hand platforms, while providing a simple way for ULB students to **buy and sell their syllabi**.
+
+## Requirements
+It's quite straightforward! All you need is **Python 3** and **pip**.
+
+- Install Python:   `sudo apt install python3`
+- Install pip: `sudo apt install python3-pip`
+- Install the dependencies: `pip install -r requirements.txt`
+
+There's a chance you might run into dependency issues. If so, good luck! Just follow what the error message says—install or reinstall the required package(s).
 
 ## How to run
-Now that the dependencies are installed, you can clone the project. I advise you to create a virtual environment to run the project.
+After installing the dependencies, follow these steps to get the project running. I recommend creating a virtual environment to keep things organized.
 
 1. **Activate the Virtual Environment**: If you're using a virtual environment, activate it:
 ```bash
@@ -42,6 +47,10 @@ Please note, only administrators can merge pull requests. Thanks for your contri
 
 
 ## License
-The MIT License (MIT)
+ShareHub is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA) license. This means:
 
-Copyright (c) 2024 Edgardo Cuellar Sanchez
+- Attribution: You must give appropriate credit, provide a link to the license, and indicate if changes were made.
+- NonCommercial: You may not use the material for commercial purposes.
+- ShareAlike: If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+
+For more information, visit the [Creative Commons website](https://creativecommons.org/).
